@@ -1,0 +1,1 @@
+en esta carpeta irían las imagenes usadas en el frontend (por ejemplo el logo del colegio)
