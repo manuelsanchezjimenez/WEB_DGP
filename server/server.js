@@ -1,6 +1,6 @@
 // Server-side global variables
 require(`dotenv`).config({path:`./config/.env`})
-require(`./config/db`)
+//require(`./config/db`)
 var bodyParser = require('body-parser')
 const createError = require('http-errors')
 
