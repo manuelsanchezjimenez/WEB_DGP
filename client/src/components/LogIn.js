@@ -91,7 +91,7 @@ export default class LogIn extends Component
             //handle error
             localStorage.email = "GUEST"
             localStorage.accessLevel = ACCESS_LEVEL_GUEST
-            this.setState({logInError: true, errorMessage: 'Error on login, credentials does not match.'})
+            this.setState({logInError: true, errorMessage: 'Error, las credenciales no concuerdan.'})
         });
     }
 
@@ -113,8 +113,8 @@ export default class LogIn extends Component
 
                     <div className="form-container">
                         {this.state.logInError ? <div className="error">{this.state.errorMessage}</div> : null}
-                        <input className="form-control" id="user" type="text" name="user" placeholder="User" onChange={this.handleChange}/><br/>
-                        <input className="form-control" id="password" type="password" name="password"  placeholder="Password" onChange={this.handleChange}/><br/>  
+                        <input className="form-control" id="user" type="text" name="user" placeholder="Usuario" onChange={this.handleChange}/><br/>
+                        <input className="form-control" id="password" type="password" name="password"  placeholder="Contraseña" onChange={this.handleChange}/><br/>  
                     </div>
 
                     <div className="button-container">
@@ -122,7 +122,7 @@ export default class LogIn extends Component
                             <Link id="registerButton" className="blue-button" to="/registerUser"> Registrarse </Link>
                         </div>
                         <div className="right-button">
-                            <input id="loginButton" type="button" className="green-button" value="Log In" disabled = {!inputsAreAllValid} onClick={this.logInUser}/>
+                            <input id="loginButton" type="button" className="green-button" value="Acceder" disabled = {!inputsAreAllValid} onClick={this.logInUser}/>
                         </div> 
                     </div>
                 </div>
