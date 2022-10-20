@@ -52,7 +52,7 @@ export default class LogIn extends Component
 
     validation(){
         return {
-            email: this.validateUser(),
+            user: this.validateUser(),
             password: this.validatePassword()
         }
 
@@ -63,12 +63,12 @@ export default class LogIn extends Component
     }
 
     logInUser = e => {  
-        localStorage.email = "GUEST"
+        localStorage.user = "GUEST"
         localStorage.accessLevel = ACCESS_LEVEL_GUEST 
         let encodedPass = encodeURIComponent(this.state.password) //encoding needed to avoid especial chars in the url
 
         var bodyFormData = new FormData();
-        bodyFormData.append('email', this.state.email)
+        bodyFormData.append('user', this.state.user)
         bodyFormData.append('password', encodedPass)
 
         axios({
@@ -78,7 +78,7 @@ export default class LogIn extends Component
             headers: { "Content-Type": "multipart/form-data" },
         }).then(res => {
             //handle success
-            localStorage.email = res.data.email
+            localStorage.user = res.data.user
             localStorage.accessLevel = res.data.accessLevel
             localStorage.token = res.data.token
 
@@ -89,7 +89,7 @@ export default class LogIn extends Component
             }
         }).catch(err => {
             //handle error
-            localStorage.email = "GUEST"
+            localStorage.user = "GUEST"
             localStorage.accessLevel = ACCESS_LEVEL_GUEST
             this.setState({logInError: true, errorMessage: 'Error, las credenciales no concuerdan.'})
         });
@@ -118,10 +118,7 @@ export default class LogIn extends Component
                     </div>
 
                     <div className="button-container">
-                        <div className="left-button">
-                            <Link id="registerButton" className="blue-button" to="/registerUser"> Registrarse </Link>
-                        </div>
-                        <div className="right-button">
+                        <div className="center-button">
                             <input id="loginButton" type="button" className="green-button" value="Acceder" disabled = {!inputsAreAllValid} onClick={this.logInUser}/>
                         </div> 
                     </div>
