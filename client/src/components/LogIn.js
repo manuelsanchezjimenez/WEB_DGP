@@ -68,8 +68,8 @@ export default class LogIn extends Component
         let encodedPass = encodeURIComponent(this.state.password) //encoding needed to avoid especial chars in the url
 
         var bodyFormData = new FormData();
-        bodyFormData.append('user', this.state.user)
-        bodyFormData.append('password', encodedPass)
+        bodyFormData.append('usuario', this.state.user)
+        bodyFormData.append('contra', encodedPass)
 
         axios({
             method: "post",

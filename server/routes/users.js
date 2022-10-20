@@ -1,5 +1,5 @@
 const router = require(`express`).Router()
-const usersModel = require(`../models/users`)
+const studentModel = require(`../models/student`)
 const teacherModel = require(`../models/teacher`)
 const adminModel = require(`../models/admin`)
 const bcrypt = require('bcrypt')
@@ -25,17 +25,34 @@ const checkUserExists = (req, res, next) =>
     })    
 }
 
-const checkUserNotExists = (req, res, next) =>
+const checkUserNotExists = (req, res, next) =>  //Done
 {
     req.body.password = urlencode.decode(req.body.password)
-    usersModel.findOne({email:req.body.email}, (err, data) => 
+    studentModel.findOne({usuario:req.body.usuario}, (err, data) => 
     {
         if(data){
             if(err){
                 return next(err)
             }
-            return next(createError(400, "User already exists."))
+            return next(createError(400, "El usuario ya existe como estudiante."))
         }
+
+        teacherModel.findOne({usuario:req.body.usuario}, (err, data) =>  {
+            if(data){
+                if(err){
+                    return next(err)
+                }
+                return next(createError(400, "El usuario ya existe como profesor."))
+            }
+            adminModel.findOne({usuario:req.body.usuario}, (err, data) => {
+                if(data){
+                    if(err){
+                        return next(err)
+                    }
+                    return next(createError(400, "El usuario ya existe como admin."))
+                }
+            })
+        })
     }) 
     
     return next()
@@ -66,7 +83,7 @@ const logInUser = (req, res, next) =>
 }
 
 
-const createUser = (req, res, next) => 
+const createStudent = (req, res, next) => 
 {
     bcrypt.hash(req.body.password, parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) =>  
     {
@@ -74,27 +91,15 @@ const createUser = (req, res, next) =>
         {
             return next(err)
         }
-        if(req.body.userType == "Tenant"){
-            usersModel.create({name:req.body.userName,email:req.body.email,password:hash, accessLevel: process.env.ACCESS_LEVEL_ADMIN}, (err, data) => 
+        studentModel.create({usuario:req.body.usuario,nombre:req.body.nombre,contra:hash, tipo: req.body.tipo, foto: req.body.foto, profesor: req.body.profesor, actividad: req.body.actividad}, (err, data) => 
+        {
+            if(err)
             {
-                if(err)
-                {
-                    return next(err)
-                }
-                req.data = data
-                return next()
-            })
-        }else{
-            usersModel.create({name:req.body.userName,email:req.body.email,password:hash, accessLevel: process.env.ACCESS_LEVEL_NORMAL_USER}, (err, data) => 
-            {
-                if(err)
-                {
-                    return next(err)
-                }
-                req.data = data
-                return next()
-            })
-        }
+                return next(err)
+            }
+            req.data = data
+            return next()
+        })
     })
 }
 
@@ -223,7 +228,7 @@ const updateProfile = (req,res,next) =>
 }
 
 //Register
-router.post(`/Users/register/student`, upload.none(), checkUserNotExists, createUser) 
+router.post(`/Users/register/student`, upload.none(), checkUserNotExists, createStudent) 
 //LogIn
 router.post(`/Users/login`, upload.none(), checkUserExists, checkLogIn, logInUser) 
 
