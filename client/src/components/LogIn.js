@@ -119,7 +119,7 @@ export default class LogIn extends Component
 
                     <div className="button-container">
                         <div className="center-button">
-                            <input id="loginButton" type="button" className="green-button" value="Acceder" disabled = {!inputsAreAllValid} onClick={this.logInUser}/>
+                            <input id="loginButton" type="button" className="white-button" value="Acceder" disabled = {!inputsAreAllValid} onClick={this.logInUser}/>
                         </div> 
                     </div>
                 </div>

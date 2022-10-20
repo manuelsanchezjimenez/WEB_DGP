@@ -246,7 +246,8 @@ a:hover{
 /*special buttons*/
 .green-button,
 .red-button,
-.blue-button
+.blue-button,
+.white-button
 {
     padding: 10px 13px;
     font-size: 1rem;
@@ -264,6 +265,10 @@ a:hover{
 {
     background-color: #28a745;
     
+}
+
+.white-button{
+    background-color: #ffffff;
 }
 
 .red-button

@@ -22,8 +22,8 @@ app.listen(process.env.SERVER_PORT, () =>
 })
 
 //Routes
-/*app.use(require(`./routes/users`))
-app.use(require(`./routes/properties`))
+app.use(require(`./routes/users`))
+/*app.use(require(`./routes/properties`))
 app.use(require(`./routes/contracts`))
 app.use(require(`./routes/bills`))*/
 
