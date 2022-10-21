@@ -9,7 +9,18 @@ var urlencode = require('urlencode');
 
 //this is for multipart form data
 const multer  = require('multer')
-const upload = multer()
+const student = require('../models/student')
+//const upload = multer()
+var storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+});
+  
+var upload = multer({ storage: storage });
 
 //Middleware
 const checkUserExists = (req, res, next) =>
@@ -111,7 +122,19 @@ const createStudent = (req, res, next) =>
         {
             return next(err)
         }
-        studentModel.create({usuario:req.body.usuario,nombre:req.body.nombre,contra:hash, tipo: req.body.tipo, foto: req.body.foto, profesor: req.body.profesor, actividad: req.body.actividad}, (err, data) => 
+        var student = {
+            usuario:req.body.usuario,
+            nombre:req.body.nombre,
+            contra:hash, 
+            tipo: req.body.tipo, 
+            profesor: req.body.profesor, 
+            actividad: req.body.actividad,
+            foto: {
+                data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), //Necesario que le llegue el nombre del archivo en esa variable
+                contentType: 'image/png'
+            }
+        }
+        studentModel.create(student, (err, data) => 
         {
             if(err)
             {
@@ -273,7 +296,7 @@ const updateProfile = (req,res,next) =>
 }*/
 
 //Register
-router.post(`/Users/register/student`, upload.none(), checkUserNotExists, createStudent) 
+router.post(`/Users/register/student`, upload.single('image'), checkUserNotExists, createStudent) 
 router.post(`/Users/register/teacher`, upload.none(), checkUserNotExists, createTeacher) 
 router.post(`/Users/register/admin`, upload.none(), checkUserNotExists, createAdmin) 
 //LogIn
@@ -287,4 +310,4 @@ router.post(`/Users/logout`, (req,res) => {
     res.json({})
 })
 //Update profile
-router.put(`/Users/profile`, checkUserLogged, findUser, updateProfile)
+//router.put(`/Users/profile`, checkUserLogged, findUser, updateProfile)

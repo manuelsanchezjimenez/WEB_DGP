@@ -1,6 +1,6 @@
 // Server-side global variables
 require(`dotenv`).config({path:`./config/.env`})
-//require(`./config/db`)
+require(`./config/db`)
 var bodyParser = require('body-parser')
 const createError = require('http-errors')
 
@@ -22,7 +22,7 @@ app.listen(process.env.SERVER_PORT, () =>
 })
 
 //Routes
-app.use(require(`./routes/users`))
+//app.use(require(`./routes/users`))
 /*app.use(require(`./routes/properties`))
 app.use(require(`./routes/contracts`))
 app.use(require(`./routes/bills`))*/
@@ -32,7 +32,7 @@ app.use((req, res, next) => {next(createError(404))})
 
 
 // Handle errors
-app.use(function (err, req, res, next)
+app.use(function (err, req, res, next) 
 {       
     if (!err.statusCode) 
     {

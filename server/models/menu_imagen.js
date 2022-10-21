@@ -1,13 +1,12 @@
 const mongoose = require(`mongoose`)
 
-let tareaSchema = new mongoose.Schema(
+let menu_imagenSchema = new mongoose.Schema(
    {
-        id: {type: String, required: true, unique: true},
-        nombre: {type: String, required: true},
-        plazo: {type: Date, required: true},
+        fecha: {type: Date, required: true, unique: true},
+        imagen: {data: Buffer, contentType: String}
    },
    {
-        collection: `tarea`
+        collection: `menu_imagen`
    })
 
-module.exports = mongoose.model(`tarea`, tareaSchema)
+module.exports = mongoose.model(`menu_imagen`, menu_imagenSchema)

@@ -4,7 +4,7 @@ let tareaSchema = new mongoose.Schema(
    {
         id: {type: String, required: true, unique: true},
         nombre: {type: String, required: true},
-        descripcion: {type: int, required: true},
+        descripcion: {type: Number, required: true},
         plazo: {type: Date, required: true},
         recordar: {type: Boolean, required: false},
         completado: {type: Boolean, required: false},

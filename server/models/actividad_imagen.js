@@ -3,7 +3,7 @@ const mongoose = require(`mongoose`)
 let actividad_imagenSchema = new mongoose.Schema(
    {
         nombre: {type: String, required: true, unique: true},
-        imagen: {type: Image, required: true}
+        imagen: {data: Buffer, contentType: String}
    },
    {
         collection: `actividad_imagen`

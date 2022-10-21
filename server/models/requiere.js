@@ -4,7 +4,7 @@ let requiereSchema = new mongoose.Schema(
    {
         id_tarea: {type: String, required: true, unique: true},
         nombre_material: {type: String, required: true},
-        ejemplares: {type: int, required: false}
+        ejemplares: {type: Number, required: false}
    },
    {
         collection: `requiere`
