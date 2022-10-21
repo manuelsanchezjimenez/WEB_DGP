@@ -28,7 +28,7 @@ export default class LogIn extends Component
 
     componentDidMount(){
         localStorage.clear()
-        localStorage.user = 'GUEST'
+        localStorage.usuario = 'GUEST'
         localStorage.accessLevel = ACCESS_LEVEL_GUEST
     }
 
@@ -63,7 +63,7 @@ export default class LogIn extends Component
     }
 
     logInUser = e => {  
-        localStorage.user = "GUEST"
+        localStorage.usuario = "GUEST"
         localStorage.accessLevel = ACCESS_LEVEL_GUEST 
         let encodedPass = encodeURIComponent(this.state.password) //encoding needed to avoid especial chars in the url
 
@@ -78,7 +78,7 @@ export default class LogIn extends Component
             headers: { "Content-Type": "multipart/form-data" },
         }).then(res => {
             //handle success
-            localStorage.user = res.data.user
+            localStorage.usuario = res.data.usuario
             localStorage.accessLevel = res.data.accessLevel
             localStorage.token = res.data.token
 
@@ -89,7 +89,7 @@ export default class LogIn extends Component
             }
         }).catch(err => {
             //handle error
-            localStorage.user = "GUEST"
+            localStorage.usuario = "GUEST"
             localStorage.accessLevel = ACCESS_LEVEL_GUEST
             this.setState({logInError: true, errorMessage: 'Error, las credenciales no concuerdan.'})
         });

@@ -14,18 +14,38 @@ const upload = multer()
 //Middleware
 const checkUserExists = (req, res, next) =>
 {
-    req.body.password = urlencode.decode(req.body.password)
-    usersModel.findOne({email:req.body.email}, (error, data) => 
+    req.body.contra = urlencode.decode(req.body.contra)
+
+    studentModel.findOne({usuario:req.body.usuario}, (err, data) => 
     {
-        if(error || !data){
-            return next(createError(400), `User doesn't exists.`)
+        if(data){
+            if(err)
+                return next(err)
+            req.data = data            
+            return next()
         }
-        req.data = data            
-        return next()        
-    })    
+        teacherModel.findOne({usuario:req.body.usuario}, (err, data) =>  {
+            if(data){
+                if(err)
+                    return next(err)
+                req.data = data            
+                return next()
+            }
+            adminModel.findOne({usuario:req.body.usuario}, (err, data) => {
+                if(data){
+                    if(err)
+                        return next(err)
+                    req.data = data            
+                    return next()
+                }
+            })
+        })
+    }) 
+    
+    return next(createError(400, "El usuario no existe."))
 }
 
-const checkUserNotExists = (req, res, next) =>  //Done
+const checkUserNotExists = (req, res, next) =>  
 {
     req.body.password = urlencode.decode(req.body.password)
     studentModel.findOne({usuario:req.body.usuario}, (err, data) => 
@@ -58,9 +78,9 @@ const checkUserNotExists = (req, res, next) =>  //Done
     return next()
 }
 
-const checkLogIn = (req, res, next) =>
+const checkLogIn = (req, res, next) => 
 {    
-    bcrypt.compare(req.body.password, req.data.password, (err, result) =>
+    bcrypt.compare(req.body.contra, req.data.contra, (err, result) =>
     {     
         if(err){
             return next(err)
@@ -77,9 +97,9 @@ const checkLogIn = (req, res, next) =>
 
 const logInUser = (req, res, next) => 
 {
-    const token = jwt.sign({email:req.data.email, accessLevel:req.data.accessLevel}, process.env.JWT_PRIVATE_KEY, {algorithm:'HS256', expiresIn:process.env.JWT_EXPIRY})     
+    const token = jwt.sign({usuario:req.data.usuario, accessLevel:req.data.accessLevel}, process.env.JWT_PRIVATE_KEY, {algorithm:'HS256', expiresIn:process.env.JWT_EXPIRY})     
            
-    res.json({email:req.data.email, accessLevel:req.data.accessLevel, token:token})
+    res.json({usuario:req.data.usuario, accessLevel:req.data.accessLevel, token:token})
 }
 
 
@@ -103,25 +123,54 @@ const createStudent = (req, res, next) =>
     })
 }
 
-const eliminateCollection = (req, res, next) =>
+const createTeacher = (req, res, next) => 
 {
-    usersModel.deleteMany({}, (error, data) =>{
-        if(error){
-            return next(error)
+    bcrypt.hash(req.body.password, parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) =>  
+    {
+        if(err)
+        {
+            return next(err)
         }
-        if(data){
+        teacherModel.create({usuario:req.body.usuario,nombre:req.body.nombre,contra:hash, accesLevel: process.env.ACCESS_LEVEL_TEACHER}, (err, data) => 
+        {
+            if(err)
+            {
+                return next(err)
+            }
+            req.data = data
             return next()
-        }
+        })
     })
 }
 
-const createAdmin = (req, res, next) => {
+const createAdmin = (req, res, next) => {  
     bcrypt.hash(process.env.ADMIN_PASSWORD.toString(), parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) =>  
     {
         if(err){
             return next(err)
         }
-        usersModel.create({name:"Administrator", email:"admin@admin.com", password:hash, accessLevel:parseInt(process.env.ACCESS_LEVEL_ADMIN)}, (error, createData) => 
+        adminModel.create({usuario:req.body.usuario,nombre:req.body.nombre,contra:hash, accesLevel: process.env.ACCESS_LEVEL_ADMIN}, (error, createData) => 
+        {
+            if(error){
+                return next(error)
+            }
+            if(createData)
+            {
+                res.json(createData)
+            }else{
+                return next(createError(500, "Error creating admin."))
+            }
+        })
+    })
+}
+/*
+const createAdminBase = (req, res, next) => {
+    bcrypt.hash(process.env.ADMIN_PASSWORD.toString(), parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) =>  
+    {
+        if(err){
+            return next(err)
+        }
+        adminModel.create({nombre:"Administrador", usuario:"admin123", contra:hash, accesLevel: process.env.ACCESS_LEVEL_ADMIN}, (error, createData) => 
         {
             if(error){
                 return next(error)
@@ -134,7 +183,7 @@ const createAdmin = (req, res, next) => {
             }
         })
     })
-}
+}*/
 
 const checkUserLogged = (req, res, next) =>
 {
@@ -151,9 +200,10 @@ const checkUserLogged = (req, res, next) =>
         }
     })
 }
-const findUser = (req, res, next) =>
+
+const findAdmin = (req, res, next) =>
 {
-    usersModel.findOne({email: req.decodedToken.email}, (error, data) =>{
+    adminModel.findOne({usuario: req.decodedToken.usuario}, (error, data) =>{
         if(error){
             console.log(error)
         }else{
@@ -161,47 +211,42 @@ const findUser = (req, res, next) =>
                 req.user = data
                 return next()
             }else
-                return next(createError(400, "User not found."))
+                return next(createError(400, "Admin not found."))
         } 
     })
 }
 
-const findResident = (req, res, next) => {
-    residentModel.findOne({userID: req.user._id}, (err, data) =>
-    {
-        if(err){
-            return next(createError(400, err))
-        }   
-        else if(data){
-            let user = {
-                username: req.user.name,
-                password: req.user.password,
-                name: data.name,
-                id: data.id,
-                phoneNumber: data.phoneNumber
-            }
-            res.json({user: user})
-    }})
+const findTeacher = (req, res, next) =>
+{
+    teacherModel.findOne({usuario: req.decodedToken.usuario}, (error, data) =>{
+        if(error){
+            console.log(error)
+        }else{
+            if(data){
+                req.user = data
+                return next()
+            }else
+                return next(createError(400, "Teacher not found."))
+        } 
+    })
 }
 
-const findTenant = (req, res, next) => {
-    tenantModel.findOne({userID: req.user._id}, (err, data) =>
-    {
-        if(err){
-            return next(createError(400, err))
-        }   
-        else if(data){
-            let user = {
-                username: req.user.name,
-                password: req.user.password,
-                name: data.name,
-                id: data.id,
-                phoneNumber: data.phoneNumber
-            }
-            res.json({user: user})
-    }})
+const findStudent = (req, res, next) =>
+{
+    studentModel.findOne({usuario: req.decodedToken.usuario}, (error, data) =>{
+        if(error){
+            console.log(error)
+        }else{
+            if(data){
+                req.user = data
+                return next()
+            }else
+                return next(createError(400, "Student not found."))
+        } 
+    })
 }
 
+/*
 const updateProfile = (req,res,next) =>
 {
     if(req.body.userType == "tenant"){
@@ -225,19 +270,18 @@ const updateProfile = (req,res,next) =>
             return next()
         }
     })
-}
+}*/
 
 //Register
 router.post(`/Users/register/student`, upload.none(), checkUserNotExists, createStudent) 
+router.post(`/Users/register/teacher`, upload.none(), checkUserNotExists, createTeacher) 
+router.post(`/Users/register/admin`, upload.none(), checkUserNotExists, createAdmin) 
 //LogIn
 router.post(`/Users/login`, upload.none(), checkUserExists, checkLogIn, logInUser) 
-
 //check Log in
 router.get('/Users/checkLogIn', checkUserLogged, (req, res) => {
     res.json({email:req.decodedToken.email, accessLevel:req.decodedToken.accessLevel, token: req.headers.authorization})
 })
-//Drop Database
-router.post(`/Users/resetUsers`, eliminateCollection, createAdmin)
 //Log out
 router.post(`/Users/logout`, (req,res) => {       
     res.json({})
