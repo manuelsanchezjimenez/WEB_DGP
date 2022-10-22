@@ -9,7 +9,10 @@
   "author": "Digamber Rawat",
   "license": "ISC",
   "dependencies": {
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@mui/material": "^5.10.10",
     "@react-icons/all-files": "^4.1.0",
     "bcrypt": "^4.0.1",
     "bcryptjs": "^2.4.3",
