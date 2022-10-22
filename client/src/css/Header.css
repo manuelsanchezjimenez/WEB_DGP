@@ -1,0 +1,62 @@
+.Header
+{
+   display: block;
+   grid-gap: 10px;
+   width: 100%;
+   background-color:#4198D2;
+   align-content: center;
+   
+}
+
+.box {
+   font-size: 50px;
+   color: rgb(253, 253, 253);
+   font-size: 25px;
+   
+}
+.logo{
+   align-content: center;
+   width: 2.5cm;
+   margin-left: 40%;
+}
+.Menu{
+   font-size: 50px;
+   text-align: left;
+   margin-left: 2%;
+}
+.Persona{
+   font-size: 50px;
+   margin-left: 40%;
+   
+}
+.web-container
+{
+    margin: 0 auto;
+    background: #ffffff;
+    display: block;
+    width: 100vw;
+    height: 100vh;
+}
+.white-button{
+   border: 1px solid #2e518b; /*anchura, estilo y color borde*/
+   padding: 10px; /*espacio alrededor texto*/
+   background-color: #2e518b; /*color botón*/
+   color: #ffffff; /*color texto*/
+   text-decoration: none; /*decoración texto*/
+   text-transform: uppercase; /*capitalización texto*/
+   font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+   border-radius: 50px; /*bordes redondos*/
+   margin-left:20%;
+   margin-top: 20%;
+}
+.cerrarSesion{
+   padding: top 2px;;
+}
+.BodySide{
+   align-content: center;
+   width:25%;
+   height: 100%;
+   text-align: left;
+   background-color: #4198D2;
+}
+

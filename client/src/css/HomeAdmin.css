@@ -1,0 +1,21 @@
+.botonPrincipal{
+   border: 1px solid #2e518b; /*anchura, estilo y color borde*/
+   margin-top: 0.5cm;
+   background-color: #4198D2; /*color botón*/
+   width: 30cm;
+   height: 1.5cm;
+   color: #ffffff; /*color texto*/
+   font-size: 0.6cm;
+   text-decoration:dashed; /*decoración texto*/
+   text-transform: uppercase; /*capitalización texto*/
+   font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+   text-align: center;
+   align-items: center;
+   align-self: center;
+   align-content: center;
+   margin-left: 8%;
+}
+.Body{
+   display: block;
+   align-content:center;
+}

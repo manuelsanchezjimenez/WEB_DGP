@@ -9,6 +9,8 @@ import LogOut from "./components/LogOut"
 import LogInCheck from "./components/LogInCheck"
 import HomeTeacher from "./components/HomeTeacher"
 import HomeAdmin from "./components/HomeAdmin"
+import Header from "./components/Header"
+import AdminAlumPrincipal from "./components/AdminAlumPrincipal"
 
 export default class App extends Component {
     render() {
@@ -17,9 +19,11 @@ export default class App extends Component {
                 <Switch>
                     <Route exact path="/" component={LogInCheck} />
                     <Route exact path="/LogIn" component={LogIn} />
+                    <Route exact path="/Header" component={Header} />
                     <LoggedInRoute exact path="/LogOut" component={LogOut} />
                     <LoggedInRoute exact path="/HomeTeacher" component={HomeTeacher} />
-                    <LoggedInRoute exact path="/HomeAdmin" component={HomeAdmin} />
+                    <Route exact path="/HomeAdmin" component={HomeAdmin} />
+                    <Route exact path="/AdminAlumPrincipal" component={AdminAlumPrincipal} />
                     <Route path="*" component={() => <h3>URL invalida. Esta página web no existe</h3>} />
                 </Switch>
             </BrowserRouter>

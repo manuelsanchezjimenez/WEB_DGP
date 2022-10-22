@@ -13,23 +13,16 @@ input{
     margin: 0 auto;
     background: #4198D2;
     display: flex;
-    width: 100vw;
-    height: 100vh;
+    width: auto;
+    height: auto;
 }
 
-#root{
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-grow: 1;
-    justify-content: center;
-    align-items: center;
-}
 
 .login-container{
     display: flex;
     flex-direction: column;
     flex-basis: 100%;
+    background-color: #4198D2;
     justify-content: center;
 }
 
@@ -99,6 +92,7 @@ input{
     display: flex;
     flex-direction: column;
     margin: 25px auto;
+    margin-top: 1cm;
     padding: 20px;
     min-width: 350px;
     width: 33vw;
@@ -123,7 +117,7 @@ input{
 }
 
 .center-button{
-    margin: 0 auto;
+    margin-left: 40%;
     display: block;
 }
 
@@ -139,7 +133,7 @@ input{
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #d9eaff;
+    background-color: #081627;
 
     position: sticky;
     top: 0;
@@ -487,7 +481,7 @@ a:hover{
     }
 
     .user-type--labeled p {
-        margin: 0;
+        margin-top: 2cm;
     }
 
     
