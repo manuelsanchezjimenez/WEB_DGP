@@ -9,24 +9,20 @@ export default class AdminAlumPrincipal extends Component {
 
    constructor(props) {
       super(props);
+      
       this.state = {
          error: null,
-         isLoaded: false,
+         mounted: false,
          alumnos: []
       };
    }
 
    render() {
-      <div>
-        <Header></Header>
-      </div>
-      const { error, isLoaded, alumnos } = this.state;
-      if (error) {
-         return <div>Error: {error.message}</div>;
-      } else if (!isLoaded) {
-         return <div> Cargando ... </div>;
-      } else {
-         return (
+      return(
+         <div className="web-container">
+            <Header/>
+            {this.state.error ? <div>Error: {this.state.error.message}</div> : null}
+            {this.state.mounted ? null :  <div> Cargando ... </div>}
             <table className="table table-bordered">
                <thead>
                   <tr>
@@ -37,22 +33,17 @@ export default class AdminAlumPrincipal extends Component {
                   </tr>
                </thead>
                <tbody>
-
-                  {alumnos.map(item => (
-
-                     <tr>
+                  {this.state.alumnos.map((item,index) => (
+                     <tr key={index}>
                         <th className="text-center" id={item.id}>{item.id}</th>
                         <td className="text-center">{item.nombre}</td>
                         <td className="text-center">{item.apellidos}</td>
                         <td className="text-center">{item.curso}</td>
                      </tr>
-
                   ))}
-
                </tbody>
-            </table>
-
-         );
-      }
+            </table>         
+         </div>
+      )
    }
 }

@@ -33,7 +33,7 @@ export default class LogIn extends Component
     }
 
     validateUser(){
-        if(this.state.user){
+        if(this.state.usuario){
             return true
         }else{
             return false
@@ -43,7 +43,7 @@ export default class LogIn extends Component
 
     
     validatePassword() {
-        if(this.state.password){
+        if(this.state.contra){
                 return true
             }else{
                 return false
@@ -52,8 +52,8 @@ export default class LogIn extends Component
 
     validation(){
         return {
-            user: this.validateUser(),
-            password: this.validatePassword()
+            usuario: this.validateUser(),
+            contra: this.validatePassword()
         }
 
     }
@@ -65,11 +65,12 @@ export default class LogIn extends Component
     logInUser = e => {  
         localStorage.usuario = "GUEST"
         localStorage.accessLevel = ACCESS_LEVEL_GUEST 
-        let encodedPass = encodeURIComponent(this.state.password) //encoding needed to avoid especial chars in the url
+        let encodedPass = encodeURIComponent(this.state.contra) //encoding needed to avoid especial chars in the url
 
         var bodyFormData = new FormData();
-        bodyFormData.append('usuario', this.state.user)
+        bodyFormData.append('usuario', this.state.usuario)
         bodyFormData.append('contra', encodedPass)
+
 
         axios({
             method: "post",
@@ -113,8 +114,8 @@ export default class LogIn extends Component
 
                     <div className="form-container">
                         {this.state.logInError ? <div className="error">{this.state.errorMessage}</div> : null}
-                        <input className="form-control" id="user" type="text" name="user" placeholder="Usuario" onChange={this.handleChange}/><br/>
-                        <input className="form-control" id="password" type="password" name="password"  placeholder="Contraseña" onChange={this.handleChange}/><br/>  
+                        <input className="form-control" id="user" type="text" name="usuario" placeholder="Usuario" onChange={this.handleChange}/><br/>
+                        <input className="form-control" id="password" type="password" name="contra"  placeholder="Contraseña" onChange={this.handleChange}/><br/>  
                     </div>
 
                     <div className="button-container">
