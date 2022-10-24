@@ -5,11 +5,11 @@ const adminModel = require(`../models/admin`)
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const createError = require('http-errors')
-var urlencode = require('urlencode');
+var urlencode = require('urlencode')
 
 //this is for multipart form data
 const multer  = require('multer')
-const student = require('../models/student')
+const { request } = require('express')
 //const upload = multer()
 var storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -27,6 +27,7 @@ const checkUserExists = (req, res, next) =>
 {
     req.body.contra = urlencode.decode(req.body.contra)
 
+    
     studentModel.findOne({usuario:req.body.usuario}, (err, data) => 
     {
         if(data){
@@ -48,12 +49,11 @@ const checkUserExists = (req, res, next) =>
                         return next(err)
                     req.data = data            
                     return next()
-                }
+                }else
+                    return next(createError(400, "El usuario no existe."))
             })
         })
-    }) 
-    
-    return next(createError(400, "El usuario no existe."))
+    })  
 }
 
 const checkUserNotExists = (req, res, next) =>  
@@ -92,7 +92,8 @@ const checkUserNotExists = (req, res, next) =>
 const checkLogIn = (req, res, next) => 
 {    
     bcrypt.compare(req.body.contra, req.data.contra, (err, result) =>
-    {     
+    {  
+        console.log(req.body.contra, req.body.contra)   
         if(err){
             return next(err)
         }
@@ -172,7 +173,7 @@ const createAdmin = (req, res, next) => {
         if(err){
             return next(err)
         }
-        adminModel.create({usuario:req.body.usuario,nombre:req.body.nombre,contra:hash, accesLevel: process.env.ACCESS_LEVEL_ADMIN}, (error, createData) => 
+        adminModel.create({usuario:request.body.usuario,nombre:request.body.nombre,contra:hash, accessLevel: process.env.ACCESS_LEVEL_ADMIN}, (error, createData) => 
         {
             if(error){
                 return next(error)
@@ -300,7 +301,7 @@ router.post(`/Users/register/student`, upload.single('image'), checkUserNotExist
 router.post(`/Users/register/teacher`, upload.none(), checkUserNotExists, createTeacher) 
 router.post(`/Users/register/admin`, upload.none(), checkUserNotExists, createAdmin) 
 //LogIn
-router.post(`/Users/login`, upload.none(), checkUserExists, checkLogIn, logInUser) 
+router.post(`/Users/login`, upload.none(), checkUserExists, checkLogIn, logInUser)
 //check Log in
 router.get('/Users/checkLogIn', checkUserLogged, (req, res) => {
     res.json({email:req.decodedToken.email, accessLevel:req.decodedToken.accessLevel, token: req.headers.authorization})
@@ -311,3 +312,5 @@ router.post(`/Users/logout`, (req,res) => {
 })
 //Update profile
 //router.put(`/Users/profile`, checkUserLogged, findUser, updateProfile)
+
+module.exports = router

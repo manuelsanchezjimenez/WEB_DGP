@@ -20,7 +20,7 @@ export default class HomeAdmin extends Component
     render(){
         return(
             <div className="Body">
-                <Header></Header>
+                <Header/>
                 <div className="botonesContainer">
                 <input id="profesores" type="button" className="botonPrincipal" value="PROFESORES"/>
                 <input id="alumnos" type="button" className="botonPrincipal" value="ALUMNOS" />

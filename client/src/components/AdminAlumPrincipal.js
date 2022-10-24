@@ -36,6 +36,7 @@ function createData(DNI, Nombre, Apellidos, Curso,) {
    };
 }
 
+<<<<<<< HEAD
 const rows = [
    createData('12345678AZ', 'Manuel','Sanchez Jimenez' ,4),
    createData('123456788B', 'Jose','Sanchez Jimenez' ,4),
@@ -48,10 +49,21 @@ function descendingComparator(a, b, orderBy) {
    }
    if (b[orderBy] > a[orderBy]) {
       return 1;
+=======
+   constructor(props) {
+      super(props);
+      
+      this.state = {
+         error: null,
+         mounted: false,
+         alumnos: []
+      };
+>>>>>>> main
    }
    return 0;
 }
 
+<<<<<<< HEAD
 function getComparator(order, orderBy) {
    return order === 'desc'
       ? (a, b) => descendingComparator(a, b, orderBy)
@@ -353,3 +365,35 @@ export default function EnhancedTable() {
    );
 }
 
+=======
+   render() {
+      return(
+         <div className="web-container">
+            <Header/>
+            {this.state.error ? <div>Error: {this.state.error.message}</div> : null}
+            {this.state.mounted ? null :  <div> Cargando ... </div>}
+            <table className="table table-bordered">
+               <thead>
+                  <tr>
+                     <th className="text-center">#</th>
+                     <th className="text-center">Nombre</th>
+                     <th className="text-center">apellidos</th>
+                     <th className="text-center">curso</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {this.state.alumnos.map((item,index) => (
+                     <tr key={index}>
+                        <th className="text-center" id={item.id}>{item.id}</th>
+                        <td className="text-center">{item.nombre}</td>
+                        <td className="text-center">{item.apellidos}</td>
+                        <td className="text-center">{item.curso}</td>
+                     </tr>
+                  ))}
+               </tbody>
+            </table>         
+         </div>
+      )
+   }
+}
+>>>>>>> main

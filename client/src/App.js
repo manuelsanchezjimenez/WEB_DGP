@@ -3,7 +3,8 @@ import { BrowserRouter, Switch, Route } from "react-router-dom"
 
 import "bootstrap/dist/css/bootstrap.css"
 import "./css/App.css"
-import LoggedInRoute from "./components/LoggedInRoute"
+import LoggedInRouteTeacher from "./components/LoggedInRouteTeacher"
+import LoggedInRouteAdmin from "./components/LoggedInRouteAdmin"
 import LogIn from "./components/LogIn"
 import LogOut from "./components/LogOut"
 import LogInCheck from "./components/LogInCheck"
@@ -20,9 +21,9 @@ export default class App extends Component {
                     <Route exact path="/" component={LogInCheck} />
                     <Route exact path="/LogIn" component={LogIn} />
                     <Route exact path="/Header" component={Header} />
-                    <LoggedInRoute exact path="/LogOut" component={LogOut} />
-                    <LoggedInRoute exact path="/HomeTeacher" component={HomeTeacher} />
-                    <Route exact path="/HomeAdmin" component={HomeAdmin} />
+                    <LoggedInRouteTeacher exact path="/LogOut" component={LogOut} />
+                    <LoggedInRouteTeacher exact path="/HomeTeacher" component={HomeTeacher} />
+                    <LoggedInRouteAdmin exact path="/HomeAdmin" component={HomeAdmin} />
                     <Route exact path="/AdminAlumPrincipal" component={AdminAlumPrincipal} />
                     <Route path="*" component={() => <h3>URL invalida. Esta página web no existe</h3>} />
                 </Switch>
