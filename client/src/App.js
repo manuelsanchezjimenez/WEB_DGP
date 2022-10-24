@@ -10,7 +10,6 @@ import LogOut from "./components/LogOut"
 import LogInCheck from "./components/LogInCheck"
 import HomeTeacher from "./components/HomeTeacher"
 import HomeAdmin from "./components/HomeAdmin"
-import Header from "./components/Header"
 import AdminAlumPrincipal from "./components/AdminAlumPrincipal"
 
 export default class App extends Component {
@@ -20,7 +19,6 @@ export default class App extends Component {
                 <Switch>
                     <Route exact path="/" component={LogInCheck} />
                     <Route exact path="/LogIn" component={LogIn} />
-                    <Route exact path="/Header" component={Header} />
                     <LoggedInRouteTeacher exact path="/LogOut" component={LogOut} />
                     <LoggedInRouteTeacher exact path="/HomeTeacher" component={HomeTeacher} />
                     <LoggedInRouteAdmin exact path="/HomeAdmin" component={HomeAdmin} />

@@ -365,7 +365,26 @@ export default function EnhancedTable() {
    );
 }
 
+<<<<<<< HEAD
 =======
+=======
+   componentDidMount(){
+      axios({
+         method: "get",
+         url: `${SERVER_HOST}/Users/alumnos`,
+         data: bodyFormData,
+         headers: { "Content-Type": "multipart/form-data" },
+     }).then(res => {
+         //handle success
+         this.setState({alumnos: res.data}) 
+         this.setState({mounted: true})
+     }).catch(err => {
+         //handle error
+         
+     });
+   }
+
+>>>>>>> main
    render() {
       return(
          <div className="web-container">
