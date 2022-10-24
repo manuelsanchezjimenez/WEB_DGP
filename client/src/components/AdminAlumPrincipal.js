@@ -17,6 +17,22 @@ export default class AdminAlumPrincipal extends Component {
       };
    }
 
+   componentDidMount(){
+      axios({
+         method: "get",
+         url: `${SERVER_HOST}/Users/alumnos`,
+         data: bodyFormData,
+         headers: { "Content-Type": "multipart/form-data" },
+     }).then(res => {
+         //handle success
+         this.setState({alumnos: res.data}) 
+         this.setState({mounted: true})
+     }).catch(err => {
+         //handle error
+         
+     });
+   }
+
    render() {
       return(
          <div className="web-container">

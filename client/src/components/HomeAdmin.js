@@ -27,6 +27,7 @@ export default class HomeAdmin extends Component
                 <input id="administradores" type="button" className="botonPrincipal" value="ADMINISTRADORES" />
                 <input id="tareas" type="button" className="botonPrincipal" value="TAREAS" />
                 </div>
+                {/*<Link className="red-button" to="/tenantHome"> Cancel Rental</Link>*/}
             </div>
             );
     }
