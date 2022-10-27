@@ -328,4 +328,9 @@ router.put(`/Users/profile/admin`, checkUserLogged, updateAdminProfile)
 router.put(`/Users/profile/student`, checkUserLogged, updateStudentProfile) //Por ahora no se puede actualizar la imagen
 router.put(`/Users/profile/teacher`, checkUserLogged, updateTeacherProfile) 
 
+//Getters
+router.get(`/Users/teacher`, findTeacher)
+router.get(`/Users/student`, findStudent)
+router.get(`/Users/admin`, findAdmin)
+
 module.exports = router
