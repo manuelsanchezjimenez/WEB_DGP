@@ -11,6 +11,8 @@ import LogInCheck from "./components/LogInCheck"
 import HomeTeacher from "./components/HomeTeacher"
 import HomeAdmin from "./components/HomeAdmin"
 import AdminAlumPrincipal from "./components/AdminAlumPrincipal"
+import ListaTareasFijas from "./components/ListaTareasFijas"
+import AddTareaFija from "./components/AddTareaFija"
 
 export default class App extends Component {
     render() {
@@ -23,6 +25,8 @@ export default class App extends Component {
                     <LoggedInRouteTeacher exact path="/HomeTeacher" component={HomeTeacher} />
                     <LoggedInRouteAdmin exact path="/HomeAdmin" component={HomeAdmin} />
                     <Route exact path="/AdminAlumPrincipal" component={AdminAlumPrincipal} />
+                    <Route exact path="/ListaTareasFijas" component={ListaTareasFijas} />
+                    <Route exact path="/AddTareaFija" component={AddTareaFija} />
                     <Route path="*" component={() => <h3>URL invalida. Esta página web no existe</h3>} />
                 </Switch>
             </BrowserRouter>
