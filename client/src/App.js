@@ -11,7 +11,7 @@ import LogInCheck from "./components/LogInCheck"
 import HomeTeacher from "./components/HomeTeacher"
 import HomeAdmin from "./components/HomeAdmin"
 import AdminAlumPrincipal from "./components/AdminAlumPrincipal"
-import ListaTareasFijas from "./components/ListaTareasFijas"
+//import ListaTareasFijas from "./components/ListaTareasFijas"
 import AddTareaFija from "./components/AddTareaFija"
 import ConModTeacher from "./components/ConModTeacher"
 
