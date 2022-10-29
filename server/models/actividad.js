@@ -3,7 +3,7 @@ const mongoose = require(`mongoose`)
 let actividadSchema = new mongoose.Schema(
    {
         nombre: {type: String, required: true, unique: true},
-        pasos: {type: String, required: true}
+        descripcion: {type: String, required: true}
    },
    {
         collection: `actividad`
