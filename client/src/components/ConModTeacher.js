@@ -3,6 +3,10 @@ import Header from "./Header"
 
 import axios from "axios"
 import {SERVER_HOST} from "../config/global_constants"
+import "../css/ConModTeacher.css"
+
+//<Link className="blue-button" to={{pathname: `ConModTeacher/${this.state.id}`}}> Modify </Link>
+
 
 export default class ConModTeacher extends Component 
 {
@@ -12,14 +16,18 @@ export default class ConModTeacher extends Component
         this.state = {
             nombre: '',
             usuario: '',
-            id: '',
+            id_t: '635b8e221cbc538d118b0caf',
             contra: '',
+            correo: '',
+            telefono: '',
+            dni: '',
             mounted: false
         }
 
     }
     componentDidMount = () =>{
-        axios.get(`${SERVER_HOST}/Users/teacher`, {headers:{"authorization":localStorage.token}})
+        axios.get(`${SERVER_HOST}/Users/teacher/635b8e221cbc538d118b0caf`,{headers:{"authorization":localStorage.token}})
+        //axios.get(`${SERVER_HOST}/Users/teacher/${this.props.match.params.id}`,{headers:{"authorization":localStorage.token}})
         .then(res => 
         {     
             if(res.data)
@@ -27,10 +35,13 @@ export default class ConModTeacher extends Component
                     console.log(res.data.errorMessage)  
                 else{
                     console.log(res.data)
-                    this.setState({nombre: res.data.user.nombre})
-                    this.setState({usuario: res.data.user.usuario})
-                    this.setState({_id: res.data.user.id})
-                    this.setState({contra: res.data.user.contra})
+                    this.setState({nombre: res.data.usuario.nombre})
+                    this.setState({usuario: res.data.usuario.usuario})
+                    this.setState({id: res.data.usuario.id})
+                    this.setState({contra: res.data.usuario.contra})
+                    this.setState({correo: res.data.usuario.correo})
+                    this.setState({telefono: res.data.usuario.telefono})
+                    this.setState({dni: res.data.usuario.dni})
                     this.setState({mounted: true})
                 }  
 
@@ -40,7 +51,8 @@ export default class ConModTeacher extends Component
     }
 
     updateProfile = () =>{
-        const data = {nombre: this.state.nombre, usuario: this.state.usuario, _id: this.state.id, contra: this.state.contra} 
+        const data = {nombre: this.state.nombre, usuario: this.state.usuario, id: this.state.id_t, contra: this.state.contra, correo: this.state.correo, telefono: this.state.telefono, dni: this.state.dni} 
+        console.log(data)
         axios.put(`${SERVER_HOST}/Users/profile/teacher`, data, {headers:{"authorization":localStorage.token}})
         .then(res => 
         {     
@@ -70,7 +82,7 @@ export default class ConModTeacher extends Component
         return (       
             <div className="web-container"> 
                 <div className="content-container">
-                    <h1>Consulta y Modificación: Profesor</h1>
+                    <h1>Consulta y Modificación: {this.state.nombre}</h1>
                     <div className="profile"> 
                         <div className="item-container">
                             <div className="sub-item-container">
@@ -98,6 +110,30 @@ export default class ConModTeacher extends Component
                                     type="text"
                                     name="nombre" placeholder="Nombre Completo"
                                     value={this.state.nombre}
+                                    onChange={this.handleChange} />
+                            </div>
+                            <div className="sub-item-container">
+                                <input className={"form-control" ? "" : "error"}
+                                    id="dni"
+                                    type="text"
+                                    name="dni" placeholder="DNI"
+                                    value={this.state.dni}
+                                    onChange={this.handleChange} />
+                            </div>
+                            <div className="sub-item-container">
+                                <input className={"form-control" ? "" : "error"}
+                                    id="correo"
+                                    type="text"
+                                    name="correo" placeholder="Correo Electrónico"
+                                    value={this.state.correo}
+                                    onChange={this.handleChange} />
+                            </div>
+                            <div className="sub-item-container">
+                                <input className={"form-control" ? "" : "error"}
+                                    id="telefono"
+                                    type="text"
+                                    name="telefono" placeholder="Nº Teléfono"
+                                    value={this.state.telefono}
                                     onChange={this.handleChange} />
                             </div>
 

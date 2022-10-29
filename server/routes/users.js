@@ -242,13 +242,12 @@ const findAdmin = (req, res, next) =>
 
 const findTeacher = (req, res, next) =>
 {
-    teacherModel.findOne({_id: req.body._id}, (error, data) =>{
+    teacherModel.findOne({_id: req.params.id}, (error, data) =>{
         if(error){
             console.log(error)
         }else{
             if(data){
-                req.user = data
-                return next()
+                res.json({usuario: data})
             }else
                 return next(createError(400, "Teacher not found."))
         } 
@@ -286,7 +285,7 @@ const updateStudentProfile = (req,res,next) =>{
 const updateAdminProfile = (req,res,next) =>{
 
     var usuario
-    adminModel.findOneAndUpdate({_id: req.body._id}, {usuario: req.body.usuario, contra:req.body.contra, nombre:req.body.nombre}, (err, data) => 
+    adminModel.findOneAndUpdate({_id: req.body.id}, {usuario: req.body.usuario, contra:req.body.contra, nombre:req.body.nombre}, (err, data) => 
         {
             if(err)
                 return next(createError(400, err))
@@ -299,12 +298,13 @@ const updateAdminProfile = (req,res,next) =>{
 const updateTeacherProfile = (req,res,next) =>{
 
     var usuario
-    teacherModel.findOneAndUpdate({_id: req.body._id}, {usuario: req.body.usuario, contra:req.body.contra, nombre:req.body.nombre}, (err, data) => 
+    teacherModel.findOneAndUpdate({_id: req.body.id}, {usuario: req.body.usuario, contra:req.body.contra, nombre:req.body.nombre, correo: req.body.correo, telefono: req.body.telefono, dni: req.body.dni}, {returnNewDocument: true}, (err, data) => 
         {
+            console.log(data)
             if(err)
                 return next(createError(400, err))
             if(data)
-                usuario = data
+                usuario = data 
         })
     res.json({usuario: usuario})
 }
@@ -326,10 +326,10 @@ router.post(`/Users/logout`, (req,res) => {
 //Update profile        //Falta comprobar que no se cambie el usuario a uno ya existente en todos
 router.put(`/Users/profile/admin`, checkUserLogged, updateAdminProfile) 
 router.put(`/Users/profile/student`, checkUserLogged, updateStudentProfile) //Por ahora no se puede actualizar la imagen
-router.put(`/Users/profile/teacher`, checkUserLogged, updateTeacherProfile) 
+router.put(`/Users/profile/teacher`, upload.none(), checkUserLogged, updateTeacherProfile) 
 
 //Getters
-router.get(`/Users/teacher`, findTeacher)
+router.get(`/Users/teacher/:id`, findTeacher)
 router.get(`/Users/student`, findStudent)
 router.get(`/Users/admin`, findAdmin)
 
