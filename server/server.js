@@ -23,6 +23,7 @@ app.listen(process.env.SERVER_PORT, () =>
 
 //Routes
 app.use(require(`./routes/users`))
+app.use(require(`./routes/actividades`))
 app.use(require(`./routes/tareas`))
 /*app.use(require(`./routes/contracts`))
 app.use(require(`./routes/bills`))*/
