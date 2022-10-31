@@ -300,7 +300,6 @@ const updateTeacherProfile = (req,res,next) =>{
     var usuario
     teacherModel.findOneAndUpdate({_id: req.body.id}, {usuario: req.body.usuario, contra:req.body.contra, nombre:req.body.nombre, correo: req.body.correo, telefono: req.body.telefono, dni: req.body.dni}, {returnNewDocument: true}, (err, data) => 
         {
-            console.log(data)
             if(err)
                 return next(createError(400, err))
             if(data)
@@ -309,10 +308,26 @@ const updateTeacherProfile = (req,res,next) =>{
     res.json({usuario: usuario})
 }
 
+const deleteTeacher = (req,res,next) =>{
+    teacherModel.findByIdAndRemove({_id: req.params.id}, (err, data) => 
+    {
+        if(err)
+            return next(createError(400, err))
+        if(data)
+            res.json({data: data})
+    })
+}
+
 //Register
 router.post(`/Users/register/student`, upload.single('image'), checkUserNotExists, createStudent) 
 router.post(`/Users/register/teacher`, upload.none(), checkUserNotExists, createTeacher) 
 router.post(`/Users/register/admin`, upload.none(), checkUserNotExists, createAdmin) 
+
+//Delete
+router.delete(`/Users/delete/teacher/:id`, checkUserLogged, deleteTeacher)
+//router.delete(`/Users/delete/admin/:id`, checkUserLogged, deleteAdmin)
+//router.delete(`/Users/delete/student/:id`, checkUserLogged, deleteStudent)
+
 //LogIn
 router.post(`/Users/login`, upload.none(), checkUserExists, checkLogIn, logInUser)
 //check Log in
@@ -326,11 +341,11 @@ router.post(`/Users/logout`, (req,res) => {
 //Update profile        //Falta comprobar que no se cambie el usuario a uno ya existente en todos
 router.put(`/Users/profile/admin`, checkUserLogged, updateAdminProfile) 
 router.put(`/Users/profile/student`, checkUserLogged, updateStudentProfile) //Por ahora no se puede actualizar la imagen
-router.put(`/Users/profile/teacher`, upload.none(), checkUserLogged, updateTeacherProfile) 
+router.put(`/Users/profile/teacher`, checkUserLogged, updateTeacherProfile) 
 
 //Getters
 router.get(`/Users/teacher/:id`, findTeacher)
-router.get(`/Users/student`, findStudent)
+router.get(`/Users/student/`, findStudent)
 router.get(`/Users/admin`, findAdmin)
 
 module.exports = router
