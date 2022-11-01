@@ -58,7 +58,6 @@ const checkUserExists = (req, res, next) =>
 
 const checkUserNotExists = (req, res, next) =>  
 {
-    req.body.password = urlencode.decode(req.body.password)
     studentModel.findOne({usuario:req.body.usuario}, (err, data) => 
     {
         if(data){
@@ -73,6 +72,7 @@ const checkUserNotExists = (req, res, next) =>
                 if(err){
                     return next(err)
                 }
+                console.log(data)
                 return next(createError(400, "El usuario ya existe como profesor."))
             }
             adminModel.findOne({usuario:req.body.usuario}, (err, data) => {
@@ -80,6 +80,7 @@ const checkUserNotExists = (req, res, next) =>
                     if(err){
                         return next(err)
                     }
+                    console.log(data)
                     return next(createError(400, "El usuario ya existe como admin."))
                 }
             })
@@ -141,39 +142,37 @@ const createStudent = (req, res, next) =>
             {
                 return next(err)
             }
-            req.data = data
-            return next()
+            res.json({data: data})
         })
     })
 }
 
 const createTeacher = (req, res, next) => 
 {
-    bcrypt.hash(req.body.password, parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) =>  
+    bcrypt.hash(req.body.contra, parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) =>  
     {
         if(err)
         {
             return next(err)
         }
-        teacherModel.create({usuario:req.body.usuario,nombre:req.body.nombre,contra:hash, accesLevel: process.env.ACCESS_LEVEL_TEACHER}, (err, data) => 
+        teacherModel.create({usuario:req.body.usuario,nombre:req.body.nombre,contra:hash, accessLevel: process.env.ACCESS_LEVEL_TEACHER, correo: req.body.correo, telefono: req.body.telefono, dni: req.body.dni}, (err, data) => 
         {
             if(err)
             {
                 return next(err)
             }
-            req.data = data
-            return next()
+            res.json(data)
         })
     })
 }
 
 const createAdmin = (req, res, next) => {  
-    bcrypt.hash(process.env.ADMIN_PASSWORD.toString(), parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) =>  
+    bcrypt.hash(req.body.contra, parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) =>  
     {
         if(err){
             return next(err)
         }
-        adminModel.create({usuario:request.body.usuario,nombre:request.body.nombre,contra:hash, accessLevel: process.env.ACCESS_LEVEL_ADMIN}, (error, createData) => 
+        adminModel.create({usuario:req.body.usuario,nombre:req.body.nombre,contra:hash, accessLevel: process.env.ACCESS_LEVEL_ADMIN, correo: req.body.correo, telefono: req.body.telefono, dni: req.body.dni}, (error, createData) => 
         {
             if(error){
                 return next(error)

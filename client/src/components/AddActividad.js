@@ -66,6 +66,7 @@ export default class AddActividad extends Component {
    }
 
    handleSubmitImage(event) {
+      var totalImages = 3
       for (let i = 0; i < totalImages; i++) {
          alert('Guardando imagen: "' + this.state.image[i].value + '"\nDescripción: "' + this.state.newDesrAct + '"');
          var bodyFormData = new FormData();
