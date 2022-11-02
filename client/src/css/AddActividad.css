@@ -1,0 +1,43 @@
+/* Configuración de imagen genérica */
+.imagen {
+    width: 100%;
+    /* height: 100%; */
+    height: auto;
+    object-fit: contain;
+}
+.contImage {
+    /* width: 30px; */
+    width: 200px;
+    height: 200px;
+    vertical-align: middle;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    background-color: white;
+    border-style: groove;
+    border-color: black;
+    border-width: 1px;
+    overflow: hidden;
+    display: flex;
+
+}
+.contenedorPicto {
+    vertical-align: middle;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+
+    background-color: white;
+    border-style: groove;
+    border-color: red;
+    border-width: 1px;
+    overflow: hidden;
+    display: flex;
+
+}
+/* Para que los objetos se alinéen en bloque en la misma línea */
+.objectLine {
+    display: inline-block;
+    justify-content: space-between;
+    vertical-align: middle;
+}

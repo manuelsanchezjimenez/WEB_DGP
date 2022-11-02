@@ -35,7 +35,7 @@ export default class LogOut extends Component
                     console.log("User logged out")
                     localStorage.clear()   
     
-                    localStorage.emial = "GUEST"
+                    localStorage.user = "GUEST"
                     localStorage.accessLevel = ACCESS_LEVEL_GUEST
 
                     this.setState({redirect: true})

@@ -58,7 +58,6 @@ const checkUserExists = (req, res, next) =>
 
 const checkUserNotExists = (req, res, next) =>  
 {
-    req.body.password = urlencode.decode(req.body.password)
     studentModel.findOne({usuario:req.body.usuario}, (err, data) => 
     {
         if(data){
@@ -73,6 +72,7 @@ const checkUserNotExists = (req, res, next) =>
                 if(err){
                     return next(err)
                 }
+                console.log(data)
                 return next(createError(400, "El usuario ya existe como profesor."))
             }
             adminModel.findOne({usuario:req.body.usuario}, (err, data) => {
@@ -80,6 +80,7 @@ const checkUserNotExists = (req, res, next) =>
                     if(err){
                         return next(err)
                     }
+                    console.log(data)
                     return next(createError(400, "El usuario ya existe como admin."))
                 }
             })
@@ -117,7 +118,7 @@ const logInUser = (req, res, next) =>
 
 const createStudent = (req, res, next) => 
 {
-    bcrypt.hash(req.body.password, parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) =>  
+    bcrypt.hash(req.body.contra, parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) =>  
     {
         if(err)
         {
@@ -128,12 +129,16 @@ const createStudent = (req, res, next) =>
             nombre:req.body.nombre,
             contra:hash, 
             tipo: req.body.tipo, 
-            profesor: req.body.profesor, 
-            actividad: req.body.actividad,
-            foto: {
+            profesor: null, 
+            actividad: null,
+            correo: req.body.correo, 
+            fechaNacimiento: req.body.fechaNacimiento,
+            clase: req.body.clase,
+            dni: req.body.dni
+            /* foto: {
                 data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), //Necesario que le llegue el nombre del archivo en esa variable
                 contentType: 'image/png'
-            }
+            } */
         }
         studentModel.create(student, (err, data) => 
         {
@@ -141,39 +146,37 @@ const createStudent = (req, res, next) =>
             {
                 return next(err)
             }
-            req.data = data
-            return next()
+            res.json({data: data})
         })
     })
 }
 
 const createTeacher = (req, res, next) => 
 {
-    bcrypt.hash(req.body.password, parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) =>  
+    bcrypt.hash(req.body.contra, parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) =>  
     {
         if(err)
         {
             return next(err)
         }
-        teacherModel.create({usuario:req.body.usuario,nombre:req.body.nombre,contra:hash, accesLevel: process.env.ACCESS_LEVEL_TEACHER}, (err, data) => 
+        teacherModel.create({usuario:req.body.usuario,nombre:req.body.nombre,contra:hash, accessLevel: process.env.ACCESS_LEVEL_TEACHER, correo: req.body.correo, telefono: req.body.telefono, dni: req.body.dni}, (err, data) => 
         {
             if(err)
             {
                 return next(err)
             }
-            req.data = data
-            return next()
+            res.json(data)
         })
     })
 }
 
 const createAdmin = (req, res, next) => {  
-    bcrypt.hash(process.env.ADMIN_PASSWORD.toString(), parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) =>  
+    bcrypt.hash(req.body.contra, parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) =>  
     {
         if(err){
             return next(err)
         }
-        adminModel.create({usuario:request.body.usuario,nombre:request.body.nombre,contra:hash, accessLevel: process.env.ACCESS_LEVEL_ADMIN}, (error, createData) => 
+        adminModel.create({usuario:req.body.usuario,nombre:req.body.nombre,contra:hash, accessLevel: process.env.ACCESS_LEVEL_ADMIN, correo: req.body.correo, telefono: req.body.telefono, dni: req.body.dni}, (error, createData) => 
         {
             if(error){
                 return next(error)
@@ -227,7 +230,7 @@ const checkUserLogged = (req, res, next) =>
 
 const findAdmin = (req, res, next) =>
 {
-    adminModel.findOne({usuario: req.decodedToken.usuario}, (error, data) =>{
+    adminModel.findOne({usuario: req.body.usuario}, (error, data) =>{
         if(error){
             console.log(error)
         }else{
@@ -242,13 +245,12 @@ const findAdmin = (req, res, next) =>
 
 const findTeacher = (req, res, next) =>
 {
-    teacherModel.findOne({usuario: req.decodedToken.usuario}, (error, data) =>{
+    teacherModel.findOne({_id: req.params.id}, (error, data) =>{
         if(error){
             console.log(error)
         }else{
             if(data){
-                req.user = data
-                return next()
+                res.json({usuario: data})
             }else
                 return next(createError(400, "Teacher not found."))
         } 
@@ -257,7 +259,7 @@ const findTeacher = (req, res, next) =>
 
 const findStudent = (req, res, next) =>
 {
-    studentModel.findOne({usuario: req.decodedToken.usuario}, (error, data) =>{
+    studentModel.findOne({usuario: req.body.usuario}, (error, data) =>{
         if(error){
             console.log(error)
         }else{
@@ -270,36 +272,65 @@ const findStudent = (req, res, next) =>
     })
 }
 
-/*
-const updateProfile = (req,res,next) =>
-{
-    if(req.body.userType == "tenant"){
-        tenantModel.findOneAndUpdate({userID: req.user._id}, {name: req.data.name, id:req.body.id, phoneNumber:req.body.phoneNumber}, (err, data) => 
+const updateStudentProfile = (req,res,next) =>{
+
+    var usuario
+    studentModel.findOneAndUpdate({_id: req.body._id}, {usuario: req.body.usuario, contra:req.body.contra, nombre:req.body.nombre, tipo: req.body.tipo, profesor: req.body.profesor}, (err, data) => 
         {
             if(err)
                 return next(createError(400, err))
+            if(data)
+                usuario = data
         })
-    }else{
-        residentModel.findOneAndUpdate({name:req.body.name, id:req.body.id, phoneNumber:req.body.phoneNumber}, (err, data) => 
+    res.json({usuario: usuario})
+}
+
+const updateAdminProfile = (req,res,next) =>{
+
+    var usuario
+    adminModel.findOneAndUpdate({_id: req.body.id}, {usuario: req.body.usuario, contra:req.body.contra, nombre:req.body.nombre}, (err, data) => 
         {
             if(err)
                 return next(createError(400, err))
+            if(data)
+                usuario = data
         })
-    }
-    usersModel.findOneAndUpdate({}, {name: req.body.username, password: req.body.password},(err, data) =>{
-        if(err){
+    res.json({usuario: usuario})
+}
+
+const updateTeacherProfile = (req,res,next) =>{
+
+    var usuario
+    teacherModel.findOneAndUpdate({_id: req.body.id}, {usuario: req.body.usuario, contra:req.body.contra, nombre:req.body.nombre, correo: req.body.correo, telefono: req.body.telefono, dni: req.body.dni}, {returnNewDocument: true}, (err, data) => 
+        {
+            if(err)
+                return next(createError(400, err))
+            if(data)
+                usuario = data 
+        })
+    res.json({usuario: usuario})
+}
+
+const deleteTeacher = (req,res,next) =>{
+    teacherModel.findByIdAndRemove({_id: req.params.id}, (err, data) => 
+    {
+        if(err)
             return next(createError(400, err))
-        }
-        if(data){
-            return next()
-        }
+        if(data)
+            res.json({data: data})
     })
-}*/
+}
 
 //Register
-router.post(`/Users/register/student`, upload.single('image'), checkUserNotExists, createStudent) 
+router.post(`/Users/register/student`, upload.none(), checkUserNotExists, createStudent) 
 router.post(`/Users/register/teacher`, upload.none(), checkUserNotExists, createTeacher) 
 router.post(`/Users/register/admin`, upload.none(), checkUserNotExists, createAdmin) 
+
+//Delete
+router.delete(`/Users/delete/teacher/:id`, checkUserLogged, deleteTeacher)
+//router.delete(`/Users/delete/admin/:id`, checkUserLogged, deleteAdmin)
+//router.delete(`/Users/delete/student/:id`, checkUserLogged, deleteStudent)
+
 //LogIn
 router.post(`/Users/login`, upload.none(), checkUserExists, checkLogIn, logInUser)
 //check Log in
@@ -310,7 +341,14 @@ router.get('/Users/checkLogIn', checkUserLogged, (req, res) => {
 router.post(`/Users/logout`, (req,res) => {       
     res.json({})
 })
-//Update profile
-//router.put(`/Users/profile`, checkUserLogged, findUser, updateProfile)
+//Update profile        //Falta comprobar que no se cambie el usuario a uno ya existente en todos
+router.put(`/Users/profile/admin`, checkUserLogged, updateAdminProfile) 
+router.put(`/Users/profile/student`, checkUserLogged, updateStudentProfile) //Por ahora no se puede actualizar la imagen
+router.put(`/Users/profile/teacher`, checkUserLogged, updateTeacherProfile) 
+
+//Getters
+router.get(`/Users/teacher/:id`, findTeacher)
+router.get(`/Users/student/`, findStudent)
+router.get(`/Users/admin`, findAdmin)
 
 module.exports = router

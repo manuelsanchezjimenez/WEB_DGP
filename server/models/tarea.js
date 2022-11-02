@@ -2,13 +2,13 @@ const mongoose = require(`mongoose`)
 
 let tareaSchema = new mongoose.Schema(
    {
-        id: {type: String, required: true, unique: true},
         nombre: {type: String, required: true},
         descripcion: {type: Number, required: true},
-        plazo: {type: Date, required: true},
-        recordar: {type: Boolean, required: false},
+        fechaInicio: {type: Date, required: true},
+        fechaFinal: {type: Date, required: false},
         completado: {type: Boolean, required: false},
-        alumno: {type: String, required: false}
+        alumno: {type: String, required: false},
+        actividad: {type: String, required: false}
    },
    {
         collection: `tarea`

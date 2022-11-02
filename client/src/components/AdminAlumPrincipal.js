@@ -372,7 +372,7 @@ export default function EnhancedTable() {
       axios({
          method: "get",
          url: `${SERVER_HOST}/Users/alumnos`,
-         data: bodyFormData,
+         data: null,
          headers: { "Content-Type": "multipart/form-data" },
      }).then(res => {
          //handle success
