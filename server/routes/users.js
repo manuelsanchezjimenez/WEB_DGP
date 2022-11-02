@@ -118,7 +118,7 @@ const logInUser = (req, res, next) =>
 
 const createStudent = (req, res, next) => 
 {
-    bcrypt.hash(req.body.password, parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) =>  
+    bcrypt.hash(req.body.contra, parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) =>  
     {
         if(err)
         {
@@ -129,12 +129,16 @@ const createStudent = (req, res, next) =>
             nombre:req.body.nombre,
             contra:hash, 
             tipo: req.body.tipo, 
-            profesor: req.body.profesor, 
-            actividad: req.body.actividad,
-            foto: {
+            profesor: null, 
+            actividad: null,
+            correo: req.body.correo, 
+            fechaNacimiento: req.body.fechaNacimiento,
+            clase: req.body.clase,
+            dni: req.body.dni
+            /* foto: {
                 data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), //Necesario que le llegue el nombre del archivo en esa variable
                 contentType: 'image/png'
-            }
+            } */
         }
         studentModel.create(student, (err, data) => 
         {
@@ -318,7 +322,7 @@ const deleteTeacher = (req,res,next) =>{
 }
 
 //Register
-router.post(`/Users/register/student`, upload.single('image'), checkUserNotExists, createStudent) 
+router.post(`/Users/register/student`, upload.none(), checkUserNotExists, createStudent) 
 router.post(`/Users/register/teacher`, upload.none(), checkUserNotExists, createTeacher) 
 router.post(`/Users/register/admin`, upload.none(), checkUserNotExists, createAdmin) 
 

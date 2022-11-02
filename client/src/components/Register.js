@@ -21,10 +21,8 @@ export default class Register extends Component {
             dni: '',
             tipo: 0, 
             telefono: '',
-            fechaNacimineto: null,
+            fechaNacimineto: '',
             clase: '',
-            profesor: '',
-            actividad: '',
             redirect: false,
             userExitsError: false,
             errorMessage: ''
@@ -76,12 +74,13 @@ export default class Register extends Component {
 
     validateContra() {
         //we can make these more complex using ifs.
-        if (this.state.contra.length < 10 || !/[A-Z]/.test(this.state.contra) || !/[a-z]/.test(this.state.contra) || !/[0-9]/.test(this.state.contra)
+        /* if (this.state.contra.length < 10 || !/[A-Z]/.test(this.state.contra) || !/[a-z]/.test(this.state.contra) || !/[0-9]/.test(this.state.contra)
             || !/[£!#€$%^&*]/.test(this.state.contra)) {
             return false
         } else {
             return true
-        }
+        } */
+        return true
     }
 
     validateConfirmPassword() {
@@ -95,6 +94,10 @@ export default class Register extends Component {
             return false
     }
 
+    validateFechaNacimiento() {
+        return true
+    }
+
     validation() {
         //creamos un objeto 
         return {
@@ -104,7 +107,8 @@ export default class Register extends Component {
             confirmPassword: this.validateConfirmPassword(),
             nombre: this.validateNombre(),
             dni: this.validateDni(),
-            telefono: this.validatTelefono()
+            telefono: this.validatTelefono(),
+            fechaNacimineto: this.validateFechaNacimiento()
         }
 
     }
@@ -120,13 +124,17 @@ export default class Register extends Component {
 
         //clientSide validation
         const mailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|("."))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        const passwordPattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/
+        //const passwordPattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/
+
+        var parts =this.state.fechaNacimineto.split('/')
+        var date = new Date(parts[2], parts[1] - 1, parts[0])
+        console.log(date)
 
         if (!this.state.correo.match(mailPattern)) {
             console.log('Email must be valid')
-        } else if (!this.state.contra.match(passwordPattern)) {
+        } /* else if (!this.state.contra.match(passwordPattern)) {
             console.log('Password must have at least 6 characters, 1 number and 1 especial character.')
-        } else if (!this.state.confirmPassword.match(this.state.contra)) {
+        } */ else if (!this.state.confirmPassword.match(this.state.contra)) {
             console.log('Passwords must match.')
         } else {
             //we encode the pass for cases with especial character
@@ -140,6 +148,11 @@ export default class Register extends Component {
             bodyFormData.append('telefono', this.state.telefono)
             bodyFormData.append('contra', encodedPass)
             bodyFormData.append('nombre', this.state.nombre)
+            bodyFormData.append('fechaNacimiento', date)
+            bodyFormData.append('clase', this.state.clase)
+            bodyFormData.append('tipo', this.state.tipo)
+
+
 
             console.log(bodyFormData)
 
@@ -188,8 +201,10 @@ export default class Register extends Component {
         let nameEmpty = <div className="error">Enter a name<br /></div>
         let emailErrorMessage = <div className="error">Enter a valid email<br /></div>
         let emailEmpty = <div className="error">Email is empty.<br /></div>
-        let passwordErrorMessge = <div className="error"><ul> {errorList.map(error => <li key={error.id}> {error.msg} </li>)}</ul></div>
+        //let passwordErrorMessge = <div className="error"><ul> {errorList.map(error => <li key={error.id}> {error.msg} </li>)}</ul></div>
         let passwordConfirmErrorMessge = <div className="error">Passwords doesn't match<br /></div>
+        let empty = <div className="error">Rellene el campo</div>
+        let invalidDate = <div className="error">Formato: dd/mm/aaaa</div>
         const formInputsState = this.validation()
         const inputsAreAllValid = Object.keys(formInputsState).every(index => formInputsState[index])
 
@@ -217,7 +232,7 @@ export default class Register extends Component {
                                 type="password"
                                 name="contra" placeholder="Contraseña"
                                 onChange={this.handleChange} />
-                            {formInputsState.contra ? "" : passwordErrorMessge}
+                            {formInputsState.contra ? "" : empty}
                         </div>
 
                         <div className="sub-item-container">
@@ -278,6 +293,40 @@ export default class Register extends Component {
                                 onChange={this.handleChange} />
                         </div>
                     </div>
+                    {/* Esto solo se muestran si es un estudiante */}
+                    {this.state.userType === 'student' ? 
+                    <div className="studentItems">
+                        <div className="item-container">
+                            <label className="user-type--labeled">
+                                <p>Tipo:</p>
+                                <div className="customSelect">
+                                    <select className="form-control" name="tipo" defaultValue="0" onChange={this.handleChange}>
+                                        <option value="2">Pictogramas</option>
+                                        <option value="1">Pictogramas + Texto</option>
+                                        <option value="0">Texto</option>
+                                    </select>
+                                </div>
+                            </label>
+                        </div>
+                        <div className="item-container">
+                            <div className="sub-item-container">
+                                <input className={"form-control" ? "" : "error"}
+                                    id="birthdate"
+                                    type="text"
+                                    name="fechaNacimineto" placeholder="dd/mm/aaaa"
+                                    onChange={this.handleChange} />
+                                {this.state.fechaNacimineto === "" ? empty : formInputsState.fechaNacimineto ? "" : invalidDate}
+                            </div>
+                            <div className="sub-item-container">
+                                <input className={"form-control" ? "" : "error"}
+                                    id="class"
+                                    type="text"
+                                    name="clase" placeholder="Curso"
+                                    onChange={this.handleChange} />
+                            </div>
+                        </div>
+                    </div>   : null}
+
                     <div className="register-buttons">
                         <div>
                             <Link className="red-button" to="/LogInForm"> Cancel </Link>
