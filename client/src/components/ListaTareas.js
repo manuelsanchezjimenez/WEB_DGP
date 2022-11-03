@@ -3,7 +3,7 @@ import React, { Component } from "react"
 import { Link } from 'react-router-dom'
 import Header from "./Header"
 import { SERVER_HOST } from "../config/global_constants"
-import "../css/AdminAlumPrincipal.css"
+import "../css/ListaTareas.css"
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -27,7 +27,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { visuallyHidden } from '@mui/utils';
 
-export default class ListaActividades extends Component {
+export default class ListaTareas extends Component {
    constructor(props) {
       super(props);
       this.state = {
@@ -50,7 +50,7 @@ export default class ListaActividades extends Component {
          this.setState({ mounted: true })
       }).catch(err => {
          //handle error
-         alert ('Ups error');
+         alert('Ups error');
 
       });
    }
@@ -58,11 +58,12 @@ export default class ListaActividades extends Component {
    render() {
       return (
          <div className="web-container">
-            <Header/>
+            <Header />
             <h1>Lista de tareas</h1>
-            {this.state.error ? <div>Error: {this.state.error.message}</div> : null}
-            {this.state.mounted ? null :  <div> Cargando pool de tareas fijas... </div>}
-            <table className="table table-bordered">
+            No implementado en esta iteración
+            {/* {this.state.error ? <div>Error: {this.state.error.message}</div> : null}
+            {this.state.mounted ? null :  <div> Cargando pool de tareas fijas... </div>} */}
+            {/* <table className="table table-bordered">
                <thead>
                   <tr>
                      <th className="text-center">Título</th>
@@ -89,11 +90,13 @@ export default class ListaActividades extends Component {
             </table>
             <div className="Body">
                 <div className="botonesContainer">
-                <Link to="/AddActividad"><input id="addActividad" type="button" value="AÑADIR ACTIVIDAD" /></Link>
-                {/* <input id="modificar" type="button" className="" value="MODIFICAR TAREA" /> */}
-                <Link to="/ListaTareas"><input id="toggleATareas" type="button" value="VER TAREAS ASIGNADAS" /></Link>
+                <input id="add" type="button" className="" value="AÑADIR TAREA FIJA"/>
+                <input id="modificar" type="button" className="" value="MODIFICAR TAREA" />
+                <input id="toggle" type="button" className="" value="VER TAREAS ASIGNADAS" />
                 </div>
-            </div>
+            </div> */}
+            <Link to="/ListaActividades"><input id="toggleActividades" type="button" value="VER POOL DE ACTIVIDADES" /></Link>
+
          </div>
       )
    }

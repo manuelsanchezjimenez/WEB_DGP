@@ -10,19 +10,14 @@ import "../css/AddActividad.css"
 export default class AddActividad extends Component {
    constructor(props) {
       super(props);
-      
+
       this.state = {
-         // error: null,
-         // mounted: false,
-         // alumnos: [],
          newNameAct: '',
          newDesrAct: '',
          image: [],
          totalImages: 0,
       };
-      this.renderCrudDiv = this.renderCrudDiv.bind(this);
       this.listaImages = this.listaImages.bind(this);
-
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmitData = this.handleSubmitData.bind(this);
       this.handleSubmitImage = this.handleSubmitImage.bind(this);
@@ -34,7 +29,7 @@ export default class AddActividad extends Component {
    }
 
    validate() {
-      if (this.state.newNameAct == '' || this.state.newDesrAct == '') {
+      if (this.state.newNameAct === '' || this.state.newDesrAct === '') {
          alert(' Los campos de nombre y descripción no pueden estar vacíos');
          return false;
       }
@@ -94,19 +89,18 @@ export default class AddActividad extends Component {
       if (event.target.files) {
          let reader = new FileReader();
          reader.onload = (e) => {
-            // this.setState({ image: e.target.result });
-            this.state.image[this.state.totalImages] = e.target.result;
-            this.renderCrudDiv();
-            // this.setState({ totalImages: totalImages + 1 });
-            // this.state.totalImages += 1;
+            // Metodo 1: No se  modifica directamente this.state pero slice es un método poco fiable (pueden mutar los datos)
+            let copyImage = this.state.image.slice();
+            copyImage[this.state.totalImages] = e.target.result;
+            this.setState({ image: copyImage });
+            // Metodo 2: Se modifica directamente this.state pero los datos se modifican de manera más segura
+            // this.state.image[this.state.totalImages] = e.target.result;
+
+            this.setState({ totalImages: this.state.totalImages + 1 });
          };
          reader.readAsDataURL(event.target.files[0]);
          event.target.value = null;
       }
-   }
-
-   renderCrudDiv() {
-      this.setState({ totalImages: this.state.totalImages + 1 });
    }
 
    listaImages() {
@@ -138,7 +132,7 @@ export default class AddActividad extends Component {
 
    moveImage(item, move) {
       // alert('Se quiere mover la imagen ' + item + ' en la posición ' + move)
-      // Metodo 1: No se debe modificar directamente this.state pero slice es un método poco fiable (pueden mutar los datos)
+      // Metodo 1: No se modifica directamente this.state pero slice es un método poco fiable (pueden mutar los datos)
       let k, copyImage = this.state.image.slice();
       k = copyImage[item];
       copyImage[item] = copyImage[move]
@@ -154,7 +148,7 @@ export default class AddActividad extends Component {
 
    deleteImage(item) {
       // alert('Se quiere eliminar la imagen ' + item)
-      // Metodo 1: No se debe modificar directamente this.state pero slice es un método poco fiable (pueden mutar los datos)
+      // Metodo 1: No se modifica directamente this.state pero slice es un método poco fiable (pueden mutar los datos)
       this.setState({ totalImages: this.state.totalImages - 1 });
       let copyImage = this.state.image.slice();
       copyImage.splice(item, 1);
@@ -168,7 +162,7 @@ export default class AddActividad extends Component {
       return (
          <div className="web-container">
             <Header />
-            Añadir nueva actividad
+            <h1>Añadir nueva actividad</h1>
             <div className="formulario">
                <form onSubmit={this.handleSubmitData}>
                   <div>
@@ -191,6 +185,7 @@ export default class AddActividad extends Component {
                   Añadir
                </button>
             </div>
+            <Link to="/ListaActividades"><input id="toggleActividades" type="button" value="CANCELAR" /></Link>
          </div>
       );
    }
