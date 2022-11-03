@@ -174,6 +174,7 @@ export default class Register extends Component {
         } else {
             //we encode the pass for cases with especial character
             let encodedPass = encodeURIComponent(this.state.contra)
+            const fotos = [...this.state.foto]
 
             //we create the formData that will be passed to the server
             var bodyFormData = new FormData();
@@ -186,11 +187,7 @@ export default class Register extends Component {
             bodyFormData.append('fechaNacimiento', date)
             bodyFormData.append('clase', this.state.clase)
             bodyFormData.append('tipo', this.state.tipo)
-            bodyFormData.append('foto', this.state.foto)
-
-
-
-            console.log(bodyFormData)
+            bodyFormData.append('foto', fotos[0])
 
             axios({
                 method: "post",
