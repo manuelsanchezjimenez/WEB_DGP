@@ -7,6 +7,9 @@ const jwt = require('jsonwebtoken')
 const createError = require('http-errors')
 var urlencode = require('urlencode')
 
+const fs = require('fs')
+const path = require("path")
+
 //this is for multipart form data
 const multer  = require('multer')
 const { request } = require('express')
@@ -124,6 +127,18 @@ const createStudent = (req, res, next) =>
         {
             return next(err)
         }
+        var rutaFotos = __dirname.split('\\').splice(0,7).join('\\')
+        console.log(req.file)
+        console.log(path.join(rutaFotos + '/uploads/' + req.file.filename))
+        var img = fs.readFileSync(path.join(rutaFotos + '/uploads/' + req.file.filename))
+        var encode_img = img.toString('base64')
+        var final_img = {
+        contentType:req.file.mimetype,
+        image:new Buffer.alloc(encode_img,'base64')
+        }
+        console.log(final_img)
+
+
         var student = {
             usuario:req.body.usuario,
             nombre:req.body.nombre,
@@ -134,11 +149,8 @@ const createStudent = (req, res, next) =>
             correo: req.body.correo, 
             fechaNacimiento: req.body.fechaNacimiento,
             clase: req.body.clase,
-            dni: req.body.dni
-            /* foto: {
-                data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), //Necesario que le llegue el nombre del archivo en esa variable
-                contentType: 'image/png'
-            } */
+            dni: req.body.dni,
+            foto: final_img
         }
         studentModel.create(student, (err, data) => 
         {
@@ -322,7 +334,7 @@ const deleteTeacher = (req,res,next) =>{
 }
 
 //Register
-router.post(`/Users/register/student`, upload.none(), checkUserNotExists, createStudent) 
+router.post(`/Users/register/student`, upload.single('foto'), checkUserNotExists, createStudent) 
 router.post(`/Users/register/teacher`, upload.none(), checkUserNotExists, createTeacher) 
 router.post(`/Users/register/admin`, upload.none(), checkUserNotExists, createAdmin) 
 
@@ -351,4 +363,4 @@ router.get(`/Users/teacher/:id`, findTeacher)
 router.get(`/Users/student/`, findStudent)
 router.get(`/Users/admin`, findAdmin)
 
-module.exports = router
+module.exports = router 
