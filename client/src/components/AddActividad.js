@@ -10,7 +10,7 @@ import "../css/AddActividad.css"
 export default class AddActividad extends Component {
    constructor(props) {
       super(props);
-
+      
       this.state = {
          // error: null,
          // mounted: false,
@@ -124,13 +124,10 @@ export default class AddActividad extends Component {
                   </button>
                   <button className="boton b1" onClick={() => { this.deleteImage(i) }}>
                      <span>&#128465;</span>
-
                   </button>
                   <button className="boton b1" onClick={() => { this.moveImage(i, (i + 1) % this.state.totalImages) }}>
                      <span>&#8594;</span>
                   </button>
-
-                  {/* {this.generateButton(i,this.state.totalImages)} */}
                </span>
             </div>
          );
@@ -140,7 +137,7 @@ export default class AddActividad extends Component {
    }
 
    moveImage(item, move) {
-      alert('Se quiere mover la imagen ' + item + ' en la posición ' + move)
+      // alert('Se quiere mover la imagen ' + item + ' en la posición ' + move)
       // Metodo 1: No se debe modificar directamente this.state pero slice es un método poco fiable (pueden mutar los datos)
       let k, copyImage = this.state.image.slice();
       k = copyImage[item];
@@ -156,9 +153,9 @@ export default class AddActividad extends Component {
    }
 
    deleteImage(item) {
-      alert('Se quiere eliminar la imagen ' + item)
+      // alert('Se quiere eliminar la imagen ' + item)
       // Metodo 1: No se debe modificar directamente this.state pero slice es un método poco fiable (pueden mutar los datos)
-      this.setState({ totalImages: this.state.totalImages-1 });
+      this.setState({ totalImages: this.state.totalImages - 1 });
       let copyImage = this.state.image.slice();
       copyImage.splice(item, 1);
       this.setState({ image: copyImage });
@@ -182,31 +179,17 @@ export default class AddActividad extends Component {
                      <label>Descripción:</label><br />
                      <textarea id="newDesrAct" name="newDesrAct" placeholder="Descripción de la nueva actividad" onChange={this.handleChange} />
                   </div>
-
                </form>
                <div>
-                  Secuencia de pictogramas
+                  <h2>Secuencia de pictogramas</h2>
                   <div id="ContenedorImagenes">
-                     {/* <img id="target" src={this.state.image[]} /> */}
-                  </div>
-
-                  <input type="file" onChange={this.handleFileChange} />
-
-
-
-                  <div className="crud-container">
-                     <div className="btnContainer" >
-                        {/* <button className="makeDivsBtn" onClick={this.renderCrudDiv}>
-                              Create Divs
-                           </button> */}
-                     </div>
                      {this.listaImages()}
                   </div>
-                  <button className="boton b1" onClick={this.handleSubmitData}>
-                     Añadir
-                  </button>
-
+                  <input type="file" onChange={this.handleFileChange} />
                </div>
+               <button className="boton b1" onClick={this.handleSubmitData}>
+                  Añadir
+               </button>
             </div>
          </div>
       );
