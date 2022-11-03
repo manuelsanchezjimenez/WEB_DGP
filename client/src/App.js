@@ -11,9 +11,7 @@ import LogInCheck from "./components/LogInCheck"
 import HomeTeacher from "./components/HomeTeacher"
 import HomeAdmin from "./components/HomeAdmin"
 import AdminAlumPrincipal from "./components/AdminAlumPrincipal"
-import ListaActividades from "./components/ListaActividades"
-import AddActividad from "./components/AddActividad"
-import ConModTeacher from "./components/ConModTeacher"
+import aniadirAlumno from "./components/aniadirAlumno"
 import Register from "./components/Register"
 
 export default class App extends Component {
@@ -26,11 +24,8 @@ export default class App extends Component {
                     <LoggedInRouteTeacher exact path="/LogOut" component={LogOut} />
                     <LoggedInRouteTeacher exact path="/HomeTeacher" component={HomeTeacher} />
                     <LoggedInRouteAdmin exact path="/HomeAdmin" component={HomeAdmin} />
-                    <LoggedInRouteAdmin exact path="/ConModTeacher" component={ConModTeacher} />
-                    <LoggedInRouteAdmin exact path="/Register" component={Register} />
                     <Route exact path="/AdminAlumPrincipal" component={AdminAlumPrincipal} />
-                    <Route exact path="/ListaActividades" component={ListaActividades} />
-                    <Route exact path="/AddActividad" component={AddActividad} />
+                    <Route exact path="/Register" component={Register} />
                     <Route path="*" component={() => <h3>URL invalida. Esta página web no existe</h3>} />
                 </Switch>
             </BrowserRouter>

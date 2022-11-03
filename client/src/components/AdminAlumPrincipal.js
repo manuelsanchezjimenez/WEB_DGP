@@ -27,16 +27,15 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { visuallyHidden } from '@mui/utils';
 
-function createData(DNI, Nombre, Apellidos, Curso,) {
+function createData(Usuario, Nombre, Apellidos, Curso,) {
    return {
-      DNI,
+      Usuario,
       Nombre,
       Apellidos,
-      Curso
+      Curso,
    };
 }
 
-<<<<<<< HEAD
 const rows = [
    createData('12345678AZ', 'Manuel','Sanchez Jimenez' ,4),
    createData('123456788B', 'Jose','Sanchez Jimenez' ,4),
@@ -49,21 +48,10 @@ function descendingComparator(a, b, orderBy) {
    }
    if (b[orderBy] > a[orderBy]) {
       return 1;
-=======
-   constructor(props) {
-      super(props);
-      
-      this.state = {
-         error: null,
-         mounted: false,
-         alumnos: []
-      };
->>>>>>> main
    }
    return 0;
 }
 
-<<<<<<< HEAD
 function getComparator(order, orderBy) {
    return order === 'desc'
       ? (a, b) => descendingComparator(a, b, orderBy)
@@ -86,10 +74,10 @@ function stableSort(array, comparator) {
 
 const headCells = [
    {
-      id: 'DNI',
+      id: 'Usuario',
       numeric: false,
       disablePadding: true,
-      label: 'DNI',
+      label: 'Usuario',
    },
    {
       id: 'Nombre',
@@ -123,17 +111,7 @@ function EnhancedTableHead(props) {
    return (
       <TableHead>
          <TableRow>
-            <TableCell padding="checkbox">
-               <Checkbox
-                  color="primary"
-                  indeterminate={numSelected > 0 && numSelected < rowCount}
-                  checked={rowCount > 0 && numSelected === rowCount}
-                  onChange={onSelectAllClick}
-                  inputProps={{
-                     'aria-label': 'select all desserts',
-                  }}
-               />
-            </TableCell>
+            
             {headCells.map((headCell) => (
                <TableCell
                   key={headCell.id}
@@ -226,19 +204,19 @@ export default function EnhancedTable() {
 
    const handleSelectAllClick = (event) => {
       if (event.target.checked) {
-         const newSelected = rows.map((n) => n.DNI);
+         const newSelected = rows.map((n) => n.Usuario);
          setSelected(newSelected);
          return;
       }
       setSelected([]);
    };
 
-   const handleClick = (event, DNI) => {
-      const selectedIndex = selected.indexOf(DNI);
+   const handleClick = (event, Usuario) => {
+      const selectedIndex = selected.indexOf(Usuario);
       let newSelected = [];
 
       if (selectedIndex === -1) {
-         newSelected = newSelected.concat(selected, DNI);
+         newSelected = newSelected.concat(selected, Usuario);
       } else if (selectedIndex === 0) {
          newSelected = newSelected.concat(selected.slice(1));
       } else if (selectedIndex === selected.length - 1) {
@@ -247,6 +225,7 @@ export default function EnhancedTable() {
          newSelected = newSelected.concat(
             selected.slice(0, selectedIndex),
             selected.slice(selectedIndex + 1),
+            
          );
       }
 
@@ -266,7 +245,7 @@ export default function EnhancedTable() {
       setDense(event.target.checked);
    };
 
-   const isSelected = (DNI) => selected.indexOf(DNI) !== -1;
+   const isSelected = (Usuario) => selected.indexOf(Usuario) !== -1;
 
    // Avoid a layout jump when reaching the last page with empty rows.
    const emptyRows =
@@ -275,6 +254,7 @@ export default function EnhancedTable() {
    return (
       <div>
          <Header></Header>
+         <div className = "Pantalla">
          <div className="Tabla">
             <Box sx={{ width: '100%'}}>
                <Paper sx={{ width: '100%', mb: 2 }}>
@@ -299,39 +279,32 @@ export default function EnhancedTable() {
                            {stableSort(rows, getComparator(order, orderBy))
                               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                               .map((row, index) => {
-                                 const isItemSelected = isSelected(row.DNI);
+                                 const isItemSelected = isSelected(row.Usuario);
                                  const labelId = `enhanced-table-checkbox-${index}`;
 
                                  return (
                                     <TableRow
                                        hover
-                                       onClick={(event) => handleClick(event, row.DNI)}
+                                       onClick={(event) => handleClick(event, row.Usuario)}
                                        role="checkbox"
                                        aria-checked={isItemSelected}
                                        tabIndex={-1}
-                                       key={row.DNI}
+                                       key={row.Usuario}
                                        selected={isItemSelected}
                                     >
-                                       <TableCell padding="checkbox">
-                                          <Checkbox
-                                             color="primary"
-                                             checked={isItemSelected}
-                                             inputProps={{
-                                                'aria-labelledby': labelId,
-                                             }}
-                                          />
-                                       </TableCell>
+                                       
                                        <TableCell
                                           component="th"
                                           id={labelId}
                                           scope="row"
-                                          padding="none"
                                        >
-                                          {row.DNI}
+                                          {row.Usuario}
                                        </TableCell>
                                        <TableCell align="right">{row.Nombre}</TableCell>
                                        <TableCell align="right">{row.Apellidos}</TableCell>
                                        <TableCell align="right">{row.Curso}</TableCell>
+                                       <TableCell align="right"><Link to="/AdminAlumPrincipal"><input id="modificarAlumno" type="button" className="boton3" value="MODIFICAR ALUMNO"/></Link></TableCell>
+                                       <TableCell align="right"><Link to="/AdminAlumPrincipal"><input id="eliminarAlumno" type="button" className="boton3" value="ELIMINAR ALUMNO"/></Link></TableCell>
                                     </TableRow>
                                  );
                               })}
@@ -360,59 +333,13 @@ export default function EnhancedTable() {
                
             </Box>
          </div>
+         
+         <div className="Botones">
+         <Link to="/Register"><input id="aniadirAlumno" type="button" className="boton2" value="AÑADIR ALUMNO"/></Link>
+ 
+         </div>
+         </div>
       </div>
 
    );
 }
-
-<<<<<<< HEAD
-=======
-=======
-   componentDidMount(){
-      axios({
-         method: "get",
-         url: `${SERVER_HOST}/Users/alumnos`,
-         data: null,
-         headers: { "Content-Type": "multipart/form-data" },
-     }).then(res => {
-         //handle success
-         this.setState({alumnos: res.data}) 
-         this.setState({mounted: true})
-     }).catch(err => {
-         //handle error
-         
-     });
-   }
-
->>>>>>> main
-   render() {
-      return(
-         <div className="web-container">
-            <Header/>
-            {this.state.error ? <div>Error: {this.state.error.message}</div> : null}
-            {this.state.mounted ? null :  <div> Cargando ... </div>}
-            <table className="table table-bordered">
-               <thead>
-                  <tr>
-                     <th className="text-center">#</th>
-                     <th className="text-center">Nombre</th>
-                     <th className="text-center">apellidos</th>
-                     <th className="text-center">curso</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  {this.state.alumnos.map((item,index) => (
-                     <tr key={index}>
-                        <th className="text-center" id={item.id}>{item.id}</th>
-                        <td className="text-center">{item.nombre}</td>
-                        <td className="text-center">{item.apellidos}</td>
-                        <td className="text-center">{item.curso}</td>
-                     </tr>
-                  ))}
-               </tbody>
-            </table>         
-         </div>
-      )
-   }
-}
->>>>>>> main

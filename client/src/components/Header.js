@@ -2,7 +2,7 @@ import axios from "axios"
 import React, { Component } from "react"
 import { Link } from 'react-router-dom'
 import { SERVER_HOST } from "../config/global_constants"
-import { AiOutlineMenu } from "@react-icons/all-files/ai/AiOutlineMenu";
+import { GrLogout } from "@react-icons/all-files/gr/GrLogout";
 import { FaRegUserCircle } from "@react-icons/all-files/fa/FaRegUserCircle";
 import "../css/Header.css"
 
@@ -30,7 +30,7 @@ export default class Header extends Component {
       return (
         
         <div className="Header">
-               <span className="box Menu"><AiOutlineMenu /></span>
+               <span className="box Menu"><GrLogout /></span>
                <img className="logo" src={require("../images/logo.png")} alt="Logo San Rafael" />
                <span className="box Persona"><FaRegUserCircle /></span>
             </div>
