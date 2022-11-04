@@ -5,6 +5,7 @@ import { SERVER_HOST } from "../config/global_constants"
 import { GrLogout } from "@react-icons/all-files/gr/GrLogout";
 import { FaRegUserCircle } from "@react-icons/all-files/fa/FaRegUserCircle";
 import "../css/Header.css"
+import LogOut from "./LogOut"
 
 export default class Header extends Component {
    constructor() {
@@ -30,7 +31,7 @@ export default class Header extends Component {
       return (
         
         <div className="Header">
-               <span className="box Menu"><GrLogout /></span>
+               <Link to="/LogOut"><span className="box Menu"><GrLogout /></span></Link>
                <img className="logo" src={require("../images/logo.png")} alt="Logo San Rafael" />
                <span className="box Persona"><FaRegUserCircle /></span>
             </div>

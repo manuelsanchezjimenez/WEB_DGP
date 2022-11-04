@@ -127,14 +127,22 @@ const createStudent = (req, res, next) =>
         {
             return next(err)
         }
-        var rutaFotos = __dirname.split('\\').splice(0,7).join('\\')
-        console.log(req.file)
+        var rutaFotos = __dirname.split('/')
+        if(rutaFotos.length == 1){
+            rutaFotos = __dirname.split('\\')
+            rutaFotos.pop()
+            rutaFotos = rutaFotos.join('\\')
+        }else{
+            rutaFotos.pop()
+            rutaFotos = rutaFotos.join('/')
+        }
+        console.log(rutaFotos)
         console.log(path.join(rutaFotos + '/uploads/' + req.file.filename))
         var img = fs.readFileSync(path.join(rutaFotos + '/uploads/' + req.file.filename))
         var encode_img = img.toString('base64')
         var final_img = {
         contentType:req.file.mimetype,
-        image:new Buffer.alloc(encode_img,'base64')
+        image:new Buffer.alloc(req.file.size, encode_img)
         }
         console.log(final_img)
 
