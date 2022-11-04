@@ -50,7 +50,7 @@ export default class ListaTareas extends Component {
          this.setState({ mounted: true })
       }).catch(err => {
          //handle error
-         alert('Ups error');
+         //alert('Ups error');
 
       });
    }
