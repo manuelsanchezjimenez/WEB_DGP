@@ -74,11 +74,11 @@ export default class AddActividad extends Component {
             headers: { "Content-Type": "multipart/form-data" },
          }).then(res => {
             //handle success
-            alert('Actividad añadida, se van a guardar las imágenes...');
+            alert('Imágenes añadidas, se van a guardar las imágenes...');
             this.handleSubmitImage(event);
          }).catch(err => {
             //handle error
-            alert('No se ha podido guardar la actividad');
+            alert('No se ha podido guardar las imágenes');
             this.setState({ logInError: true, errorMessage: 'Error, no se ha podido guardar la actividad.' })
          });
          event.preventDefault();
