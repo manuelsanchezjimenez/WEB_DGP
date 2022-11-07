@@ -1,0 +1,116 @@
+body{
+    background-color: #F2F8FF;
+    height: 100vh;
+    width: 100vw;
+}
+
+input{
+    text-align: center;
+}
+
+.web-container
+{
+    margin: 0 auto;
+    background: #4198D2;
+    display: flex;
+    width: auto;
+    height: auto;
+}
+
+
+.login-container{
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    background-color: #4198D2;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    margin: 0px;
+}
+
+
+#bigSizeLogo{
+    width: auto;
+    height: 280px;
+    padding-top: 1cm;
+}
+
+.logo-container{
+    margin: 0 auto;
+}
+
+
+.item-container{
+    margin: 5px 0;
+    display: flex;
+    padding: 10px 0;
+    width: 100%;
+    justify-content: center;
+}
+
+.sub-item-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 20px;
+    flex-basis: 50%;
+}
+
+.item-container input{
+    padding: 10px;
+    min-height: 40px;
+    margin: 5px 0;
+}
+
+
+.item-container label{
+    text-align: center;
+}
+
+.form-container
+{
+    display: flex;
+    flex-direction: column;
+    margin: 25px auto;
+    margin-top: 1cm;
+    padding: 20px;
+    min-width: 350px;
+    width: 33vw;
+    max-width: 450px;
+    border-radius: 5px;
+}
+
+.form-container input{
+    width: 100%;
+    height: 57px;
+}
+
+
+
+.button-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+}
+
+
+.center-button {
+    display: flex;
+    justify-content: center;
+    align-items: left;
+    text-align: left;
+    padding-right: 80px;
+}
+
+.error-login{
+    border-radius: 10px;
+    font-family: roboto;
+    font-size: 17px;
+    font-weight: bold;
+    color: white;
+    align-self: center;
+    padding-bottom: 10px;
+}
+
