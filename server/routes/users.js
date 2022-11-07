@@ -12,18 +12,8 @@ const path = require("path")
 
 //this is for multipart form data
 const multer  = require('multer')
-const { request } = require('express')
-//const upload = multer()
-var storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads')
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now())
-    }
-});
+var upload = multer({dest: `${process.env.UPLOADED_FILES_FOLDER}`})
   
-var upload = multer({ storage: storage });
 
 //Middleware
 const checkUserExists = (req, res, next) =>
@@ -127,25 +117,6 @@ const createStudent = (req, res, next) =>
         {
             return next(err)
         }
-        var rutaFotos = __dirname.split('/')
-        if(rutaFotos.length == 1){
-            rutaFotos = __dirname.split('\\')
-            rutaFotos.pop()
-            rutaFotos = rutaFotos.join('\\')
-        }else{
-            rutaFotos.pop()
-            rutaFotos = rutaFotos.join('/')
-        }
-        console.log(rutaFotos)
-        console.log(path.join(rutaFotos + '/uploads/' + req.file.filename))
-        var img = fs.readFileSync(path.join(rutaFotos + '/uploads/' + req.file.filename))
-        var encode_img = img.toString('base64')
-        var final_img = {
-        contentType:req.file.mimetype,
-        image:new Buffer.alloc(req.file.size, encode_img)
-        }
-        console.log(final_img)
-
 
         var student = {
             usuario:req.body.usuario,
@@ -158,8 +129,10 @@ const createStudent = (req, res, next) =>
             fechaNacimiento: req.body.fechaNacimiento,
             clase: req.body.clase,
             dni: req.body.dni,
-            foto: final_img
+            foto: {filename:`${req.file.filename}`}
         }
+
+        
         studentModel.create(student, (err, data) => 
         {
             if(err)
@@ -292,6 +265,19 @@ const findStudent = (req, res, next) =>
     })
 }
 
+router.get(`/Users/image/:filename`, (req, res) => 
+{   
+    let image
+    fs.readFile(`${process.env.UPLOADED_FILES_FOLDER}/${req.params.filename}`, 'base64', (err, fileData) => 
+    {        
+        if(fileData)
+        {  
+            image = fileData                          
+        }
+        res.json({image: image}) 
+    })         
+})
+
 const findAllStudent = (req, res, next) =>
 {
     studentModel.find({}, (error, data) =>{
@@ -354,6 +340,18 @@ const deleteTeacher = (req,res,next) =>{
         if(data)
             res.json({data: data})
     })
+}
+
+const deleteStudent = (req,res,next) =>{
+    var rutaFotos = __dirname.split('/')
+        if(rutaFotos.length == 1){
+            rutaFotos = __dirname.split('\\')
+            rutaFotos.pop()
+            rutaFotos = rutaFotos.join('\\')
+        }else{
+            rutaFotos.pop()
+            rutaFotos = rutaFotos.join('/')
+        }
 }
 
 //Register

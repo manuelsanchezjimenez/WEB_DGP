@@ -1,5 +1,10 @@
 const mongoose = require(`mongoose`)
 
+let studentImageSchema = new mongoose.Schema(
+     {
+          filename:{type:String}
+     })
+
 let studentSchema = new mongoose.Schema(
    {
         usuario: {type: String, required: true, unique: true},
@@ -10,7 +15,7 @@ let studentSchema = new mongoose.Schema(
         fechaNacimiento: {type: Date, required: true},
         dni: {type: String, required: true},
         clase: {type: Number, required:true},
-        foto: {data: Buffer, contentType: String},
+        foto: studentImageSchema,
         profesor: {type: String, required: false},
         actividad: {type: String, required: false}
    },
