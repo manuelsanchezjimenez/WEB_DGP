@@ -1,1 +1,0 @@
-aqui van los hashes de las imagenes guardadas en 
