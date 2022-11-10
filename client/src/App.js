@@ -17,6 +17,11 @@ import ListaActividades from "./components/ListaActividades"
 import ListaTareas from "./components/ListaTareas"
 import Register from "./components/Register"
 
+import firebase from 'firebase';
+const config = {
+    
+}
+
 export default class App extends Component {
     render() {
         return (

@@ -1,12 +1,128 @@
 import React, { Component } from "react"
-
+import { gapi } from 'gapi-script';
 import { Redirect, Link } from 'react-router-dom'
 import Header from "./Header"
 import "../css/aniadirAlumno.css"
 import axios from "axios"
 
+
 import { ACCESS_LEVEL_GUEST, SERVER_HOST } from "../config/global_constants"
 
+
+// Acá Pega el Cliente ID y el API Key que creaste 
+var CLIENT_ID = '1070516855678-kmj7k4e5vke687bsmtlgjkkbpoi2tl28.apps.googleusercontent.com';
+var API_KEY = 'AIzaSyBP4UVhZhm1U2lOAkY-spY_PSF0saxlAvI';
+
+// Cargamos el servicio Rest API de Google 
+var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
+
+// El servicio de Autenticación con una cuenta de Google 
+var SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly';
+
+// Seleccionamos los botones de Iniciar Sesión y Cerrar Sesión 
+var authorizeButton = document.getElementById('autorizar_btn');
+var signoutButton = document.getElementById('desconectar_btn');
+
+
+function handleClientLoad() {
+    gapi.load('client:auth2', initClient);
+}
+
+
+function initClient() {
+    gapi.client.init({
+        apiKey: API_KEY,
+        clientId: CLIENT_ID,
+        discoveryDocs: DISCOVERY_DOCS,
+        scope: SCOPES
+    }).then(function () {
+
+        gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+
+        updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+        authorizeButton.onclick = handleAuthClick;
+        signoutButton.onclick = handleSignoutClick;
+    });
+}
+
+function updateSigninStatus(isSignedIn) {
+    if (isSignedIn) {
+        authorizeButton.style.display = 'none';
+        signoutButton.style.display = 'block';
+        listFiles();
+    } else {
+        authorizeButton.style.display = 'block';
+        signoutButton.style.display = 'none';
+    }
+}
+
+
+function handleAuthClick(event) {
+    gapi.auth2.getAuthInstance().signIn();
+}
+
+function handleSignoutClick(event) {
+    gapi.auth2.getAuthInstance().signOut();
+}
+
+function appendPre(message) {
+    var pre = document.getElementById('root');
+    var textContent = document.createTextNode(message + '\n');
+    pre.appendChild(textContent);
+}
+
+// Acá listamos los archivos de nuestra cuenta de Google Drive, especificamos que datos de los archivos queremos mostrar 
+function listFiles() {
+    gapi.client.drive.files.list({
+        'pageSize': 10,
+        'fields': "nextPageToken, files(id, name, mimeType, createdTime, size)"
+    }).then(function (response) {
+
+        var files = response.result.files;
+
+        var table = document.getElementById('root');
+        listarenTabla(table, ['ID', 'Nombre', 'mimeType', 'Fecha de Creación', 'Tamaño'], 'th');
+
+        if (files && files.length > 0) {
+            for (var i = 0; i < files.length; i++) {
+
+                var file = files[i];
+
+                listarenTabla(table, [
+                    file.id,
+                    file.name,
+                    file.mimeType,
+                    file.createdTime,
+                    file.size + ' Kbs'
+                ]);
+
+                //appendPre(file.name + ' / ' + file.id + ' / ' + file.mimeType + ' / ' + file.createdTime + ' / ' + file.size + ' Kbs') + "<br>";
+
+            }
+        } else {
+            appendPre('No hay archivos.');
+        }
+    });
+}
+
+function listarenTabla(table, elements, tag) {
+
+    var row = document.createElement('tr')
+    elements.forEach(function (e) {
+
+        var cell = document.createElement(tag || 'td')
+
+        if (typeof e === 'string') {
+            cell.textContent = e
+        } else {
+            cell.appendChild(e)
+        }
+
+        row.appendChild(cell)
+    })
+
+    table.appendChild(row)
+}
 export default class Register extends Component {
 
     constructor(props) {
@@ -76,7 +192,7 @@ export default class Register extends Component {
     }
 
     validateContra() {
-        if(this.state.contra === '')
+        if (this.state.contra === '')
             return false
         else
             return true
@@ -93,8 +209,8 @@ export default class Register extends Component {
             return false
     }
 
-    validateTelefono(){
-        if(this.state.telefono === '')
+    validateTelefono() {
+        if (this.state.telefono === '')
             return false
         else
             return true
@@ -106,8 +222,8 @@ export default class Register extends Component {
         return date instanceof Date && !isNaN(date.getTime())
     }
 
-    validateFoto(){
-        if(this.state.foto === null)
+    validateFoto() {
+        if (this.state.foto === null)
             return false
         else
             return true
@@ -149,14 +265,13 @@ export default class Register extends Component {
 
         this.setState({ [e.target.name]: e.target.value })
     }
-    handleFileChange = (e) => 
-    {
-        this.setState({foto: e.target.files})
+    handleFileChange = (e) => {
+        this.setState({ foto: e.target.files })
     }
 
     addUser = e => {
 
-        
+
 
         //clientSide validation
         const mailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|("."))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -166,11 +281,11 @@ export default class Register extends Component {
         //Fecha
         var parts = this.state.fechaNacimineto.split('/')
         var date = new Date(parts[2], parts[1] - 1, parts[0])
-        console.log(date)        
+        console.log(date)
 
 
-        if(!inputsAreAllValid){
-            this.setState({tried: true})
+        if (!inputsAreAllValid) {
+            this.setState({ tried: true })
         } else {
             //we encode the pass for cases with especial character
             let encodedPass = encodeURIComponent(this.state.contra)
@@ -222,9 +337,10 @@ export default class Register extends Component {
         let emptyFile = <div className="error">Suba un archivo</div>
         let invalidDate = <div className="error">Formato: dd/mm/aaaa</div>
 
-        {this.state.tried? 
-            formInputsState = this.validation()
-            : formInputsState = this.validationTrue()
+        {
+            this.state.tried ?
+                formInputsState = this.validation()
+                : formInputsState = this.validationTrue()
         }
 
         return (
@@ -325,20 +441,21 @@ export default class Register extends Component {
                                 </div>
                                 {formInputsState.dni ? "" : empty}
                                 <div className="sub-item-container">
-                                    <input type="file" id="uploadedImage" name="foto" onChange = {this.handleFileChange} accept="image/png"/>
-                                </div> <br/>
-                                {formInputsState.foto ? "" : emptyFile}
+                                    <input type="file" id="uploadedImage" name="foto" onChange={this.handleFileChange} accept="image/png" />
+                                </div> <br />
+                                {/*formInputsState.foto ? "" : emptyFile*/}
                             </div> : null}
 
                         <div className="register-buttons">
-                        
+
                             <div>
-                                <input type="button" className="green-button" value="Añadir usuario"  onClick={this.addUser} />
+                                <input type="button" className="green-button" value="Añadir usuario" onClick={this.addUser} />
+                                <FileUpload></FileUpload>
                             </div>
                         </div>
 
                     </div>
-            
+
                 </form >
             </div>
         )
