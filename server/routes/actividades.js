@@ -52,9 +52,11 @@ const addActividad = (req, res, next) =>
     let actividad = new Object()
     actividad.nombre = req.body.nombre
     actividad.descripcion = req.body.descripcion
+    actividad.enlaceVideo = req.body.enlaceVideo
+    actividad.enlaceAudio = req.body.enlaceAudio
     actividadModel.create(actividad, (error, data) =>
     {
-        if(error){
+        if(err){
             // return next(createError(400, `Error on actividad creation.`))
             return next(err)
         }else{
@@ -82,7 +84,7 @@ const getActividades = (req, res, next) =>
 
 const findActividad = (req, res, next) =>
 {
-    actividadModel.findOne({nombre: req.body.nombre}, (error, data) =>{
+    actividadModel.findOne({_id: req.body.id}, (error, data) =>{
         if(error){
             console.log(error)
         }else{
@@ -97,7 +99,7 @@ const findActividad = (req, res, next) =>
 
 router.post(`/actividades/add`, upload.none(), addActividad)
 router.get(`/actividades/getAll`, getActividades)
-router.get(`/actividades/:nombre`, findActividad)
+router.get(`/actividades/:id`, findActividad)
 
 
 module.exports = router
