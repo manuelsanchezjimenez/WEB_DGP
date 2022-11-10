@@ -14,6 +14,8 @@ export default class AddActividad extends Component {
       this.state = {
          newNameAct: '',
          newDesrAct: '',
+         enlaceVideo: '',
+         enlaceAudio: '',
          image: [],
          totalImages: 0,
       };
@@ -42,6 +44,8 @@ export default class AddActividad extends Component {
          var bodyFormData = new FormData();
          bodyFormData.append('nombre', this.state.newNameAct)
          bodyFormData.append('descripcion', this.state.newDesrAct)
+         bodyFormData.append('enlaceVideo', this.state.enlaceVideo)
+         bodyFormData.append('enlaceAudio', this.state.enlaceAudio)
          axios({
             method: "post",
             url: `${SERVER_HOST}/actividades/add`,
@@ -60,29 +64,30 @@ export default class AddActividad extends Component {
       }
    }
 
+   // noImplementado
    handleSubmitImage(event) {
-      var totalImages = 3
-      for (let i = 0; i < totalImages; i++) {
-         alert('Guardando imagen: "' + this.state.image[i].value + '"\nDescripción: "' + this.state.newDesrAct + '"');
-         var bodyFormData = new FormData();
-         bodyFormData.append('nombre', i)
-         bodyFormData.append('imagen', this.state.image[i])
-         axios({
-            method: "post",
-            url: `${SERVER_HOST}/actividades/add`,
-            data: bodyFormData,
-            headers: { "Content-Type": "multipart/form-data" },
-         }).then(res => {
-            //handle success
-            alert('Imágenes añadidas, se van a guardar las imágenes...');
-            this.handleSubmitImage(event);
-         }).catch(err => {
-            //handle error
-            alert('No se ha podido guardar las imágenes');
-            this.setState({ logInError: true, errorMessage: 'Error, no se ha podido guardar la actividad.' })
-         });
-         event.preventDefault();
-      }
+      // var totalImages = 3
+      // for (let i = 0; i < totalImages; i++) {
+      //    alert('Guardando imagen: "' + this.state.image[i].value + '"\nDescripción: "' + this.state.newDesrAct + '"');
+      //    var bodyFormData = new FormData();
+      //    bodyFormData.append('nombre', i)
+      //    bodyFormData.append('imagen', this.state.image[i])
+      //    axios({
+      //       method: "post",
+      //       url: `${SERVER_HOST}/actividades/add`,
+      //       data: bodyFormData,
+      //       headers: { "Content-Type": "multipart/form-data" },
+      //    }).then(res => {
+      //       //handle success
+      //       alert('Imágenes añadidas, se van a guardar las imágenes...');
+      //       this.handleSubmitImage(event);
+      //    }).catch(err => {
+      //       //handle error
+      //       alert('No se ha podido guardar las imágenes');
+      //       this.setState({ logInError: true, errorMessage: 'Error, no se ha podido guardar la actividad.' })
+      //    });
+      //    event.preventDefault();
+      // }
    }
 
    handleFileChange = (event) => {
@@ -166,8 +171,16 @@ export default class AddActividad extends Component {
             <div className="formulario">
                <form onSubmit={this.handleSubmitData}>
                   <div>
-                     <label>Nombre de la tarea:</label><br />
+                     <label>Nombre de la actividad:</label><br />
                      <input type="text" id="newNameAct" name="newNameAct" placeholder="Nombre de la nueva actividad" onChange={this.handleChange} />
+                  </div>
+                  <div>
+                     <label>Enlace a un vídeo:</label><br />
+                     <input type="text" id="enlaceVideo" name="enlaceVideo" placeholder="Enlace a un vídeo" onChange={this.handleChange} />
+                  </div>
+                  <div>
+                     <label>Enlace a un audio:</label><br />
+                     <input type="text" id="enlaceAudio" name="enlaceAudio" placeholder="Enlace a un audio" onChange={this.handleChange} />
                   </div>
                   <div>
                      <label>Descripción:</label><br />
@@ -181,8 +194,8 @@ export default class AddActividad extends Component {
                   </div>
                   <input type="file" onChange={this.handleFileChange} />
                </div>
-               <button className="boton b1" onClick={this.handleSubmitData}>
-                  Añadir
+               <button className="button" onClick={this.handleSubmitData}>
+                  Añadir Actividad
                </button>
             </div>
             <Link to="/ListaActividades"><input id="toggleActividades" type="button" value="CANCELAR" /></Link>
