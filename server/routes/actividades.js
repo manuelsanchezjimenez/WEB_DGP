@@ -1,7 +1,7 @@
 const router = require(`express`).Router()
 const actividadModel = require(`../models/actividad`)
 const actividadImagenModel = require(`../models/actividad_imagen`)
-const comandaModel = require(`../models/comanda`)
+// const comandaModel = require(`../models/comanda`)
 const jwt = require('jsonwebtoken')
 const createError = require('http-errors')
 var urlencode = require('urlencode')
@@ -20,36 +20,13 @@ var storage = multer.diskStorage({
 });
 var upload = multer({ storage: storage });
 
-// const addProperty = (req, res, next) =>
-// {
-//     let property = new Object()
-//     property.tenant = req.body.tenant
-//     property.address = req.body.address
-//     property.area = req.body.area
-//     property.price = req.body.price
-//     property.residents = []
-//     property.images = []
-//     req.files.map((file, index) =>
-//     {
-//         property.images[index] = {filename:`${file.filename}`}
-//     })
-//     propertiesModel.create(property, (error, data) =>
-//     {
-//         if(error){
-//             return next(createError(400, `Error on property creation.`))
-//         }else{
-//             res.json(data)
-//         }
-//     })
-// }
-
 const addActividad = (req, res, next) => {
     let actividad = new Object()
     actividad.nombre = req.body.nombre
     actividad.descripcion = req.body.descripcion
     actividad.enlaceVideo = req.body.enlaceVideo
     actividad.enlaceAudio = req.body.enlaceAudio
-    actividadModel.create(actividad, (error, data) => {
+    actividadModel.create(actividad, (err, data) => {
         if (err) {
             // return next(createError(400, `Error on actividad creation.`))
             return next(err)
@@ -61,9 +38,9 @@ const addActividad = (req, res, next) => {
 }
 
 const getActividades = (req, res, next) => {
-    actividadModel.find({}, (error, data) => {
-        if (error) {
-            console.log(error)
+    actividadModel.find({}, (err, data) => {
+        if (err) {
+            console.log(err)
         } else {
             if (data) {
                 res.json(data);
@@ -75,10 +52,10 @@ const getActividades = (req, res, next) => {
 
 }
 
-const findActividad = (req, res, next) => {
-    actividadModel.findOne({ _id: req.body.id }, (error, data) => {
-        if (error) {
-            console.log(error)
+const findIDActividad = (req, res, next) => {
+    actividadModel.findOne({ _id: req.body.id }, (err, data) => {
+        if (err) {
+            console.log(err)
         } else {
             if (data) {
                 req.user = data
@@ -88,6 +65,20 @@ const findActividad = (req, res, next) => {
         }
     })
 }
+const findNameActividad = (req, res, next) => {
+    actividadModel.findOne({ nombre: req.body.nombre }, (err, data) => {
+        if (err) {
+            console.log(err)
+        } else {
+            if (data) {
+                req.user = data
+                return next()
+            } else
+                return next(createError(400, "Activity not found."))
+        }
+    })
+}
+
 
 const deleteAct = (req, res, next) => {
     actividadModel.findByIdAndRemove({ _id: req.params.id }, (err, data) => {
@@ -109,27 +100,38 @@ const updateActividad = (req, res, next) => {
     res.json({ usuario: usuario })
 }
 
-const checkUserLogged = (req, res, next) =>
-{
-    jwt.verify(req.headers.authorization, process.env.JWT_PRIVATE_KEY, {algorithm: "HS256"}, (err, decodedToken) => 
-    {
-        if (err) 
-        { 
+const checkUserLogged = (req, res, next) => {
+    jwt.verify(req.headers.authorization, process.env.JWT_PRIVATE_KEY, { algorithm: "HS256" }, (err, decodedToken) => {
+        if (err) {
             return next(createError(400, "User is not logged in."))
         }
-        else 
-        {
+        else {
             req.decodedToken = decodedToken
             return next()
         }
     })
 }
 
+const ImgUpp = (req, res, next) => {
+
+    let actividad_imagen = new Object();
+    actividad_imagen.nombreAct = req.body.nombreAct;
+    actividad_imagen.imagen = req.body.imagen;
+
+    actividadImagenModel.create(actividad_imagen, (err, data) => {
+        if (err) {
+            return next(err)
+        }
+        res.json(data)
+    })
+}
+
 router.post(`/actividades/add`, upload.none(), addActividad)
 router.get(`/actividades/getAll`, getActividades)
-router.get(`/actividades/:id`, findActividad)
+router.get(`/actividades/findByID/:id`, findIDActividad)
+router.get(`/actividades/findByName/:id`, findNameActividad)
 router.delete(`/actividades/delete/:id`, deleteAct)
 router.put(`/actividades/update`, updateActividad)
-
+router.post(`/actividades/imgAdd`,  upload.none(), ImgUpp)
 
 module.exports = router

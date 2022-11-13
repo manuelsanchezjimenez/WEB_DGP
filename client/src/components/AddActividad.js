@@ -1,8 +1,9 @@
 import axios from "axios"
 import React, { Component } from "react"
-import ReactDOM from 'react-dom';
-import { Link } from 'react-router-dom'
-import { useState } from 'react';
+// import ReactDOM from 'react-dom';
+import {Redirect, Link} from 'react-router-dom'
+// import { Link } from 'react-router-dom'
+// import { useState } from 'react';
 import Header from "./Header"
 import { SERVER_HOST } from "../config/global_constants"
 import "../css/AddActividad.css"
@@ -17,7 +18,9 @@ export default class AddActividad extends Component {
          enlaceVideo: '',
          enlaceAudio: '',
          image: [],
+         imagePath: [],
          totalImages: 0,
+         redirectList: false,
       };
       this.listaImages = this.listaImages.bind(this);
       this.handleChange = this.handleChange.bind(this);
@@ -62,32 +65,33 @@ export default class AddActividad extends Component {
          });
          event.preventDefault();
       }
+      // this.handleSubmitImage(event);
    }
 
    // noImplementado
    handleSubmitImage(event) {
-      // var totalImages = 3
-      // for (let i = 0; i < totalImages; i++) {
-      //    alert('Guardando imagen: "' + this.state.image[i].value + '"\nDescripción: "' + this.state.newDesrAct + '"');
-      //    var bodyFormData = new FormData();
-      //    bodyFormData.append('nombre', i)
-      //    bodyFormData.append('imagen', this.state.image[i])
-      //    axios({
-      //       method: "post",
-      //       url: `${SERVER_HOST}/actividades/add`,
-      //       data: bodyFormData,
-      //       headers: { "Content-Type": "multipart/form-data" },
-      //    }).then(res => {
-      //       //handle success
-      //       alert('Imágenes añadidas, se van a guardar las imágenes...');
-      //       this.handleSubmitImage(event);
-      //    }).catch(err => {
-      //       //handle error
-      //       alert('No se ha podido guardar las imágenes');
-      //       this.setState({ logInError: true, errorMessage: 'Error, no se ha podido guardar la actividad.' })
-      //    });
-      //    event.preventDefault();
-      // }
+      let correcto = true;
+      for (let i = 0; i < this.state.totalImages; i++) {
+         // alert('Guardando imagen: "' + this.state.image[i].value + '"\nDescripción: "' + this.state.newDesrAct + '"');
+         var bodyFormData = new FormData();
+         bodyFormData.append('nombreAct', i + "::" + this.state.newNameAct)
+         bodyFormData.append('imagen', this.state.imagePath[i])
+         axios({
+            method: "post",
+            url: `${SERVER_HOST}/actividades/imgAdd`,
+            data: bodyFormData,
+            headers: { "Content-Type": "multipart/form-data" },
+         }).catch(err => {
+            //handle error
+            alert('No se ha podido guardar las imágenes');
+            correcto = false;
+            this.setState({ logInError: true, errorMessage: 'Error, no se ha podido guardar la actividad: ' + err })
+         });
+      }
+      if (correcto) {
+         alert("Imágenes guardadas correctamente")
+         this.setState({redirectList: true})
+      }
    }
 
    handleFileChange = (event) => {
@@ -96,15 +100,21 @@ export default class AddActividad extends Component {
          reader.onload = (e) => {
             // Metodo 1: No se  modifica directamente this.state pero slice es un método poco fiable (pueden mutar los datos)
             let copyImage = this.state.image.slice();
-            copyImage[this.state.totalImages] = e.target.result;
-            this.setState({ image: copyImage });
+            copyImage.push(e.target.result);
+            // copyImagePath = this.state.imagePath.slice();
+            // copyImagePath.push(e.target.files);
+            this.setState({ image: copyImage }); //, imagePath : copyImagePath });
             // Metodo 2: Se modifica directamente this.state pero los datos se modifican de manera más segura
-            // this.state.image[this.state.totalImages] = e.target.result;
+            // this.state.image.push(e.target.result);
+            // this.state.imagePath.push(e.target.files);
 
             this.setState({ totalImages: this.state.totalImages + 1 });
          };
+         let copyImagePath = this.state.imagePath.slice();
+         copyImagePath.push(event.target.files[0].name);
          reader.readAsDataURL(event.target.files[0]);
          event.target.value = null;
+         this.setState({ imagePath: copyImagePath });
       }
    }
 
@@ -131,7 +141,6 @@ export default class AddActividad extends Component {
             </div>
          );
       }
-      // this.state.insertImageMode = false;
       return pictos;
    }
 
@@ -142,31 +151,43 @@ export default class AddActividad extends Component {
       k = copyImage[item];
       copyImage[item] = copyImage[move]
       copyImage[move] = k;
-      this.setState({ image: copyImage });
+      let copyImagePath = this.state.imagePath.slice();
+      k = copyImagePath[item];
+      copyImagePath[item] = copyImagePath[move]
+      copyImagePath[move] = k;
+      this.setState({ image: copyImage, imagePath: copyImagePath });
       // Metodo 2: Se modifica directamente this.state pero los datos se modifican de manera más segura
       // let k;
       // k = this.state.image[item];
       // this.state.image[item] = this.state.image[move]
       // this.state.image[move] = k;
+      // k = this.state.imagePath[item];
+      // this.state.imagePath[item] = this.state.imagePath[move]
+      // this.state.imagePath[move] = k;
       // this.setState({ totalImages: this.state.totalImages  });
    }
 
    deleteImage(item) {
       // alert('Se quiere eliminar la imagen ' + item)
       // Metodo 1: No se modifica directamente this.state pero slice es un método poco fiable (pueden mutar los datos)
-      this.setState({ totalImages: this.state.totalImages - 1 });
-      let copyImage = this.state.image.slice();
+      let copyImage = this.state.image.slice(), copyImagePath = this.state.imagePath.slice();
       copyImage.splice(item, 1);
-      this.setState({ image: copyImage });
+      copyImagePath.splice(item, 1);
+      this.setState({ image: copyImage, imagePath: copyImagePath });
       // this.setState({ totalImages: this.state.totalImages-1 });
       // Metodo 2: Se modifica directamente this.state pero los datos se modifican de manera más segura
       // this.state.image.splice(item, 1);
+      // this.state.imagePath.splice(item, 1);
+
+      this.setState({ totalImages: this.state.totalImages - 1 });
    }
 
    render() {
       return (
          <div className="web-container">
             <Header />
+            {this.state.redirectList ? <Redirect to="/ListaActividades"/> : null}
+
             <h1>Añadir nueva actividad</h1>
             <div className="formulario">
                <form onSubmit={this.handleSubmitData}>
