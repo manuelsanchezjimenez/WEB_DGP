@@ -296,7 +296,7 @@ const findAllStudents = (req, res, next) =>
 const updateStudentProfile = (req,res,next) =>{
 
     var usuario
-    studentModel.findOneAndUpdate({_id: req.body._id}, {usuario: req.body.usuario, contra:req.body.contra, nombre:req.body.nombre, tipo: req.body.tipo, profesor: req.body.profesor}, (err, data) => 
+    studentModel.findOneAndUpdate({_id: req.body._id}, {usuario: req.body.usuario, contra:req.body.contra, nombre:req.body.nombre, tipo: req.body.tipo, profesor: req.body.profesor, tipoLetra: req.body.tipoLetra}, (err, data) => 
         {
             if(err)
                 return next(createError(400, err))
@@ -322,7 +322,7 @@ const updateAdminProfile = (req,res,next) =>{
 const updateTeacherProfile = (req,res,next) =>{
 
     var usuario
-    teacherModel.findOneAndUpdate({_id: req.body.id}, {usuario: req.body.usuario, contra:req.body.contra, nombre:req.body.nombre, correo: req.body.correo, telefono: req.body.telefono, dni: req.body.dni}, {returnNewDocument: true}, (err, data) => 
+    teacherModel.findOneAndUpdate({_id: req.body.id}, {usuario: req.body.usuario, contra:req.body.contra, nombre:req.body.nombre}, {returnNewDocument: true}, (err, data) => 
         {
             if(err)
                 return next(createError(400, err))

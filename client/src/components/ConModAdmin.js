@@ -5,11 +5,12 @@ import {Redirect, Link} from 'react-router-dom'
 
 import axios from "axios"
 import {SERVER_HOST} from "../config/global_constants"
-//import "../css/ConModStudent.css"
+//import "../css/ConModAdmin.css"
+
+//<Link className="blue-button" to={{pathname: `ConModTeacher/${this.state.id}`}}> Modify </Link>
 
 
-
-export default class ConModStudent extends Component 
+export default class ConModAdmin extends Component 
 {
     constructor(props){
         super(props)
@@ -19,17 +20,13 @@ export default class ConModStudent extends Component
             usuario: '',
             id_t: '',
             contra: '',
-            clase: null,
-            tipo: null,
-            tipoLetra: null,
-            foto: null,
             redirect: false,
             mounted: false
         }
 
     }
     componentDidMount = () =>{
-        axios.get(`${SERVER_HOST}/Users/student/${this.props.match.params.id}`,{headers:{"authorization":localStorage.token}})
+        axios.get(`${SERVER_HOST}/Users/admin/${this.props.match.params.id}`,{headers:{"authorization":localStorage.token}})
         .then(res => 
         {     
             if(res.data)
@@ -40,10 +37,6 @@ export default class ConModStudent extends Component
                     this.setState({usuario: res.data.usuario.usuario})
                     this.setState({id_t: res.data.usuario._id})
                     this.setState({contra: res.data.usuario.contra})
-                    this.setState({clase: res.data.usuario.clase})
-                    this.setState({tipoLetra: res.data.usuario.tipoLetra})
-                    this.setState({tipo: res.data.usuario.tipo})
-                    this.setState({foto: res.data.usuario.foto})
                     this.setState({mounted: true})
                 }  
 
@@ -53,22 +46,23 @@ export default class ConModStudent extends Component
     }
 
     updateProfile = () =>{
-        const data = {nombre: this.state.nombre, usuario: this.state.usuario, id: this.state.id_t, contra: this.state.contra, clase: this.state.clase, tipo: this.state.tipo, tipoLetra: this.state.tipoLetra} 
-        axios.put(`${SERVER_HOST}/Users/profile/student`, data, {headers:{"authorization":localStorage.token}})
+        const data = {nombre: this.state.nombre, usuario: this.state.usuario, id: this.state.id_t, contra: this.state.contra} 
+        axios.put(`${SERVER_HOST}/Users/profile/admin`, data, {headers:{"authorization":localStorage.token}})
         .then(res => 
         {     
             if(res.data)
                 if (res.data.errorMessage)
-                    console.log(res.data.errorMessage)
+                    console.log(res.data.errorMessage) 
                 else
-                    this.setState({redirect: true})
+                    this.setState({redirect: true})   
+
         }).catch(error =>{
             console.log("err:" + error.response.data)
         })  
     }
 
     deleteProfile = () =>{
-        axios.delete(`${SERVER_HOST}/Users/delete/student/${this.state.id_t}`, {headers:{"authorization":localStorage.token}})
+        axios.delete(`${SERVER_HOST}/Users/delete/admin/${this.state.id_t}`, {headers:{"authorization":localStorage.token}})
         .then(res => 
         {     
             if(res.data)
@@ -129,36 +123,12 @@ export default class ConModStudent extends Component
                                     name="nombre" placeholder="Nombre Completo"
                                     value={this.state.nombre}
                                     onChange={this.handleChange} />
-                            </div>
-                            <div className="sub-item-container">
-                                <input className={"form-control" ? "" : "error"}
-                                    id="clase"
-                                    type="text"
-                                    name="clase" placeholder="Clase"
-                                    value={this.state.clase}
-                                    onChange={this.handleChange} />
-                            </div>
-                            <div className="sub-item-container">
-                                <input className={"form-control" ? "" : "error"}
-                                    id="tipo"
-                                    type="text"
-                                    name="tipo" placeholder="Tipo texto"
-                                    value={this.state.tipo}
-                                    onChange={this.handleChange} />
-                            </div>
-                            <div className="sub-item-container">
-                                <input className={"form-control" ? "" : "error"}
-                                    id="tipoLetra"
-                                    type="text"
-                                    name="tipoLetra" placeholder="Tipo letra"
-                                    value={this.state.tipoLetra}
-                                    onChange={this.handleChange} />
-                            </div>
+                            </div>                         
 
                         </div>
                         <div id="buttons">
                             <input type="button" className="green-button" value="Modificar Datos" disabled={this.allFilled()} onClick={this.updateProfile}/>
-                            <input type="button" className="red-button" value="Eliminar Alumno" onClick={this.deleteProfile}/>
+                            <input type="button" className="red-button" value="Eliminar Administrador" onClick={this.deleteProfile}/>
                         </div>
                     </div>
                 </div>
