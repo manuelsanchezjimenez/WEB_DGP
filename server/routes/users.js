@@ -380,8 +380,9 @@ router.put(`/Users/profile/teacher`, checkUserLogged, updateTeacherProfile)
 
 //Getters
 router.get(`/Users/teacher/:id`, findTeacher)
-router.get(`/Users/student/:id`, findStudent)
 router.get(`/Users/student`, findAllStudents)
+router.get(`/Users/student/:id`, findStudent)
+
 router.get(`/Users/admin`, findAdmin)
 
 module.exports = router 

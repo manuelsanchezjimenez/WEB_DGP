@@ -491,15 +491,9 @@ export default class ListaAlumnos extends Component {
                   {this.state.error ? <div>Error: {this.state.error.message}</div> : null}
                   {this.state.mounted ? null : <div> Cargando alumnos... </div>}
                   {this.showTable()}
-<<<<<<< Updated upstream
                </div>
                <div>
                </div>
-=======
-               </div>
-               <div>
-               </div>
->>>>>>> Stashed changes
                <div className="Body">
                   <div className="botonesContainer">
                      {/* <Link to="/AdminAlumPrincipal"><input id="modificarAlumno" type="button" className="boton3" value="MODIFICAR ALUMNO" /></Link>
