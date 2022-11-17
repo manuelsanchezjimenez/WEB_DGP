@@ -14,6 +14,7 @@ import AdminAlumPrincipal from "./components/AdminAlumPrincipal"
 import aniadirAlumno from "./components/aniadirAlumno"
 import AddActividad from "./components/AddActividad"
 import ListaActividades from "./components/ListaActividades"
+import ModActividad from "./components/ModActividad"
 import ListaTareas from "./components/ListaTareas"
 import Register from "./components/Register"
 
@@ -32,6 +33,7 @@ export default class App extends Component {
                     <Route exact path="/AdminAlumPrincipal" component={AdminAlumPrincipal} />
                     <Route exact path="/Register" component={Register} />
                     <Route exact path="/AddActividad" component={AddActividad} />
+                    <Route exact path="/ModActividad" component={ModActividad} />
                     <Route exact path="/ListaActividades" component={ListaActividades} />
                     <Route exact path="/ListaTareas" component={ListaTareas} />
                     <Route path="*" component={() => <h3>URL invalida. Esta página web no existe</h3>} />
