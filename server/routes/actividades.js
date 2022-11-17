@@ -29,13 +29,8 @@ const addActividad = (req, res, next) => {
     actividadModel.create(actividad, (err, data) => {
         if (err) {
             // return next(createError(400, `Error on actividad creation.`))
-<<<<<<< HEAD
-            return next(error)
-        }else{
-=======
             return next(err)
         } else {
->>>>>>> main
             res.json(data)
         }
 

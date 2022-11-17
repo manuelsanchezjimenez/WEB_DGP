@@ -125,10 +125,7 @@ const createStudent = (req, res, next) =>
             tipo: req.body.tipo, 
             profesor: null, 
             actividad: null,
-            correo: req.body.correo, 
-            fechaNacimiento: req.body.fechaNacimiento,
             clase: req.body.clase,
-            dni: req.body.dni,
             foto: {filename:`${req.file.filename}`}
         }
 
@@ -152,7 +149,7 @@ const createTeacher = (req, res, next) =>
         {
             return next(err)
         }
-        teacherModel.create({usuario:req.body.usuario,nombre:req.body.nombre,contra:hash, accessLevel: process.env.ACCESS_LEVEL_TEACHER, correo: req.body.correo, telefono: req.body.telefono, dni: req.body.dni}, (err, data) => 
+        teacherModel.create({usuario:req.body.usuario,nombre:req.body.nombre,contra:hash, accessLevel: process.env.ACCESS_LEVEL_TEACHER}, (err, data) => 
         {
             if(err)
             {
@@ -169,7 +166,7 @@ const createAdmin = (req, res, next) => {
         if(err){
             return next(err)
         }
-        adminModel.create({usuario:req.body.usuario,nombre:req.body.nombre,contra:hash, accessLevel: process.env.ACCESS_LEVEL_ADMIN, correo: req.body.correo, telefono: req.body.telefono, dni: req.body.dni}, (error, createData) => 
+        adminModel.create({usuario:req.body.usuario,nombre:req.body.nombre,contra:hash, accessLevel: process.env.ACCESS_LEVEL_ADMIN}, (error, createData) => 
         {
             if(error){
                 return next(error)
@@ -278,21 +275,8 @@ router.get(`/Users/image/:filename`, (req, res) =>
     })         
 })
 
-const findAllStudent = (req, res, next) =>
-{
-    studentModel.find({}, (error, data) =>{
-        if(error){
-            console.log(error)
-        }else{
-            if(data){
-                res.json({usuarios: data})
-            }else
-                return next(createError(400, "Student not found."))
-        } 
-    })
-}
 
-const getAlumnos = (req, res, next) => 
+const findAllStudents = (req, res, next) => 
 {
     studentModel.find({}, (error, data) =>{
         if(error){
@@ -397,8 +381,7 @@ router.put(`/Users/profile/teacher`, checkUserLogged, updateTeacherProfile)
 //Getters
 router.get(`/Users/teacher/:id`, findTeacher)
 router.get(`/Users/student/:id`, findStudent)
-router.get(`/Users/student/`, findAllStudent)
-router.get(`/Users/getAll`, getAlumnos)
+router.get(`/Users/student`, findAllStudents)
 router.get(`/Users/admin`, findAdmin)
 
 module.exports = router 

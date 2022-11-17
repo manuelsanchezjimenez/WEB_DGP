@@ -371,7 +371,7 @@ export default class ListaAlumnos extends Component{
    }
    componentDidMount() {
       axios.get(
-         `${SERVER_HOST}/Users/getAll`,
+         `${SERVER_HOST}/Users/student`,
          { headers: { "Content-type": "multipart/form-data" } })
          .then(res => {
             if (res.data) {
@@ -481,18 +481,25 @@ export default class ListaAlumnos extends Component{
       return (
          <div className="web-container">
             <Header />
-            <h1>Listado de alumnos</h1>
-            {this.state.error ? <div>Error: {this.state.error.message}</div> : null}
-            {this.state.mounted ? null : <div> Cargando alumnos... </div>}
-            {this.showTable()}
-            <div>
-            </div>
-            { <div className="Body">
-               <div className="botonesContainer">
-                 <Link to="/AdminAlumPrincipal"><input id="modificarAlumno" type="button" className="boton3" value="MODIFICAR ALUMNO"/></Link>
-                 <Link to="/AdminAlumPrincipal"><input id="eliminarAlumno" type="button" className="boton3" value="ELIMINAR ALUMNO"/></Link>
+            <div className="Pantalla">
+               <div className="Tabla">
+
+
+                  {this.state.error ? <div>Error: {this.state.error.message}</div> : null}
+                  {this.state.mounted ? null : <div> Cargando alumnos... </div>}
+                  {this.showTable()}
                </div>
-            </div>}
+               <div>
+               </div>
+               <div className="Body">
+                  <div className="botonesContainer">
+                     {/* <Link to="/AdminAlumPrincipal"><input id="modificarAlumno" type="button" className="boton3" value="MODIFICAR ALUMNO" /></Link>
+                  <Link to="/AdminAlumPrincipal"><input id="eliminarAlumno" type="button" className="boton3" value="ELIMINAR ALUMNO" /></Link> */}
+
+                     <Link to="/Register"><input id="aniadirAlumno" type="button" className="boton2" value="AÑADIR ALUMNO" /></Link>
+
+                  </div>
+               </div></div>
          </div>
       )
    }

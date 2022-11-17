@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import Header from "./Header"
 import { SERVER_HOST } from "../config/global_constants"
 import "../css/ListaTareas.css"
-import PropTypes from 'prop-types';
+/* import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { alpha } from '@mui/material/styles';
@@ -25,7 +25,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import { visuallyHidden } from '@mui/utils';
+import { visuallyHidden } from '@mui/utils'; */
 
 export default class ListaTareas extends Component {
    constructor(props) {
