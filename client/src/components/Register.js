@@ -132,13 +132,9 @@ export default class Register extends Component {
         //creamos un objeto 
         return {
             usuario: true,
-            correo: true,
             contra: true,
             confirmPassword: true,
             nombre: true,
-            dni: true,
-            telefono: true,
-            fechaNacimineto: true,
             foto: true
         }
 
@@ -269,23 +265,6 @@ export default class Register extends Component {
                                 name="nombre" placeholder="Nombre Completo"
                                 onChange={this.handleChange} />
                         </div>
-                        {formInputsState.nombre ? "" : empty}
-                        <div className="item-container">
-                            <input className={"form-control" ? "" : "error"}
-                                id="email"
-                                type="text"
-                                name="correo" placeholder="Correo electrónico"
-                                onChange={this.handleChange} />
-                        </div>
-                        {formInputsState.correo ? "" : emailErrorMessage}
-                        <div className="item-container">
-                            <input className={"form-control" ? "" : "error"}
-                                id="phoneNumber"
-                                type="text"
-                                name="telefono" placeholder="Teléfono"
-                                onChange={this.handleChange} />
-                        </div>
-                        {formInputsState.dni ? "" : empty}
                         {/* Esto solo se muestran si es un estudiante */}
                         {this.state.userType === 'student' ?
                             <div className="studentItems">
