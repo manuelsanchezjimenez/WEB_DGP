@@ -29,8 +29,13 @@ const addActividad = (req, res, next) => {
     actividadModel.create(actividad, (err, data) => {
         if (err) {
             // return next(createError(400, `Error on actividad creation.`))
+<<<<<<< Updated upstream
             return next(err)
         } else {
+=======
+            return next(error)
+        }else{
+>>>>>>> Stashed changes
             res.json(data)
         }
 

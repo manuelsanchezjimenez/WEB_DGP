@@ -346,7 +346,7 @@ export default function EnhancedTable() {
 }
 */
 
-const AlumnRow = ({nombre, Usuario, curso}) =>{
+const AlumnRow = ({ nombre, Usuario, curso }) => {
    return (
       <tr>
          <td>{`${nombre}`}</td>
@@ -356,7 +356,7 @@ const AlumnRow = ({nombre, Usuario, curso}) =>{
    )
 }
 
-export default class ListaAlumnos extends Component{
+export default class ListaAlumnos extends Component {
    constructor(props) {
       super(props);
       this.state = {
@@ -460,12 +460,15 @@ export default class ListaAlumnos extends Component{
                         <th>
                            Curso
                         </th>
+                        <th>
+                           Moficacion
+                        </th>
                      </tr>
                      {this.state.muestraAlumnos.map(item => (
                         <AlumnRow
                            nombre={item.nombre}
                            Usuario={item.Usuario}
-                           curso = {item.curso}
+                           curso={item.curso}
                            key={item.key}
                            
                         />
@@ -488,9 +491,15 @@ export default class ListaAlumnos extends Component{
                   {this.state.error ? <div>Error: {this.state.error.message}</div> : null}
                   {this.state.mounted ? null : <div> Cargando alumnos... </div>}
                   {this.showTable()}
+<<<<<<< Updated upstream
                </div>
                <div>
                </div>
+=======
+               </div>
+               <div>
+               </div>
+>>>>>>> Stashed changes
                <div className="Body">
                   <div className="botonesContainer">
                      {/* <Link to="/AdminAlumPrincipal"><input id="modificarAlumno" type="button" className="boton3" value="MODIFICAR ALUMNO" /></Link>
@@ -501,6 +510,7 @@ export default class ListaAlumnos extends Component{
                   </div>
                </div></div>
          </div>
+
       )
    }
 
