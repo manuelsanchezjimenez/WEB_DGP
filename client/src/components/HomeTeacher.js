@@ -15,5 +15,9 @@ export default class HomeTeacher extends Component
         }
     }
 
+    render(){
+        return(<div></div>)
+    }
+
 
 }

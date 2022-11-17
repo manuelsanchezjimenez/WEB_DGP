@@ -292,6 +292,21 @@ const findAllStudent = (req, res, next) =>
     })
 }
 
+const getAlumnos = (req, res, next) => 
+{
+    studentModel.find({}, (error, data) =>{
+        if(error){
+            console.log(error)
+        }else{
+            if(data){
+                res.json(data);
+                return res;
+            }else
+                return next(createError(400, "Student not found."))
+        } 
+    })
+
+}
 
 const updateStudentProfile = (req,res,next) =>{
 
@@ -383,6 +398,7 @@ router.put(`/Users/profile/teacher`, checkUserLogged, updateTeacherProfile)
 router.get(`/Users/teacher/:id`, findTeacher)
 router.get(`/Users/student/:id`, findStudent)
 router.get(`/Users/student/`, findAllStudent)
+router.get(`/Users/getAll`, getAlumnos)
 router.get(`/Users/admin`, findAdmin)
 
 module.exports = router 

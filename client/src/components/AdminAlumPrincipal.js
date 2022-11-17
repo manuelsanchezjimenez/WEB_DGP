@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom'
 import Header from "./Header"
 import { SERVER_HOST } from "../config/global_constants"
 import "../css/AdminAlumPrincipal.css"
-import PropTypes from 'prop-types';
+
+/*import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { alpha } from '@mui/material/styles';
@@ -27,18 +28,18 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { visuallyHidden } from '@mui/utils';
 
-function createData(Usuario, Nombre, Apellidos, Curso,) {
+function createData(Usuario, Nombre, Usuario, Curso,) {
    return {
       Usuario,
       Nombre,
-      Apellidos,
+      Usuario,
       Curso,
    };
 }
 
 const rows = [
-   createData('12345678AZ', 'Manuel','Sanchez Jimenez' ,4),
-   createData('123456788B', 'Jose','Sanchez Jimenez' ,4),
+   createData('12345678AZ', 'Alumno1','prueba prueba' ,4),
+   createData('123456788B', 'Alumno2','prueba2 prueba2' ,4),
    
 ];
 
@@ -87,10 +88,10 @@ const headCells = [
       label: 'Nombre',
    },
    {
-      id: 'Apellidos',
+      id: 'Usuario',
       numeric: true,
       disablePadding: false,
-      label: 'Apellidos',
+      label: 'Usuario',
    },
    {
       id: 'Curso',
@@ -275,7 +276,7 @@ export default function EnhancedTable() {
                         />
                         <TableBody>
                            {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                 rows.slice().sort(getComparator(order, orderBy)) */}
+                 rows.slice().sort(getComparator(order, orderBy)) }
                            {stableSort(rows, getComparator(order, orderBy))
                               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                               .map((row, index) => {
@@ -301,7 +302,7 @@ export default function EnhancedTable() {
                                           {row.Usuario}
                                        </TableCell>
                                        <TableCell align="right">{row.Nombre}</TableCell>
-                                       <TableCell align="right">{row.Apellidos}</TableCell>
+                                       <TableCell align="right">{row.Usuario}</TableCell>
                                        <TableCell align="right">{row.Curso}</TableCell>
                                        <TableCell align="right"><Link to="/AdminAlumPrincipal"><input id="modificarAlumno" type="button" className="boton3" value="MODIFICAR ALUMNO"/></Link></TableCell>
                                        <TableCell align="right"><Link to="/AdminAlumPrincipal"><input id="eliminarAlumno" type="button" className="boton3" value="ELIMINAR ALUMNO"/></Link></TableCell>
@@ -342,4 +343,160 @@ export default function EnhancedTable() {
       </div>
 
    );
+}
+*/
+
+const AlumnRow = ({nombre, Usuario, curso}) =>{
+   return (
+      <tr>
+         <td>{`${nombre}`}</td>
+         <td>{`${Usuario}`}</td>
+         <td>{`${curso}`}</td>
+      </tr>
+   )
+}
+
+export default class ListaAlumnos extends Component{
+   constructor(props) {
+      super(props);
+      this.state = {
+         error: null,
+         mounted: false,
+         search: "",
+         alumnos: [],
+         muestraAlumnos: []
+      };
+      this.showTable = this.showTable.bind(this);
+      this.sortResults = this.sortResults.bind(this);
+   }
+   componentDidMount() {
+      axios.get(
+         `${SERVER_HOST}/Users/getAll`,
+         { headers: { "Content-type": "multipart/form-data" } })
+         .then(res => {
+            if (res.data) {
+               if (res.data.errorMessage) {
+                  alert("No se han podido tomar los datos " + res.data.errorMessage);
+                  console.log(res.data.errorMessage)
+                  this.setState({ error: res.data.errorMessage });
+               } else {
+                  let getData = JSON.parse(JSON.stringify(res.data).toString());
+                  let saveData = [];
+                  for (let i = 0; i < getData.length; i++) {
+                     saveData.push({ nombre: getData[i].nombre, Usuario: getData[i].usuario, curso: getData[i].clase, key: getData[i]._id });
+                  }
+                  // this.setState({ actividades: tableData, muestraAlumnos: tableData, mounted: true });
+                  this.setState({ alumnos: saveData, muestraAlumnos: saveData, mounted: true });
+               }
+            } else {
+               this.setState({ error: "No se han encontrado alumnos" });
+               console.log("No se han encontrado alumnos")
+            }
+         })
+   }
+   filterResults = (query, results) => {
+      return results.filter(alumno => {
+         const name = alumno.nombre.toLowerCase();
+
+         return name.includes(query);
+      });
+   };
+   sortResults = event => {
+      this.setState(prevState => {
+         const { muestraAlumnos, sortOrder } = prevState;
+         if (sortOrder === "desc") {
+            muestraAlumnos.sort((a, b) => {
+               if (a.nombre > b.nombre) {
+                  return -1;
+               }
+               return a.nombre > b.nombre ? 1 : 0;
+            });
+         } else {
+            muestraAlumnos.sort((a, b) => {
+               if (a.nombre < b.nombre) {
+                  return -1;
+               }
+               return a.nombre < b.nombre ? 1 : 0;
+            });
+         }
+         return {
+            muestraAlumnos,
+            sortOrder: sortOrder === "desc" ? "asc" : "desc"
+         };
+      });
+   };
+   onChange = e => {
+      const query = e.target.value;
+      this.setState(prevState => ({
+         muestraAlumnos:
+            query.length > 0
+               ? this.filterResults(query, prevState.alumnos)
+               : prevState.alumnos
+      }));
+   };
+   showTable() {
+      const pictos = [];
+
+      // for (let i = 0; i < this.state.muestraActividades; i++) {
+      let i = 0;
+      pictos.push(
+         <div key={i++}>
+            <input label="Search" onChange={this.onChange} placeholder="Buscar Alumno..." />
+            <div>
+               <table className="table table-bordered" >
+                  <tbody>
+                     <tr>
+                        <th
+                           style={{ cursor: "pointer" }}
+                           onClick={this.sortResults}
+                           // onClick={() => { this.sortResults() }}
+                           id="name"
+                        >
+                           Nombre
+                        </th>
+                        <th>
+                           Usuario
+                        </th>
+                        <th>
+                           Curso
+                        </th>
+                     </tr>
+                     {this.state.muestraAlumnos.map(item => (
+                        <AlumnRow
+                           nombre={item.nombre}
+                           Usuario={item.Usuario}
+                           curso = {item.curso}
+                           key={item.key}
+                           
+                        />
+                     ))}
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      );
+      return pictos;
+   }
+   render() {
+      return (
+         <div className="web-container">
+            <Header />
+            <h1>Listado de alumnos</h1>
+            {this.state.error ? <div>Error: {this.state.error.message}</div> : null}
+            {this.state.mounted ? null : <div> Cargando alumnos... </div>}
+            {this.showTable()}
+            <div>
+            </div>
+            { <div className="Body">
+               <div className="botonesContainer">
+                 <Link to="/AdminAlumPrincipal"><input id="modificarAlumno" type="button" className="boton3" value="MODIFICAR ALUMNO"/></Link>
+                 <Link to="/AdminAlumPrincipal"><input id="eliminarAlumno" type="button" className="boton3" value="ELIMINAR ALUMNO"/></Link>
+               </div>
+            </div>}
+         </div>
+      )
+   }
+
+
+
 }

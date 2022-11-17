@@ -56,7 +56,7 @@ const addActividad = (req, res, next) =>
     {
         if(error){
             // return next(createError(400, `Error on actividad creation.`))
-            return next(err)
+            return next(error)
         }else{
             res.json(data)
         }
