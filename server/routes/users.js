@@ -341,6 +341,23 @@ const deleteTeacher = (req,res,next) =>{
     })
 }
 
+const deleteImages = (req, res, next) => {
+    let pathArray = __dirname.split('\\')
+    let path = pathArray.splice(-0, pathArray.length - 1).join('\\')
+
+    req.property.images = req.property.images.map((image, index) => {
+        fs.unlink(`${path}\\uploads\\${image.filename}`, (err) => { //Only deletes one image for now
+            if(err)
+                return next(createError(400, `Error on image deleting.`))
+            else{
+                if(index === req.property.images.length - 1){
+                    return next()
+                }
+            }
+        })
+    })
+}
+
 const deleteStudent = (req,res,next) =>{
     var rutaFotos = __dirname.split('/')
         if(rutaFotos.length == 1){
@@ -351,6 +368,13 @@ const deleteStudent = (req,res,next) =>{
             rutaFotos.pop()
             rutaFotos = rutaFotos.join('/')
         }
+    studentModel.findByIdAndRemove({_id: req.params.id}, (err, data) => 
+    {
+        if(err)
+            return next(createError(400, err))
+        if(data)
+            res.json({data: data})
+    })
 }
 
 //Register
@@ -361,7 +385,7 @@ router.post(`/Users/register/admin`, upload.none(), checkUserNotExists, createAd
 //Delete
 router.delete(`/Users/delete/teacher/:id`, checkUserLogged, deleteTeacher)
 //router.delete(`/Users/delete/admin/:id`, checkUserLogged, deleteAdmin)
-//router.delete(`/Users/delete/student/:id`, checkUserLogged, deleteStudent)
+router.delete(`/Users/delete/student/:id`, checkUserLogged, deleteStudent)
 
 //LogIn
 router.post(`/Users/login`, upload.none(), checkUserExists, checkLogIn, logInUser)

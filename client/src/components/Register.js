@@ -14,15 +14,11 @@ export default class Register extends Component {
 
         this.state = {
             usuario: '',
-            correo: '',
             contra: '',
             confirmPassword: '',
             userType: 'student',
             nombre: '',
-            dni: '',
             tipo: 0,
-            telefono: '',
-            fechaNacimineto: '',
             clase: '',
             foto: null,
             tried: false,
@@ -52,29 +48,7 @@ export default class Register extends Component {
             return true
         }
     }
-
-    validateDni() {
-        if (this.state.dni === "") {
-            return false
-        } else {
-            return true
-        }
-    }
-
-    validatTelefono() {
-        if (this.state.telefono === "") {
-            return false
-        } else {
-            return true
-        }
-    }
-
-    validateCorreo() {
-        //this is from internet
-        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(String(this.state.correo).toLowerCase());
-    }
-
+    
     validateContra() {
         if(this.state.contra === '')
             return false
@@ -93,38 +67,14 @@ export default class Register extends Component {
             return false
     }
 
-    validateTelefono(){
-        if(this.state.telefono === '')
-            return false
-        else
-            return true
-    }
-
-    validateFechaNacimiento() {
-        var parts = this.state.fechaNacimineto.split('/')
-        var date = new Date(parts[2], parts[1] - 1, parts[0])
-        return date instanceof Date && !isNaN(date.getTime())
-    }
-
-    validateFoto(){
-        if(this.state.foto === null)
-            return false
-        else
-            return true
-    }
 
     validation() {
         //creamos un objeto 
         return {
             usuario: this.validateUsuario(),
-            correo: this.validateCorreo(),
             contra: this.validateContra(),
             confirmPassword: this.validateConfirmPassword(),
             nombre: this.validateNombre(),
-            dni: this.validateDni(),
-            telefono: this.validateTelefono(),
-            fechaNacimineto: this.validateFechaNacimiento(),
-            foto: this.validateFoto()
         }
     }
 
@@ -152,17 +102,9 @@ export default class Register extends Component {
 
     addUser = e => {
 
-        
-
         //clientSide validation
-        const mailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|("."))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         const formInputsState = this.validation()
-        const inputsAreAllValid = Object.keys(formInputsState).every(index => formInputsState[index])
-
-        //Fecha
-        var parts = this.state.fechaNacimineto.split('/')
-        var date = new Date(parts[2], parts[1] - 1, parts[0])
-        console.log(date)        
+        const inputsAreAllValid = Object.keys(formInputsState).every(index => formInputsState[index])      
 
 
         if(!inputsAreAllValid){
@@ -175,15 +117,12 @@ export default class Register extends Component {
             //we create the formData that will be passed to the server
             var bodyFormData = new FormData();
             bodyFormData.append('usuario', this.state.usuario)
-            bodyFormData.append('correo', this.state.correo)
-            bodyFormData.append('dni', this.state.dni)
-            bodyFormData.append('telefono', this.state.telefono)
             bodyFormData.append('contra', encodedPass)
             bodyFormData.append('nombre', this.state.nombre)
-            bodyFormData.append('fechaNacimiento', date)
             bodyFormData.append('clase', this.state.clase)
             bodyFormData.append('tipo', this.state.tipo)
             bodyFormData.append('foto', fotos[0])
+            console.log(bodyFormData.entries)
 
             axios({
                 method: "post",
@@ -193,7 +132,7 @@ export default class Register extends Component {
             }).then(res => {
                 //handle success
 
-
+                console.log("bien")
                 this.setState({ redirect: !this.state.redirect })
             }).catch(err => {
                 //handle error
@@ -212,11 +151,9 @@ export default class Register extends Component {
         let formInputsState
 
         //errors
-        let emailErrorMessage = <div className="error">Introduce un email valido</div>
         let passwordConfirmErrorMessge = <div className="error">Las contraseñas no coinciden</div>
         let empty = <div className="error">Rellene el campo</div>
         let emptyFile = <div className="error">Suba un archivo</div>
-        let invalidDate = <div className="error">Formato: dd/mm/aaaa</div>
 
         {this.state.tried? 
             formInputsState = this.validation()
@@ -264,6 +201,18 @@ export default class Register extends Component {
                                 type="text"
                                 name="nombre" placeholder="Nombre Completo"
                                 onChange={this.handleChange} />
+                        </div>
+                        <div className="item-container">
+                            <label className="user-type--labeled">
+                                <p>Tipo Usuario:</p>
+                                <div className="customSelect">
+                                    <select className="form-control" name="userType" defaultValue="student" onChange={this.handleChange}>
+                                        <option value="teacher">Profesor</option>
+                                        <option value="admin">Administrador</option>
+                                        <option value="student">Estudiante</option>
+                                    </select>
+                                </div>
+                            </label>
                         </div>
                         {/* Esto solo se muestran si es un estudiante */}
                         {this.state.userType === 'student' ?
