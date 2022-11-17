@@ -126,6 +126,7 @@ const createStudent = (req, res, next) =>
             profesor: null, 
             actividad: null,
             clase: req.body.clase,
+            tipoLetra: req.body.tipoLetra,
             foto: {filename:`${req.file.filename}`}
         }
 

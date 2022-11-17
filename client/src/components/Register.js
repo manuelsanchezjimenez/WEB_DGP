@@ -19,6 +19,7 @@ export default class Register extends Component {
             userType: 'student',
             nombre: '',
             tipo: 0,
+            tipoLetra: 0,
             clase: '',
             foto: null,
             tried: false,
@@ -112,7 +113,8 @@ export default class Register extends Component {
         } else {
             //we encode the pass for cases with especial character
             let encodedPass = encodeURIComponent(this.state.contra)
-            const fotos = [...this.state.foto]
+            let fotos = null
+            
 
             //we create the formData that will be passed to the server
             var bodyFormData = new FormData();
@@ -121,8 +123,11 @@ export default class Register extends Component {
             bodyFormData.append('nombre', this.state.nombre)
             bodyFormData.append('clase', this.state.clase)
             bodyFormData.append('tipo', this.state.tipo)
-            bodyFormData.append('foto', fotos[0])
-            console.log(bodyFormData.entries)
+            bodyFormData.append('tipoLetra', this.state.tipoLetra)
+            if(this.state.foto != null){
+                fotos = [...this.state.foto]
+                bodyFormData.append('foto', fotos[0])
+            }
 
             axios({
                 method: "post",
@@ -222,6 +227,17 @@ export default class Register extends Component {
                                         <p>Tipo:</p>
                                         <div className="customSelect">
                                             <select className="form-control" name="tipo" defaultValue="0" onChange={this.handleChange}>
+                                                <option value="1">Pictogramas + Texto</option>
+                                                <option value="0">Texto</option>
+                                            </select>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div className="item-container">
+                                    <label className="user-type--labeled">
+                                        <p>Tipo Letra:</p>
+                                        <div className="customSelect">
+                                            <select className="form-control" name="tipoLetra" defaultValue="0" onChange={this.handleChange}>
                                                 <option value="1">Pictogramas + Texto</option>
                                                 <option value="0">Texto</option>
                                             </select>
