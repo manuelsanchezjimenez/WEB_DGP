@@ -147,7 +147,7 @@ export default class ListaAlumnos extends Component {
                            Usuario={item.Usuario}
                            curso={item.curso}
                            key={item.key}
-                           modificacion={<Link className="boton2" to={{pathname: `ConModTeacher/${this.state.id}`}}> Modificar </Link>} 
+                           modificacion={<Link className="boton2" to={{pathname: `ConModStudent/${item.key}`}}> Modificar </Link>} 
                         />
                         
                      ))}

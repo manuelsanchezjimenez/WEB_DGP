@@ -17,6 +17,7 @@ import ListaActividades from "./components/ListaActividades"
 import ModActividad from "./components/ModActividad"
 import ListaTareas from "./components/ListaTareas"
 import Register from "./components/Register"
+import ConModStudent from "./components/ConModStudent"
 
 
 
@@ -30,6 +31,7 @@ export default class App extends Component {
                     <LoggedInRouteTeacher exact path="/LogOut" component={LogOut} />
                     <LoggedInRouteTeacher exact path="/HomeTeacher" component={HomeTeacher} />
                     <LoggedInRouteAdmin exact path="/HomeAdmin" component={HomeAdmin} />
+                    <LoggedInRouteTeacher exact path="/ConModStudent/:id" component={ConModStudent} />
                     <Route exact path="/AdminAlumPrincipal" component={AdminAlumPrincipal} />
                     <Route exact path="/Register" component={Register} />
                     <Route exact path="/AddActividad" component={AddActividad} />

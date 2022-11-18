@@ -5,7 +5,7 @@ import {Redirect, Link} from 'react-router-dom'
 
 import axios from "axios"
 import {SERVER_HOST} from "../config/global_constants"
-//import "../css/ConModStudent.css"
+import "../css/ConModStudent.css"
 
 
 
@@ -19,9 +19,9 @@ export default class ConModStudent extends Component
             usuario: '',
             id_t: '',
             contra: '',
-            clase: null,
-            tipo: null,
-            tipoLetra: null,
+            clase: '',
+            tipo: '',
+            tipoLetra: '',
             foto: null,
             redirect: false,
             mounted: false
@@ -60,8 +60,9 @@ export default class ConModStudent extends Component
             if(res.data)
                 if (res.data.errorMessage)
                     console.log(res.data.errorMessage)
-                else
+                else{
                     this.setState({redirect: true})
+                }
         }).catch(error =>{
             console.log("err:" + error.response.data)
         })  
@@ -101,66 +102,71 @@ export default class ConModStudent extends Component
             {this.state.redirect ? <Redirect to="/HomeAdmin"/> : null}
                 <div className="content-container">
                     <h1>Consulta y Modificación: {this.state.nombre}</h1>
-                    <div className="profile"> 
-                        <div className="item-container">
-                            <div className="sub-item-container">
-                                <input className={"form-control" ? "" : "error"}
-                                    id="username"
-                                    type="text"
-                                    name="usuario" placeholder="Usuario"
-                                    value={this.state.usuario}
-                                    onChange={this.handleChange} />
+                    {this.state.mounted ? 
+                        <div className="profile"> 
+                        
+                            <div className="item-container">
+                                <div className="sub-item-container">
+                                    <input className={"form-control" ? "" : "error"}
+                                        id="username"
+                                        type="text"
+                                        name="usuario" placeholder="Usuario"
+                                        value={this.state.usuario}
+                                        onChange={this.handleChange} />
+                                </div>
+
+                                <div className="sub-item-container">
+                                    <input className={"form-control" ? "" : "error"}
+                                        id="password"
+                                        type="password"
+                                        name="contra" placeholder="Contraseña"
+                                        value={this.state.contra}
+                                        onChange={this.handleChange} />
+                                </div>                         
+                            </div>
+                            <div className="item-container">
+                                <div className="sub-item-container">
+                                    <input className={"form-control" ? "" : "error"}
+                                        id="name"
+                                        type="text"
+                                        name="nombre" placeholder="Nombre Completo"
+                                        value={this.state.nombre}
+                                        onChange={this.handleChange} />
+                                </div>
+                                <div className="sub-item-container">
+                                    <input className={"form-control" ? "" : "error"}
+                                        id="clase"
+                                        type="text"
+                                        name="clase" placeholder="Clase"
+                                        value={this.state.clase}
+                                        onChange={this.handleChange} />
+                                </div>
+                            </div>
+                            <div className="item-container">
+                                <div className="sub-item-container">
+                                    <input className={"form-control" ? "" : "error"}
+                                        id="tipo"
+                                        type="text"
+                                        name="tipo" placeholder="Tipo texto"
+                                        value={this.state.tipo}
+                                        onChange={this.handleChange} />
+                                </div>
+                                <div className="sub-item-container">
+                                    <input className={"form-control" ? "" : "error"}
+                                        id="tipoLetra"
+                                        type="text"
+                                        name="tipoLetra" placeholder="Tipo letra"
+                                        value={this.state.tipoLetra}
+                                        onChange={this.handleChange} />
+                                </div>
                             </div>
 
-                            <div className="sub-item-container">
-                                <input className={"form-control" ? "" : "error"}
-                                    id="password"
-                                    type="password"
-                                    name="contra" placeholder="Contraseña"
-                                    value={this.state.contra}
-                                    onChange={this.handleChange} />
-                            </div>                         
+                            <div id="buttons">
+                                <input type="button" className="green-button" value="Modificar Datos" disabled={this.allFilled()} onClick={this.updateProfile}/>
+                                <input type="button" className="red-button" value="Eliminar Alumno" onClick={this.deleteProfile}/>
+                            </div>
                         </div>
-                        <div className="item-container">
-                            <div className="sub-item-container">
-                                <input className={"form-control" ? "" : "error"}
-                                    id="name"
-                                    type="text"
-                                    name="nombre" placeholder="Nombre Completo"
-                                    value={this.state.nombre}
-                                    onChange={this.handleChange} />
-                            </div>
-                            <div className="sub-item-container">
-                                <input className={"form-control" ? "" : "error"}
-                                    id="clase"
-                                    type="text"
-                                    name="clase" placeholder="Clase"
-                                    value={this.state.clase}
-                                    onChange={this.handleChange} />
-                            </div>
-                            <div className="sub-item-container">
-                                <input className={"form-control" ? "" : "error"}
-                                    id="tipo"
-                                    type="text"
-                                    name="tipo" placeholder="Tipo texto"
-                                    value={this.state.tipo}
-                                    onChange={this.handleChange} />
-                            </div>
-                            <div className="sub-item-container">
-                                <input className={"form-control" ? "" : "error"}
-                                    id="tipoLetra"
-                                    type="text"
-                                    name="tipoLetra" placeholder="Tipo letra"
-                                    value={this.state.tipoLetra}
-                                    onChange={this.handleChange} />
-                            </div>
-
-                        </div>
-                        <div id="buttons">
-                            <input type="button" className="green-button" value="Modificar Datos" disabled={this.allFilled()} onClick={this.updateProfile}/>
-                            <input type="button" className="red-button" value="Eliminar Alumno" onClick={this.deleteProfile}/>
-                        </div>
-                    </div>
+                    : null}
                 </div>
             </div>
         )

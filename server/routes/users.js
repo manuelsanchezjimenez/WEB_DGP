@@ -73,7 +73,6 @@ const checkUserNotExists = (req, res, next) =>
                     if(err){
                         return next(err)
                     }
-                    console.log(data)
                     return next(createError(400, "El usuario ya existe como admin."))
                 }
             })
@@ -250,13 +249,12 @@ const findTeacher = (req, res, next) =>
 
 const findStudent = (req, res, next) =>
 {
-    studentModel.findOne({usuario: req.body.usuario}, (error, data) =>{
+    studentModel.findOne({_id: req.params.id}, (error, data) =>{
         if(error){
             console.log(error)
         }else{
             if(data){
-                req.user = data
-                return next()
+                res.json({usuario: data})
             }else
                 return next(createError(400, "Student not found."))
         } 
@@ -296,10 +294,11 @@ const findAllStudents = (req, res, next) =>
 const updateStudentProfile = (req,res,next) =>{
 
     var usuario
-    studentModel.findOneAndUpdate({_id: req.body._id}, {usuario: req.body.usuario, contra:req.body.contra, nombre:req.body.nombre, tipo: req.body.tipo, profesor: req.body.profesor, tipoLetra: req.body.tipoLetra}, (err, data) => 
+    studentModel.findOneAndUpdate({_id: req.body.id}, {usuario: req.body.usuario, contra:req.body.contra, nombre:req.body.nombre, tipo: req.body.tipo, profesor: req.body.profesor, tipoLetra: req.body.tipoLetra, clase: req.body.clase},{ returnDocument: 'after' }, (err, data) => 
         {
-            if(err)
+            if(err){
                 return next(createError(400, err))
+            }
             if(data)
                 usuario = data
         })
