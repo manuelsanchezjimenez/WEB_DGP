@@ -25,7 +25,7 @@
         "urlencode": "^1.1.0"
     },
     "scripts": {
-        "//Comentario si falla npm start, poner la siguiente línea como": "react-scripts --openssl-legacy-provider start",
+        "//Comentario si falla npm start, añadir/quitar las opciones en la línea de abajo": " --openssl-legacy-provider ",
         "start": "react-scripts --openssl-legacy-provider start",
         "build": "react-scripts build",
         "test": "react-scripts test",
