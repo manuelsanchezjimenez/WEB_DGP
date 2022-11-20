@@ -16,6 +16,7 @@ import AddActividad from "./components/AddActividad"
 import ListaActividades from "./components/ListaActividades"
 import ModActividad from "./components/ModActividad"
 import ListaTareas from "./components/ListaTareas"
+import AddTareaAct from "./components/AddTareaAct"
 import Register from "./components/Register"
 import ConModStudent from "./components/ConModStudent"
 
@@ -34,10 +35,11 @@ export default class App extends Component {
                     <LoggedInRouteTeacher exact path="/ConModStudent/:id" component={ConModStudent} />
                     <Route exact path="/AdminAlumPrincipal" component={AdminAlumPrincipal} />
                     <Route exact path="/Register" component={Register} />
+                    <Route exact path="/ListaActividades" component={ListaActividades} />
                     <Route exact path="/AddActividad" component={AddActividad} />
                     <Route exact path="/ModActividad" component={ModActividad} />
-                    <Route exact path="/ListaActividades" component={ListaActividades} />
                     <Route exact path="/ListaTareas" component={ListaTareas} />
+                    <Route exact path="/AddTareaAct" component={AddTareaAct} />
                     <Route path="*" component={() => <h3>URL invalida. Esta página web no existe</h3>} />
                 </Switch>
             </BrowserRouter>

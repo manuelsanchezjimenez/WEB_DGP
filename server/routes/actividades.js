@@ -38,7 +38,7 @@ const addActividad = (req, res, next) => {
 }
 
 const getActividades = (req, res, next) => {
-    actividadModel.find({}, (err, data) => {
+    actividadModel.find({}, { descripcion: 0, enlaceVideo: 0, enlaceAudio: 0 }, (err, data) => {
         if (err) {
             console.log(err)
         } else {
@@ -132,6 +132,6 @@ router.get(`/actividades/findByID/:id`, findIDActividad)
 router.get(`/actividades/findByName/:id`, findNameActividad)
 router.delete(`/actividades/delete/:id`, deleteAct)
 router.put(`/actividades/update`, updateActividad)
-router.post(`/actividades/imgAdd`,  upload.none(), ImgUpp)
+router.post(`/actividades/imgAdd`, upload.none(), ImgUpp)
 
 module.exports = router

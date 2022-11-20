@@ -18,10 +18,15 @@ import "../css/AdminAlumPrincipal.css"
 //    createData('Actividad4', '4'),
 // ];
 
-const ActRow = ({ nombre }) => {
+const ActRow = ({ nombre, modificar }) => {
    return (
       <tr>
          <td>{`${nombre}`}</td>
+         <td>{modificar}</td>
+         {/* <td>
+            {`${id}`}
+         <Link to="/ModActividad/${id}"><input id="modActividad" type="button" value="Modificar" /></Link>
+         </td> */}
       </tr>
    );
 };
@@ -32,7 +37,7 @@ export default class ListaActividades extends Component {
       this.state = {
          error: null,
          mounted: false,
-         search: "",
+         order: "none",
          actividades: [],
          muestraActividades: []
       };
@@ -69,8 +74,7 @@ export default class ListaActividades extends Component {
    filterResults = (query, results) => {
       return results.filter(actividad => {
          const name = actividad.nombre.toLowerCase();
-
-         return name.includes(query);
+         return name.includes(query.toLowerCase());
       });
    };
 
@@ -98,6 +102,11 @@ export default class ListaActividades extends Component {
             sortOrder: sortOrder === "desc" ? "asc" : "desc"
          };
       });
+      // this.setState({order: order === "desc" ? "asc" : "desc"});
+      var newOrder = this.state.order == "desc" ? "asc" : "desc"
+      // this.setState({ order: "desc" ? "asc" : "desc"});
+      this.setState({ order: newOrder });
+
    };
 
    onChange = e => {
@@ -111,10 +120,10 @@ export default class ListaActividades extends Component {
    };
 
    showTable() {
-      const pictos = [];
+      const unaActividad = [];
       // for (let i = 0; i < this.state.muestraActividades; i++) {
       let i = 0;
-      pictos.push(
+      unaActividad.push(
          <div key={i++}>
             <input label="Search" onChange={this.onChange} placeholder="Buscar Actividad..." />
             <div>
@@ -127,12 +136,13 @@ export default class ListaActividades extends Component {
                            // onClick={() => { this.sortResults() }}
                            id="name"
                         >
-                           Actividades
+                           Actividades {this.state.order == "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
                      </tr>
                      {this.state.muestraActividades.map(item => (
                         <ActRow
                            nombre={item.nombre}
+                           modificar={<Link className="boton2" to={{ pathname: `ModActividad/${item.key}` }}> Modificar </Link>}
                            key={item.key}
                         />
                      ))}
@@ -141,7 +151,7 @@ export default class ListaActividades extends Component {
             </div>
          </div>
       );
-      return pictos;
+      return unaActividad;
    }
 
    render() {
@@ -152,12 +162,10 @@ export default class ListaActividades extends Component {
             {this.state.error ? <div>Error: {this.state.error.message}</div> : null}
             {this.state.mounted ? null : <div> Cargando actividades... </div>}
             {this.showTable()}
-            <div>
-            </div>
             <div className="Body">
                <div className="botonesContainer">
                   <Link to="/AddActividad"><input id="addActividad" type="button" value="AÑADIR ACTIVIDAD" /></Link>
-                  {/* <input id="modificar" type="button" className="" value="MODIFICAR TAREA" /> */}
+                  <Link to="/AddTareaAct"><input id="addTareaAct" type="button" value="ASIGNAR ACTIVIDAD" /></Link>
                   <Link to="/ListaTareas"><input id="toggleATareas" type="button" value="VER TAREAS ASIGNADAS" /></Link>
                </div>
             </div>

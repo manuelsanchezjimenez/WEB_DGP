@@ -22,7 +22,7 @@ export default class ListaAlumnos extends Component {
       this.state = {
          error: null,
          mounted: false,
-         search: "",
+         order: "",
          alumnos: [],
          muestraAlumnos: []
       };
@@ -86,6 +86,8 @@ export default class ListaAlumnos extends Component {
             sortOrder: sortOrder === "desc" ? "asc" : "desc"
          };
       });
+      var newOrder = this.state.order == "desc" ? "asc" : "desc"
+      this.setState({ order: newOrder });
    };
    onChange = e => {
       const query = e.target.value;
@@ -112,11 +114,9 @@ export default class ListaAlumnos extends Component {
   }
 
    showTable() {
-      const pictos = [];
-
-      // for (let i = 0; i < this.state.muestraActividades; i++) {
+      const Alumns = [];
       let i = 0;
-      pictos.push(
+      Alumns.push(
          <div key={i++}>
             <input label="Search" onChange={this.onChange} placeholder="Buscar Alumno..." />
             <div>
@@ -129,7 +129,7 @@ export default class ListaAlumnos extends Component {
                            // onClick={() => { this.sortResults() }}
                            id="name"
                         >
-                           Nombre
+                           Nombre {this.state.order == "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
                         <th>
                            Usuario
@@ -156,7 +156,7 @@ export default class ListaAlumnos extends Component {
             </div>
          </div>
       );
-      return pictos;
+      return Alumns;
    }
    render() {
       return (
