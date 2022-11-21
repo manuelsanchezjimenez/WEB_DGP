@@ -8,6 +8,7 @@ let tareaSchema = new mongoose.Schema(
         fechaFinal: {type: Date, required: true},
         completado: {type: Boolean, required: true},
         alumno: {type: String, required: true},
+        alumnoID: {type: String, required: true},
         type: {type: Number, required: true},
         actividad: {type: String, required: false}
    },

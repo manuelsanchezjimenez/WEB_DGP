@@ -45,26 +45,26 @@ const addTarea = (req, res, next) => {
 
 const addTareaActividad = (req, res, next) => {
     let tarea = new Object()
-    // tarea.nombre = req.body.nombre
-    // tarea.descripcion = req.body.descripcion
     tarea.nombre = "default";
     tarea.descripcion = "default";
-    actividadModel.findOne({ _id: req.body.actividad }, { enlaceVideo: 0, enlaceAudio: 0 }, (err, data) => {
+    var getData;
+    actividadModel.findOne({ _id: req.body.actividad }, { enlaceVideo: 0, enlaceAudio: 0 }, (err, getData) => {
         if (err) {
             console.log(err)
             return next(err)
         } else {
-            if (data) {
-                tarea.nombre = data.nombre;
-                tarea.descripcion = data.descripcion + " " + req.body.adicional;
-            console.log("++Ess: "+data.nombre + "\n Y es: "+data.descripcion+"\n Añadiendo eso de: "+req.body.adicional)
-
-
+            if (getData) {
+                tarea.nombre = getData.nombre;
+                tarea.descripcion = getData.descripcion + " " + req.body.adicional;
+                console.log("++Ess: " + getData.nombre + "\n Y es: " + getData.descripcion + "\n Añadiendo eso de: " + req.body.adicional)
             } else
                 return next(createError(400, "Activity not found."))
         }
     })
+    // tarea.nombre = getData.nombre;
+    // tarea.descripcion = getData.descripcion + " " + req.body.adicional;
     tarea.alumno = req.body.alumno
+    tarea.alumnoID = req.body.alumnoID
     tarea.fechaInicio = req.body.fechaInicio
     tarea.fechaFinal = req.body.fechaFinal
     tarea.completado = false
