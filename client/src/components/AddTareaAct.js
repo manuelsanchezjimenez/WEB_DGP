@@ -74,7 +74,7 @@ export default class AddTareaAct extends Component {
                   }
                   // this.setState({ actividades: tableData, muestraAlumnos: tableData, mounted: true });
 
-                  this.setState({ alumnos: saveData, muestraAlumnos: saveData, mounted: true });
+                  this.setState({ alumnos: saveData, muestraAlumnos: saveData, mountedAlumn: true });
                   console.log(this.state.alumnos[0]);
                }
             } else {
