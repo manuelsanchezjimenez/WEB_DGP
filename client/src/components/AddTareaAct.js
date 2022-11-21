@@ -315,7 +315,7 @@ export default class AddTareaAct extends Component {
          <div className="web-container">
             <Header />
             {this.state.redirectList ? <Redirect to="/ListaTareas" /> : null}
-            <h1>Listado de actividades</h1>
+            <h1>Asignar una actividad</h1>
             {this.state.errorAlumn ? <div>Error en actividades: {this.state.errorAlumn.message}</div> : null}
             {this.state.mountedAlumn ? null : <div> Cargando alumnos... </div>}
             {this.state.errorAct ? <div>Error en alumnos: {this.state.errorAct.message}</div> : null}
