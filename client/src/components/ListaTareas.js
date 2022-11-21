@@ -14,10 +14,18 @@ const TarRow = ({ nombre, fechaInicio, fechaFinal, completado, alumno, type }) =
       <tr>
          <td>{`${alumno}`}</td>
          <td>{`${nombre}`}</td>
+         {/* <td>{fechaformat( fechaInicio)}</td> */}
+         {/* <td>
+
+         <fechaformat
+                           dateTime={fechaInicio}
+            
+                        />
+         </td> */}
          <td>{`${fechaInicio}`}</td>
          <td>{`${fechaFinal}`}</td>
          <td>{`${type}` === 1 ? "Actividad" : "Comanda"}</td>
-         <td>{`${completado}` === true ? "Sí" : "No"}</td>
+         <td>{`${completado}` === true ? "Completada" : "Sin completar"}</td>
       </tr>
    );
 };
@@ -28,15 +36,14 @@ export default class ListaTareas extends Component {
       this.state = {
          error: null,
          mounted: false,
-         order: "none",
+         order: [],
          tareas: [],
          muestraTareas: []
       };
       this.showTable = this.showTable.bind(this);
-      this.sortResults = this.sortResults.bind(this);
       this.sorting = this.sorting.bind(this);
+      this.fechaformat = this.fechaformat.bind(this);
    }
-
 
    componentDidMount() {
       axios.get(
@@ -68,9 +75,9 @@ export default class ListaTareas extends Component {
          const name = tarea.nombre.toLowerCase();
          const fechIni = tarea.fechaInicio.toLowerCase();
          const fechFin = tarea.fechaFinal.toLowerCase();
-         const comp = tarea.completado.toLowerCase();
+         const comp = (tarea.completado === true ? "Completada" : "Sin completar").toLowerCase();
          const alumn = tarea.alumno.toLowerCase();
-         const type = tarea.type.toLowerCase();
+         const type = (tarea.type === 1 ? "Actividad" : "Comanda").toLowerCase();
          return name.includes(query.toLowerCase())
             || fechIni.includes(query.toLowerCase())
             || fechFin.includes(query.toLowerCase())
@@ -81,34 +88,6 @@ export default class ListaTareas extends Component {
       });
    };
 
-   sortResults = event => {
-      this.setState(prevState => {
-         const { muestraTareas, sortOrder } = prevState;
-         if (sortOrder === "desc") {
-            muestraTareas.sort((a, b) => {
-               if (a.nombre > b.nombre) {
-                  return -1;
-               }
-               return a.nombre > b.nombre ? 1 : 0;
-            });
-         } else {
-            muestraTareas.sort((a, b) => {
-               if (a.nombre < b.nombre) {
-                  return -1;
-               }
-               return a.nombre < b.nombre ? 1 : 0;
-            });
-         }
-         return {
-            muestraTareas,
-            sortOrder: sortOrder === "desc" ? "asc" : "desc"
-         };
-      });
-      // this.setState({order: order === "desc" ? "asc" : "desc"});
-      var newOrder = this.state.order === "desc" ? "asc" : "desc"
-      // this.setState({ order: "desc" ? "asc" : "desc"});
-      this.setState({ order: newOrder });
-   };
    sorting = (col) => {
       this.setState(prevState => {
          const { muestraTareas, sortOrder } = prevState;
@@ -132,33 +111,10 @@ export default class ListaTareas extends Component {
             sortOrder: sortOrder === "desc" ? "asc" : "desc"
          };
       });
-      // this.setState({order: order === "desc" ? "asc" : "desc"});
-      // var newOrder = this.state.order == "desc" ? "asc" : "desc"
-      // this.setState({ order: "desc" ? "asc" : "desc"});
-      // this.setState({ order: newOrder });
+      var newOrder = this.state.order[col] === "desc" ? "asc" : "desc"
+      let copyOrder = { [col]: newOrder };
+      this.setState({ order: copyOrder });
    }
-   // sorting = (col) => {
-   //    if (order === 'asc') {
-   //       const sorted = {
-   //          ...data, ["results"]: data.results.sort((a, b) =>
-   //             a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
-   //          )
-   //       }
-   //       setData(sorted);
-   //       setOrder('desc')
-   //    }
-   //    if (order === 'desc') {
-
-   //       const sorted = {
-   //          // ...data, ["result"]: data.results.sort((a, b) =>
-   //          ...data, ["result"]: data.results.sort((a, b) =>
-   //             a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1
-   //          )
-   //       }
-   //       setData(sorted);
-   //       setOrder('asc')
-   //    }
-   // }
 
    onChange = e => {
       const query = e.target.value;
@@ -170,9 +126,18 @@ export default class ListaTareas extends Component {
       }));
    };
 
+   fechaformat(dateTime) {
+      var date = new Date(dateTime);
+      var fechaFormateada =
+         ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + 
+         '/' + ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) +
+         '/' + date.getFullYear() +
+         ", " + ((date.getHours() > 9) ? date.getHours() : ('0' + date.getHours())) +
+         ":" + ((date.getMinutes() > 9) ? date.getMinutes() : ('0' + date.getMinutes()));
+      return (fechaFormateada);
+   }
    showTable() {
       const unaTarea = [];
-      // for (let i = 0; i < this.state.muestraTareas; i++) {
       let i = 0;
       unaTarea.push(
          <div key={i++}>
@@ -181,62 +146,56 @@ export default class ListaTareas extends Component {
                <table className="table table-bordered" >
                   <tbody>
                      <tr>
-                        {/* <th
-                           style={{ cursor: "pointer" }}
-                           onClick={this.sortResults}
-                           // onClick={() => { this.sortResults() }}
-                           id="name"
-                        >
-                           aparte {this.state.order === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
-                        </th> */}
                         <th
                            style={{ cursor: "pointer" }}
                            // onClick={() => { this.sortResults() }}
                            id="name"
-                           onClick={() => this.sorting("alumno")}>
-                           Alumno
+                           onClick={() => { this.sorting("alumno") }}>
+                           Alumno {!this.state.order.alumno ? null : this.state.order.alumno === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
                         <th
                            style={{ cursor: "pointer" }}
                            // onClick={() => { this.sortResults() }}
                            id="name"
                            onClick={() => this.sorting("nombre")}>
-                           Tarea
+                           Tarea {!this.state.order.nombre ? null : this.state.order.nombre === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
                         <th
                            style={{ cursor: "pointer" }}
                            // onClick={() => { this.sortResults() }}
                            id="name"
                            onClick={() => this.sorting("fechaInicio")}>
-                           Fecha de inicio
+                           Fecha de inicio {!this.state.order.fechaInicio ? null : this.state.order.fechaInicio === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
                         <th
                            style={{ cursor: "pointer" }}
                            // onClick={() => { this.sortResults() }}
                            id="name"
                            onClick={() => this.sorting("fechaFinal")}>
-                           Fecha final
+                           Fecha final {!this.state.order.fechaFinal ? null : this.state.order.fechaFinal === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
                         <th
                            style={{ cursor: "pointer" }}
                            // onClick={() => { this.sortResults() }}
                            id="name"
                            onClick={() => this.sorting("type")}>
-                           Tipo
+                           Tipo {!this.state.order.type ? null : this.state.order.type === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
                         <th
                            style={{ cursor: "pointer" }}
                            // onClick={() => { this.sortResults() }}
                            id="name"
                            onClick={() => this.sorting("completado")}>
-                           Completado
+                           Completado {!this.state.order.completado ? null : this.state.order.completado === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
                      </tr>
                      {this.state.muestraTareas.map(item => (
                         <TarRow
                            nombre={item.nombre}
-                           fechaInicio={item.fechaInicio}
-                           fechaFinal={item.fechaFinal}
+                           // fechaInicio={item.fechaInicio}
+                           // fechaFinal={item.fechaFinal}
+                           fechaInicio={this.fechaformat(item.fechaInicio)}
+                           fechaFinal={this.fechaformat(item.fechaFinal)}
                            completado={item.completado}
                            alumno={item.alumno}
                            type={item.type}

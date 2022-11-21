@@ -11,7 +11,7 @@ const AlumnRow = ({ nombre, select }) => {
       <tr>
          <td>{`${nombre}`}</td>
          <td>
-            <input type="radio" value={`${select}`} name="selectAlum" />
+            <input type="radio" value={`${nombre}` + "##SEP##" + `${select}`} name="selectAlum" />
          </td>
       </tr>
    )
@@ -264,8 +264,10 @@ export default class AddTareaAct extends Component {
    handleSubmitData(event) {
       if (this.validate()) {
          var bodyFormData = new FormData();
-         // bodyFormData.append('nombre', this.state.newNameAct)
-         bodyFormData.append('alumno', this.state.selectAlum)
+         let unAlumno = this.state.selectAlum.split('##SEP##');
+         bodyFormData.append('alumno', unAlumno[0])
+         bodyFormData.append('alumnoID', unAlumno[1])
+         // bodyFormData.append('alumno', this.state.selectAlum)
          bodyFormData.append('actividad', this.state.selectAct)
          bodyFormData.append('fechaInicio', this.state.fechaInicio)
          bodyFormData.append('fechaFinal', this.state.fechaFinal)
@@ -312,7 +314,7 @@ export default class AddTareaAct extends Component {
       return (
          <div className="web-container">
             <Header />
-            {/* {this.state.redirectList ? <Redirect to="/ListaTareas" /> : null} */}
+            {this.state.redirectList ? <Redirect to="/ListaTareas" /> : null}
             <h1>Listado de actividades</h1>
             {this.state.errorAlumn ? <div>Error en actividades: {this.state.errorAlumn.message}</div> : null}
             {this.state.mountedAlumn ? null : <div> Cargando alumnos... </div>}
