@@ -144,6 +144,8 @@ export default class AddTareaAct extends Component {
             sortOrder: sortOrder === "desc" ? "asc" : "desc"
          };
       });
+            var newOrder = this.state.orderAlumn == "desc" ? "asc" : "desc"
+            this.setState({ orderAlumn: newOrder });
    };
    sortResultsAct = event => {
       this.setState(prevStateAct => {
@@ -168,9 +170,7 @@ export default class AddTareaAct extends Component {
             sortOrder: sortOrder === "desc" ? "asc" : "desc"
          };
       });
-      // this.setState({orderAct: orderAct === "desc" ? "asc" : "desc"});
       var newOrder = this.state.orderAct == "desc" ? "asc" : "desc"
-      // this.setState({ orderAct: "desc" ? "asc" : "desc"});
       this.setState({ orderAct: newOrder });
 
    };
