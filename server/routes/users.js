@@ -220,13 +220,12 @@ const checkUserLogged = (req, res, next) =>
 
 const findAdmin = (req, res, next) =>
 {
-    adminModel.findOne({usuario: req.body.usuario}, (error, data) =>{
+    adminModel.findOne({_id: req.params.id}, (error, data) =>{
         if(error){
             console.log(error)
         }else{
             if(data){
-                req.user = data
-                return next()
+                res.json({usuario: data})
             }else
                 return next(createError(400, "Admin not found."))
         } 
@@ -341,6 +340,16 @@ const deleteTeacher = (req,res,next) =>{
     })
 }
 
+const deleteAdmin = (req,res,next) =>{
+    adminModel.findByIdAndRemove({_id: req.params.id}, (err, data) => 
+    {
+        if(err)
+            return next(createError(400, err))
+        if(data)
+            res.json({data: data})
+    })
+}
+
 const deleteImages = (req, res, next) => {
     let pathArray = __dirname.split('\\')
     let path = pathArray.splice(-0, pathArray.length - 1).join('\\')
@@ -384,7 +393,7 @@ router.post(`/Users/register/admin`, upload.none(), checkUserNotExists, createAd
 
 //Delete
 router.delete(`/Users/delete/teacher/:id`, checkUserLogged, deleteTeacher)
-//router.delete(`/Users/delete/admin/:id`, checkUserLogged, deleteAdmin)
+router.delete(`/Users/delete/admin/:id`, checkUserLogged, deleteAdmin)
 router.delete(`/Users/delete/student/:id`, checkUserLogged, deleteStudent)
 
 //LogIn
@@ -406,7 +415,6 @@ router.put(`/Users/profile/teacher`, checkUserLogged, updateTeacherProfile)
 router.get(`/Users/teacher/:id`, findTeacher)
 router.get(`/Users/student`, findAllStudents)
 router.get(`/Users/student/:id`, findStudent)
-
-router.get(`/Users/admin`, findAdmin)
+router.get(`/Users/admin/:id`, findAdmin)
 
 module.exports = router 

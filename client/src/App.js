@@ -19,6 +19,8 @@ import ListaTareas from "./components/ListaTareas"
 import AddTareaAct from "./components/AddTareaAct"
 import Register from "./components/Register"
 import ConModStudent from "./components/ConModStudent"
+import ConModTeacher from "./components/ConModTeacher"
+import ConModAdmin from "./components/ConModAdmin"
 
 
 
@@ -32,6 +34,8 @@ export default class App extends Component {
                     <LoggedInRouteTeacher exact path="/LogOut" component={LogOut} />
                     <LoggedInRouteTeacher exact path="/HomeTeacher" component={HomeTeacher} />
                     <LoggedInRouteAdmin exact path="/HomeAdmin" component={HomeAdmin} />
+                    <LoggedInRouteAdmin exact path="/ConModTeacher/:id" component={ConModTeacher} />
+                    <LoggedInRouteAdmin exact path="/ConModAdmin/:id" component={ConModAdmin} />
                     <LoggedInRouteTeacher exact path="/ConModStudent/:id" component={ConModStudent} />
                     <Route exact path="/AdminAlumPrincipal" component={AdminAlumPrincipal} />
                     <Route exact path="/Register" component={Register} />

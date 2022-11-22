@@ -16,6 +16,7 @@ export default class ConModStudent extends Component
 
         this.state = {
             nombre: '',
+            nombreMostrar: '',
             usuario: '',
             id_t: '',
             contra: '',
@@ -37,6 +38,7 @@ export default class ConModStudent extends Component
                     console.log(res.data.errorMessage)  
                 else{
                     this.setState({nombre: res.data.usuario.nombre})
+                    this.setState({nombreMostrar: res.data.usuario.nombre})
                     this.setState({usuario: res.data.usuario.usuario})
                     this.setState({id_t: res.data.usuario._id})
                     this.setState({contra: res.data.usuario.contra})
@@ -101,7 +103,7 @@ export default class ConModStudent extends Component
             <div className="web-container"> 
             {this.state.redirect ? <Redirect to="/HomeAdmin"/> : null}
                 <div className="content-container">
-                    <h1>Consulta y Modificación: {this.state.nombre}</h1>
+                    <h1>Consulta y Modificación: {this.state.nombreMostrar}</h1>
                     {this.state.mounted ? 
                         <div className="profile"> 
                         

@@ -5,9 +5,8 @@ import {Redirect, Link} from 'react-router-dom'
 
 import axios from "axios"
 import {SERVER_HOST} from "../config/global_constants"
-//import "../css/ConModAdmin.css"
+import "../css/ConModAdmin.css"
 
-//<Link className="blue-button" to={{pathname: `ConModTeacher/${this.state.id}`}}> Modify </Link>
 
 
 export default class ConModAdmin extends Component 
@@ -17,6 +16,7 @@ export default class ConModAdmin extends Component
 
         this.state = {
             nombre: '',
+            nombreMostrar: '',
             usuario: '',
             id_t: '',
             contra: '',
@@ -26,7 +26,8 @@ export default class ConModAdmin extends Component
 
     }
     componentDidMount = () =>{
-        axios.get(`${SERVER_HOST}/Users/admin/${this.props.match.params.id}`,{headers:{"authorization":localStorage.token}})
+        //axios.get(`${SERVER_HOST}/Users/admin/${this.props.match.params.id}`,{headers:{"authorization":localStorage.token}})
+        axios.get(`${SERVER_HOST}/Users/admin/63761af96dd49f09705c38b5`,{headers:{"authorization":localStorage.token}})
         .then(res => 
         {     
             if(res.data)
@@ -34,6 +35,7 @@ export default class ConModAdmin extends Component
                     console.log(res.data.errorMessage)  
                 else{
                     this.setState({nombre: res.data.usuario.nombre})
+                    this.setState({nombreMostrar: res.data.usuario.nombre})
                     this.setState({usuario: res.data.usuario.usuario})
                     this.setState({id_t: res.data.usuario._id})
                     this.setState({contra: res.data.usuario.contra})
@@ -94,7 +96,7 @@ export default class ConModAdmin extends Component
             <div className="web-container"> 
             {this.state.redirect ? <Redirect to="/HomeAdmin"/> : null}
                 <div className="content-container">
-                    <h1>Consulta y Modificación: {this.state.nombre}</h1>
+                    <h1>Consulta y Modificación: {this.state.nombreMostrar}</h1>
                     <div className="profile"> 
                         <div className="item-container">
                             <div className="sub-item-container">
