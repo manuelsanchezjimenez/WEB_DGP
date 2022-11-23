@@ -39,7 +39,6 @@ export default class ConModTeacher extends Component
                     this.setState({nombreMostrar: res.data.usuario.nombre})
                     this.setState({usuario: res.data.usuario.usuario})
                     this.setState({id_t: res.data.usuario._id})
-                    this.setState({contra: res.data.usuario.contra})
                     this.setState({mounted: true})
                 }  
 
@@ -86,7 +85,7 @@ export default class ConModTeacher extends Component
     }
 
     allFilled = () =>{
-        if(this.state.nombre !== '' && this.state.usuario !== '' && this.state.contra !== '')
+        if(this.state.nombre !== '' && this.state.usuario !== '')
             return false
         else
             return true
@@ -112,7 +111,7 @@ export default class ConModTeacher extends Component
                             <div className="sub-item-container">
                                 <input className={"form-control" ? "" : "error"}
                                     id="password"
-                                    type="password"
+                                    type="text"
                                     name="contra" placeholder="Contraseña"
                                     value={this.state.contra}
                                     onChange={this.handleChange} />

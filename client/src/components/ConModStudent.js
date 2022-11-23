@@ -41,7 +41,6 @@ export default class ConModStudent extends Component
                     this.setState({nombreMostrar: res.data.usuario.nombre})
                     this.setState({usuario: res.data.usuario.usuario})
                     this.setState({id_t: res.data.usuario._id})
-                    this.setState({contra: res.data.usuario.contra})
                     this.setState({clase: res.data.usuario.clase})
                     this.setState({tipoLetra: res.data.usuario.tipoLetra})
                     this.setState({tipo: res.data.usuario.tipo})
@@ -92,7 +91,7 @@ export default class ConModStudent extends Component
     }
 
     allFilled = () =>{
-        if(this.state.nombre !== '' && this.state.usuario !== '' && this.state.contra !== '')
+        if(this.state.nombre !== '' && this.state.usuario !== '' && this.state.clase !== '' && this.state.tipo !== '' && this.state.tipoLetra !== '')
             return false
         else
             return true
@@ -101,7 +100,7 @@ export default class ConModStudent extends Component
     {   
         return (       
             <div className="web-container"> 
-            {this.state.redirect ? <Redirect to="/HomeAdmin"/> : null}
+            {this.state.redirect ? <Redirect to="/AdminAlumPrincipal"/> : null}
                 <div className="content-container">
                     <h1>Consulta y Modificación: {this.state.nombreMostrar}</h1>
                     {this.state.mounted ? 
@@ -120,7 +119,7 @@ export default class ConModStudent extends Component
                                 <div className="sub-item-container">
                                     <input className={"form-control" ? "" : "error"}
                                         id="password"
-                                        type="password"
+                                        type="text"
                                         name="contra" placeholder="Contraseña"
                                         value={this.state.contra}
                                         onChange={this.handleChange} />

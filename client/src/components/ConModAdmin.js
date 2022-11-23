@@ -27,7 +27,7 @@ export default class ConModAdmin extends Component
     }
     componentDidMount = () =>{
         //axios.get(`${SERVER_HOST}/Users/admin/${this.props.match.params.id}`,{headers:{"authorization":localStorage.token}})
-        axios.get(`${SERVER_HOST}/Users/admin/63761af96dd49f09705c38b5`,{headers:{"authorization":localStorage.token}})
+        axios.get(`${SERVER_HOST}/Users/admin/636144b76fed1771fc05dcc4`,{headers:{"authorization":localStorage.token}})
         .then(res => 
         {     
             if(res.data)
@@ -38,7 +38,6 @@ export default class ConModAdmin extends Component
                     this.setState({nombreMostrar: res.data.usuario.nombre})
                     this.setState({usuario: res.data.usuario.usuario})
                     this.setState({id_t: res.data.usuario._id})
-                    this.setState({contra: res.data.usuario.contra})
                     this.setState({mounted: true})
                 }  
 
@@ -85,7 +84,7 @@ export default class ConModAdmin extends Component
     }
 
     allFilled = () =>{
-        if(this.state.nombre !== '' && this.state.usuario !== '' && this.state.contra !== '')
+        if(this.state.nombre !== '' && this.state.usuario !== '')
             return false
         else
             return true
@@ -111,7 +110,7 @@ export default class ConModAdmin extends Component
                             <div className="sub-item-container">
                                 <input className={"form-control" ? "" : "error"}
                                     id="password"
-                                    type="password"
+                                    type="text"
                                     name="contra" placeholder="Contraseña"
                                     value={this.state.contra}
                                     onChange={this.handleChange} />

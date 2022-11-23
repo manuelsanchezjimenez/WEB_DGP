@@ -293,41 +293,95 @@ const findAllStudents = (req, res, next) =>
 const updateStudentProfile = (req,res,next) =>{
 
     var usuario
-    studentModel.findOneAndUpdate({_id: req.body.id}, {usuario: req.body.usuario, contra:req.body.contra, nombre:req.body.nombre, tipo: req.body.tipo, profesor: req.body.profesor, tipoLetra: req.body.tipoLetra, clase: req.body.clase},{ returnDocument: 'after' }, (err, data) => 
-        {
-            if(err){
-                return next(createError(400, err))
+    if(req.body.contra == ''){
+        studentModel.findOneAndUpdate({_id: req.body.id}, {usuario: req.body.usuario, nombre:req.body.nombre, tipo: req.body.tipo, profesor: req.body.profesor, tipoLetra: req.body.tipoLetra, clase: req.body.clase},{ returnDocument: 'after' }, (err, data) => 
+            {
+                if(err){
+                    return next(createError(400, err))
+                }
+                if(data)
+                    usuario = data
+            })
+        res.json({usuario: usuario})
+    }else{
+        bcrypt.hash(req.body.contra, parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) =>  {
+            if(err)
+            {
+                return next(err)
             }
-            if(data)
-                usuario = data
+            studentModel.findOneAndUpdate({_id: req.body.id}, {usuario: req.body.usuario, nombre:req.body.nombre, contra: hash, tipo: req.body.tipo, profesor: req.body.profesor, tipoLetra: req.body.tipoLetra, clase: req.body.clase},{ returnDocument: 'after' }, (err, data) => 
+                {
+                    if(err){
+                        return next(createError(400, err))
+                    }
+                    if(data)
+                        usuario = data
+                })
+            res.json({usuario: usuario})
         })
-    res.json({usuario: usuario})
+    }
 }
 
 const updateAdminProfile = (req,res,next) =>{
 
     var usuario
-    adminModel.findOneAndUpdate({_id: req.body.id}, {usuario: req.body.usuario, contra:req.body.contra, nombre:req.body.nombre}, (err, data) => 
-        {
+    if(req.body.contra == ''){
+        adminModel.findOneAndUpdate({_id: req.body.id}, {usuario: req.body.usuario, nombre:req.body.nombre},{ returnDocument: 'after' }, (err, data) => 
+            {
+                if(err)
+                    return next(createError(400, err))
+                if(data)
+                    usuario = data
+            })
+        res.json({usuario: usuario})
+    }else{
+        bcrypt.hash(req.body.contra, parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) =>  {
             if(err)
-                return next(createError(400, err))
-            if(data)
-                usuario = data
+            {
+                return next(err)
+            }
+            adminModel.findOneAndUpdate({_id: req.body.id}, {usuario: req.body.usuario, nombre:req.body.nombre, contra: hash},{ returnDocument: 'after' }, (err, data) => 
+                {
+                    if(err){
+                        return next(createError(400, err))
+                    }
+                    if(data)
+                        usuario = data
+                })
+            res.json({usuario: usuario})
         })
-    res.json({usuario: usuario})
+    }
 }
 
 const updateTeacherProfile = (req,res,next) =>{
 
     var usuario
-    teacherModel.findOneAndUpdate({_id: req.body.id}, {usuario: req.body.usuario, contra:req.body.contra, nombre:req.body.nombre}, {returnNewDocument: true}, (err, data) => 
-        {
+    if(req.body.contra == ''){
+        teacherModel.findOneAndUpdate({_id: req.body.id}, {usuario: req.body.usuario, nombre:req.body.nombre}, {returnDocument: 'after'}, (err, data) => 
+            {
+                if(err)
+                    return next(createError(400, err))
+                if(data)
+                    usuario = data 
+            })
+        res.json({usuario: usuario})
+    }else{
+        bcrypt.hash(req.body.contra, parseInt(process.env.PASSWORD_HASH_SALT_ROUNDS), (err, hash) =>  {
             if(err)
-                return next(createError(400, err))
-            if(data)
-                usuario = data 
+            {
+                return next(err)
+            }
+            teacherModel.findOneAndUpdate({_id: req.body.id}, {usuario: req.body.usuario, nombre:req.body.nombre, contra: hash},{ returnDocument: 'after' }, (err, data) => 
+                {
+                    if(err){
+                        return next(createError(400, err))
+                    }
+                    if(data)
+                        usuario = data
+                })
+            res.json({usuario: usuario})
         })
-    res.json({usuario: usuario})
+    }
 }
 
 const deleteTeacher = (req,res,next) =>{
