@@ -238,8 +238,8 @@ export default class Register extends Component {
                                         <p>Tipo Letra:</p>
                                         <div className="customSelect">
                                             <select className="form-control" name="tipoLetra" defaultValue="0" onChange={this.handleChange}>
-                                                <option value="1">Pictogramas + Texto</option>
-                                                <option value="0">Texto</option>
+                                                <option value="1">Minuscula</option>
+                                                <option value="0">Mayuscula</option>
                                             </select>
                                         </div>
                                     </label>

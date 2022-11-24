@@ -245,6 +245,21 @@ const findTeacher = (req, res, next) =>
         } 
     })
 }
+const findAllTeachers = (req, res, next) => 
+{
+    teacherModel.find({}, (error, data) =>{
+        if(error){
+            console.log(error)
+        }else{
+            if(data){
+                res.json(data);
+                return res;
+            }else
+                return next(createError(400, "Teacher not found."))
+        } 
+    })
+
+}
 
 const findStudent = (req, res, next) =>
 {
@@ -468,6 +483,7 @@ router.put(`/Users/profile/teacher`, checkUserLogged, updateTeacherProfile)
 //Getters
 router.get(`/Users/teacher/:id`, findTeacher)
 router.get(`/Users/student`, findAllStudents)
+router.get(`/Users/teacher`, findAllTeachers)
 router.get(`/Users/student/:id`, findStudent)
 router.get(`/Users/admin/:id`, findAdmin)
 

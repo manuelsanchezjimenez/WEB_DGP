@@ -1,16 +1,15 @@
-import axios from "axios"
+/*import axios from "axios"
 import React, { Component } from "react"
 import { Link } from 'react-router-dom'
 import Header from "./Header"
 import { SERVER_HOST } from "../config/global_constants"
 import "../css/AdminAlumPrincipal.css"
 
-const AlumnRow = ({ nombre, Usuario, curso, modificacion}) => {
+const ProfeRow = ({ nombre, Usuario, modificacion}) => {
    return (
       <tr>
          <td>{`${nombre}`}</td>
          <td>{`${Usuario}`}</td>
-         <td>{`${curso}`}</td>
          <td>{modificacion}</td>
       </tr>
    )
@@ -22,16 +21,16 @@ export default class ListaAlumnos extends Component {
       this.state = {
          error: null,
          mounted: false,
-         order: "",
-         alumnos: [],
-         muestraAlumnos: []
+         search: "",
+         profesores: [],
+         muestraProfesores: []
       };
       this.showTable = this.showTable.bind(this);
       this.sortResults = this.sortResults.bind(this);
    }
    componentDidMount() {
       axios.get(
-         `${SERVER_HOST}/Users/student`,
+         `${SERVER_HOST}/Users/teacher`,
          { headers: { "Content-type": "multipart/form-data" } })
          .then(res => {
             if (res.data) {
@@ -43,38 +42,38 @@ export default class ListaAlumnos extends Component {
                   let getData = JSON.parse(JSON.stringify(res.data).toString());
                   let saveData = [];
                   for (let i = 0; i < getData.length; i++) {
-                     saveData.push({ nombre: getData[i].nombre, Usuario: getData[i].usuario, curso: getData[i].clase, key: getData[i]._id });
+                     saveData.push({ nombre: getData[i].nombre, Usuario: getData[i].usuario, key: getData[i]._id });
                   }
-                  // this.setState({ actividades: tableData, muestraAlumnos: tableData, mounted: true });
+                  // this.setState({ actividades: tableData, muestraProfesores: tableData, mounted: true });
                   
-                  this.setState({ alumnos: saveData, muestraAlumnos: saveData, mounted: true });
-                  console.log(this.state.alumnos[0]);
+                  this.setState({ profesores: saveData, muestraProfesores: saveData, mounted: true });
+                  console.log(this.state.profesores[0]);
                }
             } else {
-               this.setState({ error: "No se han encontrado alumnos" });
-               console.log("No se han encontrado alumnos")
+               this.setState({ error: "No se han encontrado profesores" });
+               console.log("No se han encontrado profesores")
             }
          })
    }
    filterResults = (query, results) => {
-      return results.filter(alumno => {
-         const name = alumno.nombre.toLowerCase();
+      return results.filter(profesor => {
+         const name = profesor.nombre.toLowerCase();
 
-         return name.includes(query.toLowerCase());
+         return name.includes(query);
       });
    };
    sortResults = event => {
       this.setState(prevState => {
-         const { muestraAlumnos, sortOrder } = prevState;
+         const { muestraProfesores, sortOrder } = prevState;
          if (sortOrder === "desc") {
-            muestraAlumnos.sort((a, b) => {
+            muestraProfesores.sort((a, b) => {
                if (a.nombre > b.nombre) {
                   return -1;
                }
                return a.nombre > b.nombre ? 1 : 0;
             });
          } else {
-            muestraAlumnos.sort((a, b) => {
+            muestraProfesores.sort((a, b) => {
                if (a.nombre < b.nombre) {
                   return -1;
                }
@@ -82,24 +81,22 @@ export default class ListaAlumnos extends Component {
             });
          }
          return {
-            muestraAlumnos,
+            muestraProfesores,
             sortOrder: sortOrder === "desc" ? "asc" : "desc"
          };
       });
-      var newOrder = this.state.order == "desc" ? "asc" : "desc"
-      this.setState({ order: newOrder });
    };
    onChange = e => {
       const query = e.target.value;
       this.setState(prevState => ({
-         muestraAlumnos:
+         muestraProfesores:
             query.length > 0
-               ? this.filterResults(query, prevState.alumnos)
-               : prevState.alumnos
+               ? this.filterResults(query, prevState.profesores)
+               : prevState.profesores
       }));
    };
    deleteProfile = (id) =>{
-      axios.delete(`${SERVER_HOST}/Users/delete/student/${id}`, {headers:{"authorization":localStorage.token}})
+      axios.delete(`${SERVER_HOST}/Users/delete/teacher/${id}`, {headers:{"authorization":localStorage.token}})
       .then(res => 
       {     
           if(res.data)
@@ -114,9 +111,11 @@ export default class ListaAlumnos extends Component {
   }
 
    showTable() {
-      const Alumns = [];
+      const pictos = [];
+
+      // for (let i = 0; i < this.state.muestraActividades; i++) {
       let i = 0;
-      Alumns.push(
+      pictos.push(
          <div key={i++}>
             <input label="Search" onChange={this.onChange} placeholder="Buscar Alumno..." />
             <div>
@@ -129,25 +128,22 @@ export default class ListaAlumnos extends Component {
                            // onClick={() => { this.sortResults() }}
                            id="name"
                         >
-                           Nombre {this.state.order == "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
+                           Nombre
                         </th>
                         <th>
                            Usuario
                         </th>
                         <th>
-                           Curso
-                        </th>
-                        <th>
                            Moficacion
                         </th>
                      </tr>
-                     {this.state.muestraAlumnos.map(item => (
-                        <AlumnRow
+                     {this.state.muestraProfesores.map(item => (
+                        <ProfeRow
                            nombre={item.nombre}
                            Usuario={item.Usuario}
                            curso={item.curso}
                            key={item.key}
-                           modificacion={<Link className="boton2" to={{pathname: `ConModStudent/${item.key}`}}> Modificar </Link>} 
+                           modificacion={<Link className="boton2" to={{pathname: `ConModTeacher/${item.key}`}}> Modificar </Link>} 
                         />
                         
                      ))}
@@ -156,7 +152,7 @@ export default class ListaAlumnos extends Component {
             </div>
          </div>
       );
-      return Alumns;
+      return pictos;
    }
    render() {
       return (
@@ -167,7 +163,7 @@ export default class ListaAlumnos extends Component {
 
 
                   {this.state.error ? <div>Error: {this.state.error.message}</div> : null}
-                  {this.state.mounted ? null : <div> Cargando alumnos... </div>}
+                  {this.state.mounted ? null : <div> Cargando administradores... </div>}
                   {this.showTable()}
                </div>
                <div>
@@ -175,9 +171,9 @@ export default class ListaAlumnos extends Component {
                <div className="Body">
                   <div className="botonesContainer">
                      {/* <Link to="/AdminAlumPrincipal"><input id="modificarAlumno" type="button" className="boton3" value="MODIFICAR ALUMNO" /></Link>
-                  <Link to="/AdminAlumPrincipal"><input id="eliminarAlumno" type="button" className="boton3" value="ELIMINAR ALUMNO" /></Link> */}
+                  <Link to="/AdminAlumPrincipal"><input id="eliminarAlumno" type="button" className="boton3" value="ELIMINAR ALUMNO" /></Link> *//*}
 
-                     <Link to="/Register"><input id="aniadirAlumno" type="button" className="boton2" value="AÑADIR ALUMNO" /></Link>
+                     <Link to="/Register"><input id="aniadiProfesor" type="button" className="boton2" value="AÑADIR PROFESOR" /></Link>
 
                   </div>
                </div></div>
@@ -189,3 +185,4 @@ export default class ListaAlumnos extends Component {
 
 
 }
+*/

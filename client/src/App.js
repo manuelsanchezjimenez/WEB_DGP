@@ -16,12 +16,12 @@ import AddActividad from "./components/AddActividad"
 import ListaActividades from "./components/ListaActividades"
 import ModActividad from "./components/ModActividad"
 import ListaTareas from "./components/ListaTareas"
-import AddTareaAct from "./components/AddTareaAct"
 import Register from "./components/Register"
 import ConModStudent from "./components/ConModStudent"
 import ConModTeacher from "./components/ConModTeacher"
 import ConModAdmin from "./components/ConModAdmin"
-
+import AdminProfPrincipal from "./components/AdminProfPrincipal"
+import AddTareaAct from "./components/AddTareaAct"
 
 
 export default class App extends Component {
@@ -38,6 +38,7 @@ export default class App extends Component {
                     <LoggedInRouteAdmin exact path="/ConModAdmin/:id" component={ConModAdmin} />
                     <LoggedInRouteTeacher exact path="/ConModStudent/:id" component={ConModStudent} />
                     <Route exact path="/AdminAlumPrincipal" component={AdminAlumPrincipal} />
+                    <Route exact path="/AdminProfPrincipal" component={AdminProfPrincipal} />
                     <Route exact path="/Register" component={Register} />
                     <Route exact path="/ListaActividades" component={ListaActividades} />
                     <Route exact path="/AddActividad" component={AddActividad} />

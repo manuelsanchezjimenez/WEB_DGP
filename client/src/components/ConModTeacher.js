@@ -27,8 +27,8 @@ export default class ConModTeacher extends Component
 
     }
     componentDidMount = () =>{
-        //axios.get(`${SERVER_HOST}/Users/teacher/${this.props.match.params.id}`,{headers:{"authorization":localStorage.token}})
-        axios.get(`${SERVER_HOST}/Users/teacher/63761ae26dd49f09705c38b1`,{headers:{"authorization":localStorage.token}})
+        axios.get(`${SERVER_HOST}/Users/teacher/${this.props.match.params.id}`,{headers:{"authorization":localStorage.token}})
+        //axios.get(`${SERVER_HOST}/Users/teacher/63761ae26dd49f09705c38b1`,{headers:{"authorization":localStorage.token}})
         .then(res => 
         {     
             if(res.data)
