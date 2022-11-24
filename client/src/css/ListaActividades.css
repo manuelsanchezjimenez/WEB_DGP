@@ -1,0 +1,46 @@
+.left{
+    float: left;
+    width: 50%;
+  }
+  
+  .right{
+    float: right;
+    width: 50%;
+    text-align:center;
+    align-items: center;
+  }
+  
+  .botonesContainer{
+    height: 375px;
+  }
+  
+  .buscarActividad{
+    text-align:center;
+    width: 100%;
+  }
+  
+  tbody {
+    height: 750px;
+    display: inline-block;
+    width: 100%;
+    overflow: auto;
+  }
+  
+  .botonesContainer{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-10%);
+  }
+  
+  #addActividad {
+    background-color: #4198d2;
+    color: white;
+  
+    
+  }
+  
+  #toggleATareas{
+    background-color: #4198d2;
+    color:white;
+  }

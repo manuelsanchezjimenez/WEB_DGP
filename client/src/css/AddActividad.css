@@ -15,8 +15,8 @@
     align-items: center;
     background-color: white;
     border-style: groove;
-    border-color: black;
-    border-width: 1px;
+    border-color: #4198d2;
+    border-width: 2px;
     overflow: hidden;
     display: flex;
 
@@ -29,8 +29,8 @@
 
     background-color: white;
     border-style: groove;
-    border-color: red;
-    border-width: 1px;
+    border-color: #4198d2;
+    border-width: 2px;
     overflow: hidden;
     display: flex;
 
@@ -40,4 +40,50 @@
     display: inline-block;
     justify-content: space-between;
     vertical-align: middle;
+}
+
+h2{
+    color:#4198d2;
+    font-size:30px;
+    text-align: center;
+}
+
+#newDesrAct{
+    text-align: center;
+}
+
+.formulario {
+    float:left;
+    width: 40%;
+}
+
+#secuenciaPicto {
+    float:right;
+    width: 60%;
+}
+
+.buttonAñadir {
+    background-color: lightgreen;
+    color: black;  
+    font-size: 25px;
+    width:300px;
+    height: 100px;
+    left: 60%;
+    margin: 0;
+    position: absolute;
+    top: 80%;
+    transform: translateY(-10%);
+}
+
+#toggleActividades{
+    background-color: lightcoral;
+    color: black; 
+    font-size: 25px;
+    width:300px;
+    height:100px;
+    left: 20%;
+    margin: 0;
+    position: absolute;
+    top: 80%;
+    transform: translateY(-10%);
 }
