@@ -22,7 +22,7 @@ export default class ListaAlumnos extends Component {
          error: null,
          mounted: false,
          search: "",
-         administradores: [],
+         profesores: [],
          muestraProfesores: []
       };
       this.showTable = this.showTable.bind(this);
@@ -48,11 +48,11 @@ export default class ListaAlumnos extends Component {
                   // this.setState({ actividades: tableData, muestraProfesores: tableData, mounted: true });
                   
                   this.setState({ profesores: saveData, muestraProfesores: saveData, mounted: true });
-                  console.log(this.state.administradores[0]);
+                  console.log(this.state.profesores[0]);
                }
             } else {
-               this.setState({ error: "No se han encontrado profesores" });
-               console.log("No se han encontrado profesores")
+               this.setState({ error: "No se han encontrado administradores" });
+               console.log("No se han encontrado administradores")
             }
          })
    }
@@ -171,10 +171,8 @@ export default class ListaAlumnos extends Component {
                </div>
                <div className="Body">
                   <div className="botonesContainer">
-                     {/* <Link to="/AdminAlumPrincipal"><input id="modificarAlumno" type="button" className="boton3" value="MODIFICAR ALUMNO" /></Link>
-                  <Link to="/AdminAlumPrincipal"><input id="eliminarAlumno" type="button" className="boton3" value="ELIMINAR ALUMNO" /></Link> */}
-
-                     <Link to="/Register"><input id="aniadiProfesor" type="button" className="boton2" value="AÑADIR PROFESOR" /></Link>
+                     
+                     <Link to="/Register"><input id="aniadiProfesor" type="button" className="boton2" value="AÑADIR ADMIN" /></Link>
 
                   </div>
                </div></div>
