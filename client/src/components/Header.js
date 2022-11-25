@@ -14,19 +14,20 @@ export default class Header extends Component {
    constructor() {
       super();
       this.state = { checked: false,
-                     redirect: 'HomeAdmin'
       };
       this.handleChange = this.handleChange.bind(this);
 
    }
 
-   /*componentDidMount(){
+   /* componentDidMount(){
       if(localStorage.accessLevel === ACCESS_LEVEL_ADMIN){
          this.setState({redirect: 'HomeAdmin'})
      }else{
          this.setState({redirect: 'HomeTeacher'})
      }
-   } */
+
+     console.log(this.state.redirect)
+   } */ 
 
    handleChange(checked) {
       this.setState({ checked });
@@ -45,12 +46,12 @@ export default class Header extends Component {
 
    render() {
       return (
-      
-         
+           
         <div className="Header">
                <Link to="/LogOut"><span className="box Menu"><GrLogout /></span></Link>
-                <Link to={`${this.state.redirect}`}><img className="logo" src={require("../images/logo.png")} alt="Logo San Rafael" /></Link> 
-              {/*<Link to="/HomeAdmin"><img className="logo" src={require("../images/logo.png")} alt="Logo San Rafael" /></Link>*/}
+               {localStorage.accessLevel === ACCESS_LEVEL_ADMIN ? 
+                  <Link to="/HomeTeacher"><img className="logo" src={require("../images/logo.png")} alt="Logo San Rafael" /></Link> :
+                  <Link to="/HomeAdmin"><img className="logo" src={require("../images/logo.png")} alt="Logo San Rafael" /></Link>}
                <span className="box Persona"><FaRegUserCircle /></span>
             </div>
       );
