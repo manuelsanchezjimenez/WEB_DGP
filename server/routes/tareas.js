@@ -45,8 +45,8 @@ const addTarea = (req, res, next) => {
 
 const addTareaActividad = (req, res, next) => {
     let tarea = new Object()
-    tarea.nombre = "default";
-    tarea.descripcion = "default";
+    // tarea.nombre = "default";
+    // tarea.descripcion = "default";
     var getData;
     actividadModel.findOne({ _id: req.body.actividad }, { enlaceVideo: 0, enlaceAudio: 0 }, (err, getData) => {
         if (err) {
@@ -57,30 +57,49 @@ const addTareaActividad = (req, res, next) => {
                 tarea.nombre = getData.nombre;
                 tarea.descripcion = getData.descripcion + " " + req.body.adicional;
                 console.log("++Ess: " + getData.nombre + "\n Y es: " + getData.descripcion + "\n Añadiendo eso de: " + req.body.adicional)
+                // tarea.nombre = getData.nombre;
+                // tarea.descripcion = getData.descripcion + " " + req.body.adicional;
+                tarea.alumno = req.body.alumno
+                tarea.alumnoID = req.body.alumnoID
+                tarea.fechaInicio = req.body.fechaInicio
+                tarea.fechaFinal = req.body.fechaFinal
+                tarea.completado = false
+                tarea.type = 1
+                tarea.actividad = req.body.actividad
+                tareaModel.create(tarea, (err, data) => {
+                    if (err) {
+                        // return next(createError(400, `Error on tarea creation.`))
+                        return next(err)
+                    } else {
+                        res.json(data)
+                    }
+                })
+
+
             } else
                 return next(createError(400, "Activity not found."))
         }
     })
     // tarea.nombre = getData.nombre;
     // tarea.descripcion = getData.descripcion + " " + req.body.adicional;
-    tarea.alumno = req.body.alumno
-    tarea.alumnoID = req.body.alumnoID
-    tarea.fechaInicio = req.body.fechaInicio
-    tarea.fechaFinal = req.body.fechaFinal
-    tarea.completado = false
-    tarea.type = 1
-    tarea.actividad = req.body.actividad
-    tareaModel.create(tarea, (err, data) => {
-        if (err) {
-            // return next(createError(400, `Error on tarea creation.`))
-            return next(err)
-        } else {
-            res.json(data)
-        }
-    })
+    // tarea.alumno = req.body.alumno
+    // tarea.alumnoID = req.body.alumnoID
+    // tarea.fechaInicio = req.body.fechaInicio
+    // tarea.fechaFinal = req.body.fechaFinal
+    // tarea.completado = false
+    // tarea.type = 1
+    // tarea.actividad = req.body.actividad
+    // tareaModel.create(tarea, (err, data) => {
+    //     if (err) {
+    //         // return next(createError(400, `Error on tarea creation.`))
+    //         return next(err)
+    //     } else {
+    //         res.json(data)
+    //     }
+    // })
 }
 
-const getTareaes = (req, res, next) => {
+const getTareas = (req, res, next) => {
     tareaModel.find({}, { descripcion: 0 }, (err, data) => {
         if (err) {
             console.log(err)
@@ -157,7 +176,7 @@ const checkUserLogged = (req, res, next) => {
 
 
 router.post(`/tareas/addTareaActividad`, upload.none(), addTareaActividad)
-router.get(`/tareas/getAll`, getTareaes)
+router.get(`/tareas/getAll`, getTareas)
 router.get(`/tareas/findByID/:id`, findIDTarea)
 router.get(`/tareas/findByName/:id`, findNameTarea)
 router.delete(`/tareas/delete/:id`, deleteAct)
