@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import Header from "./Header"
 import { SERVER_HOST } from "../config/global_constants"
 import "../css/AdminAlumPrincipal.css"
+import "../css/ListaActividades.css"
 
 // // Datos de prueba
 // function createData(nombre, key) {
@@ -161,11 +162,15 @@ export default class ListaActividades extends Component {
             <h1>Listado de actividades</h1>
             {this.state.error ? <div>Error: {this.state.error.message}</div> : null}
             {this.state.mounted ? null : <div> Cargando actividades... </div>}
-            {this.showTable()}
-            <div className="Body">
+            <div className="left">
+               {this.showTable()}
+               <div>
+               </div>
+            </div>
+            <div className="right">
                <div className="botonesContainer">
                   <Link to="/AddActividad"><input id="addActividad" type="button" value="AÑADIR ACTIVIDAD" /></Link>
-                  <Link to="/AddTareaAct"><input id="addTareaAct" type="button" value="ASIGNAR ACTIVIDAD" /></Link>
+                  {/* <input id="modificar" type="button" className="" value="MODIFICAR TAREA" /> */}
                   <Link to="/ListaTareas"><input id="toggleATareas" type="button" value="VER TAREAS ASIGNADAS" /></Link>
                </div>
             </div>
@@ -173,3 +178,4 @@ export default class ListaActividades extends Component {
       )
    }
 }
+
