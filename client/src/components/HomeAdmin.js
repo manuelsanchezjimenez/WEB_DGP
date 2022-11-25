@@ -24,7 +24,7 @@ export default class HomeAdmin extends Component
                 <div className="botonesContainer">
                 <Link to="/AdminAlumPrincipal"><input id="alumnos" type="button" className="botonPrincipal" value="Alumnos"/></Link>
                 <Link to="/AdminProfPrincipal"><input id="Profesores" type="button" className="botonPrincipal" value="Profesores" /></Link>
-                <input id="administradores" type="button" className="botonPrincipal" value="ADMINISTRADORES" />
+                <Link to="/AdminAdminPrincipal"><input id="administradores" type="button" className="botonPrincipal" value="ADMINISTRADORES" /></Link>
                 <Link to="/ListaTareas"><input id="tareas" type="button" className="botonPrincipal" value="TAREAS"/></Link>
                 </div>
                 {/*<Link className="red-button" to="/tenantHome"> Cancel Rental</Link>*/}

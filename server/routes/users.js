@@ -305,6 +305,22 @@ const findAllStudents = (req, res, next) =>
 
 }
 
+const findAllAdmin = (req, res, next) => 
+{
+    adminModel.find({}, (error, data) =>{
+        if(error){
+            console.log(error)
+        }else{
+            if(data){
+                res.json(data);
+                return res;
+            }else
+                return next(createError(400, "Admin not found."))
+        } 
+    })
+
+}
+
 const updateStudentProfile = (req,res,next) =>{
 
     var usuario
@@ -485,6 +501,6 @@ router.get(`/Users/teacher/:id`, findTeacher)
 router.get(`/Users/student`, findAllStudents)
 router.get(`/Users/teacher`, findAllTeachers)
 router.get(`/Users/student/:id`, findStudent)
-router.get(`/Users/admin/:id`, findAdmin)
+router.get(`/Users/admin`, findAllAdmin)
 
 module.exports = router 

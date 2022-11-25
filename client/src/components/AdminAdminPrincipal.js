@@ -1,4 +1,4 @@
-/*import axios from "axios"
+import axios from "axios"
 import React, { Component } from "react"
 import { Link } from 'react-router-dom'
 import Header from "./Header"
@@ -22,7 +22,7 @@ export default class ListaAlumnos extends Component {
          error: null,
          mounted: false,
          search: "",
-         profesores: [],
+         administradores: [],
          muestraProfesores: []
       };
       this.showTable = this.showTable.bind(this);
@@ -30,7 +30,7 @@ export default class ListaAlumnos extends Component {
    }
    componentDidMount() {
       axios.get(
-         `${SERVER_HOST}/Users/teacher`,
+         `${SERVER_HOST}/Users/admin`,
          { headers: { "Content-type": "multipart/form-data" } })
          .then(res => {
             if (res.data) {
@@ -42,12 +42,13 @@ export default class ListaAlumnos extends Component {
                   let getData = JSON.parse(JSON.stringify(res.data).toString());
                   let saveData = [];
                   for (let i = 0; i < getData.length; i++) {
-                     saveData.push({ nombre: getData[i].nombre, Usuario: getData[i].usuario, key: getData[i]._id });
+                     if(getData[i].usuario != localStorage.usuario)
+                        saveData.push({ nombre: getData[i].nombre, Usuario: getData[i].usuario, key: getData[i]._id });
                   }
                   // this.setState({ actividades: tableData, muestraProfesores: tableData, mounted: true });
                   
                   this.setState({ profesores: saveData, muestraProfesores: saveData, mounted: true });
-                  console.log(this.state.profesores[0]);
+                  console.log(this.state.administradores[0]);
                }
             } else {
                this.setState({ error: "No se han encontrado profesores" });
@@ -143,7 +144,7 @@ export default class ListaAlumnos extends Component {
                            Usuario={item.Usuario}
                            curso={item.curso}
                            key={item.key}
-                           modificacion={<Link className="boton2" to={{pathname: `ConModTeacher/${item.key}`}}> Modificar </Link>} 
+                           modificacion={<Link className="boton2" to={{pathname: `ConModAdmin/${item.key}`}}> Modificar </Link>} 
                         />
                         
                      ))}
@@ -171,7 +172,7 @@ export default class ListaAlumnos extends Component {
                <div className="Body">
                   <div className="botonesContainer">
                      {/* <Link to="/AdminAlumPrincipal"><input id="modificarAlumno" type="button" className="boton3" value="MODIFICAR ALUMNO" /></Link>
-                  <Link to="/AdminAlumPrincipal"><input id="eliminarAlumno" type="button" className="boton3" value="ELIMINAR ALUMNO" /></Link> *//*}
+                  <Link to="/AdminAlumPrincipal"><input id="eliminarAlumno" type="button" className="boton3" value="ELIMINAR ALUMNO" /></Link> */}
 
                      <Link to="/Register"><input id="aniadiProfesor" type="button" className="boton2" value="AÑADIR PROFESOR" /></Link>
 
@@ -185,4 +186,3 @@ export default class ListaAlumnos extends Component {
 
 
 }
-*/
