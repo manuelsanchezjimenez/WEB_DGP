@@ -502,5 +502,6 @@ router.get(`/Users/student`, findAllStudents)
 router.get(`/Users/teacher`, findAllTeachers)
 router.get(`/Users/student/:id`, findStudent)
 router.get(`/Users/admin`, findAllAdmin)
+router.get(`/Users/admin/:id`, findAdmin)
 
 module.exports = router 

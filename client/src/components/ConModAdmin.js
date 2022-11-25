@@ -91,7 +91,7 @@ export default class ConModAdmin extends Component {
             <div id="registerWeb" className="Body">
                 <Header />
                 <div className="botonesContainer">
-                    {this.state.redirect ? <Redirect to="/AdminAlumPrincipal" /> : null}
+                    {this.state.redirect ? <Redirect to="/AdminAdminPrincipal" /> : null}
                     <h1>Consulta y Modificación de profesor</h1>
 
                     {this.state.mounted ?

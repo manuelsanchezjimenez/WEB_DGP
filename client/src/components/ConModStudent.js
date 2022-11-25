@@ -99,7 +99,7 @@ export default class ConModStudent extends Component {
                 <Header />
 
                 <div className="botonesContainer">
-                    {this.state.redirect ? <Redirect to="/HomeAdmin" /> : null}
+                    {this.state.redirect ? <Redirect to="/AdminAlumPrincipal" /> : null}
 
                     <h1>Consulta y Modificación de Alumnos </h1>
                     {this.state.mounted ?
