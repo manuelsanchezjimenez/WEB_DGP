@@ -97,7 +97,7 @@ export default class ListaAlumnos extends Component {
       }));
    };
    deleteProfile = (id) =>{
-      axios.delete(`${SERVER_HOST}/Users/delete/teacher/${id}`, {headers:{"authorization":localStorage.token}})
+      axios.delete(`${SERVER_HOST}/Users/delete/admin/${id}`, {headers:{"authorization":localStorage.token}})
       .then(res => 
       {     
           if(res.data)
@@ -118,7 +118,7 @@ export default class ListaAlumnos extends Component {
       let i = 0;
       pictos.push(
          <div key={i++}>
-            <input label="Search" onChange={this.onChange} placeholder="Buscar Alumno..." />
+            <input label="Search" onChange={this.onChange} placeholder="Buscar administradores..." />
             <div>
                <table className="table table-bordered" >
                   <tbody>

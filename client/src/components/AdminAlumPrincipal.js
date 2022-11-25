@@ -2,10 +2,11 @@ import axios from "axios"
 import React, { Component } from "react"
 import { Link } from 'react-router-dom'
 import Header from "./Header"
-import { SERVER_HOST } from "../config/global_constants"
+import { ACCESS_LEVEL_ADMIN, SERVER_HOST } from "../config/global_constants"
+
 import "../css/AdminAlumPrincipal.css"
 
-const AlumnRow = ({ nombre, Usuario, curso, modificacion}) => {
+const AlumnRow = ({ nombre, Usuario, curso, modificacion }) => {
    return (
       <tr>
          <td>{`${nombre}`}</td>
@@ -46,7 +47,7 @@ export default class ListaAlumnos extends Component {
                      saveData.push({ nombre: getData[i].nombre, Usuario: getData[i].usuario, curso: getData[i].clase, key: getData[i]._id });
                   }
                   // this.setState({ actividades: tableData, muestraAlumnos: tableData, mounted: true });
-                  
+
                   this.setState({ alumnos: saveData, muestraAlumnos: saveData, mounted: true });
                   console.log(this.state.alumnos[0]);
                }
@@ -98,20 +99,19 @@ export default class ListaAlumnos extends Component {
                : prevState.alumnos
       }));
    };
-   deleteProfile = (id) =>{
-      axios.delete(`${SERVER_HOST}/Users/delete/student/${id}`, {headers:{"authorization":localStorage.token}})
-      .then(res => 
-      {     
-          if(res.data)
-              if (res.data.errorMessage)
-                  console.log(res.data.errorMessage) 
-              else
-                  this.setState({redirect: true})   
+   deleteProfile = (id) => {
+      axios.delete(`${SERVER_HOST}/Users/delete/student/${id}`, { headers: { "authorization": localStorage.token } })
+         .then(res => {
+            if (res.data)
+               if (res.data.errorMessage)
+                  console.log(res.data.errorMessage)
+               else
+                  this.setState({ redirect: true })
 
-      }).catch(error =>{
-          console.log("err:" + error.response.data)
-      })  
-  }
+         }).catch(error => {
+            console.log("err:" + error.response.data)
+         })
+   }
 
    showTable() {
       const Alumns = [];
@@ -142,14 +142,24 @@ export default class ListaAlumnos extends Component {
                         </th>
                      </tr>
                      {this.state.muestraAlumnos.map(item => (
-                        <AlumnRow
-                           nombre={item.nombre}
-                           Usuario={item.Usuario}
-                           curso={item.curso}
-                           key={item.key}
-                           modificacion={<Link className="boton2" to={{pathname: `ConModStudent/${item.key}`}}> Modificar </Link>} 
-                        />
-                        
+                        localStorage.accessLevel === ACCESS_LEVEL_ADMIN ?
+                           <AlumnRow
+                              nombre={item.nombre}
+                              Usuario={item.Usuario}
+                              curso={item.curso}
+                              key={item.key}
+                              modificacion={<Link className="boton2" to={{ pathname: `ConModStudent/${item.key}` }}> Modificar </Link>}
+                           /> :
+
+                           <AlumnRow
+                              nombre={item.nombre}
+                              Usuario={item.Usuario}
+                              curso={item.curso}
+                              key={item.key}
+
+                           />
+
+
                      ))}
                   </tbody>
                </table>
@@ -173,13 +183,11 @@ export default class ListaAlumnos extends Component {
                <div>
                </div>
                <div className="Body">
+                  {localStorage.accessLevel === ACCESS_LEVEL_ADMIN ? 
                   <div className="botonesContainer">
-                     {/* <Link to="/AdminAlumPrincipal"><input id="modificarAlumno" type="button" className="boton3" value="MODIFICAR ALUMNO" /></Link>
-                  <Link to="/AdminAlumPrincipal"><input id="eliminarAlumno" type="button" className="boton3" value="ELIMINAR ALUMNO" /></Link> */}
-
                      <Link to="/Register"><input id="aniadirAlumno" type="button" className="boton2" value="AÑADIR ALUMNO" /></Link>
+                  </div> :null}
 
-                  </div>
                </div></div>
          </div>
 

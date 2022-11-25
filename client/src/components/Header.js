@@ -20,7 +20,7 @@ export default class Header extends Component {
 
    }
 
-   /* componentDidMount(){
+   /*componentDidMount(){
       if(localStorage.accessLevel === ACCESS_LEVEL_ADMIN){
          this.setState({redirect: 'HomeAdmin'})
      }else{
@@ -45,11 +45,12 @@ export default class Header extends Component {
 
    render() {
       return (
-        
+      
+         
         <div className="Header">
                <Link to="/LogOut"><span className="box Menu"><GrLogout /></span></Link>
-               {/* <Link to={`${this.state.redirect}`}><img className="logo" src={require("../images/logo.png")} alt="Logo San Rafael" /></Link> */}
-               <Link to="/HomeAdmin"><img className="logo" src={require("../images/logo.png")} alt="Logo San Rafael" /></Link>
+                <Link to={`${this.state.redirect}`}><img className="logo" src={require("../images/logo.png")} alt="Logo San Rafael" /></Link> 
+              {/*<Link to="/HomeAdmin"><img className="logo" src={require("../images/logo.png")} alt="Logo San Rafael" /></Link>*/}
                <span className="box Persona"><FaRegUserCircle /></span>
             </div>
       );

@@ -97,7 +97,6 @@ export default class ConModStudent extends Component {
         return (
             <div id="registerWeb" className="Body">
                 <Header />
-
                 <div className="botonesContainer">
                     {this.state.redirect ? <Redirect to="/AdminAlumPrincipal" /> : null}
 
