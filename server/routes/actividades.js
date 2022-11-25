@@ -115,7 +115,8 @@ const checkUserLogged = (req, res, next) => {
 const ImgUpp = (req, res, next) => {
 
     let actividad_imagen = new Object();
-    actividad_imagen.nombreAct = req.body.nombreAct;
+    actividad_imagen.actividad = req.body.actividad;
+    actividad_imagen.orden = req.body.orden;
     actividad_imagen.imagen = req.body.imagen;
 
     actividadImagenModel.create(actividad_imagen, (err, data) => {
