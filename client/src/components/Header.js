@@ -45,15 +45,17 @@ export default class Header extends Component {
 
 
    render() {
-      let link = ''
-      {parseInt(localStorage.accessLevel) === ACCESS_LEVEL_ADMIN ? link = '/HomeAdmin' : link = '/HomeTeacher' }
       return (
            
         <div className="Header">
                <Link to="/LogOut"><span className="box Menu"><GrLogout /></span></Link>
-               <Link to={`${link}`}><img className="logo" src={require("../images/logo.png")} alt="Logo San Rafael" /></Link> 
+               {localStorage.accessLevel === ACCESS_LEVEL_ADMIN ? 
+                  <Link to="/HomeTeacher"><img className="logo" src={require("../images/logo.png")} alt="Logo San Rafael" /></Link> :
+                  <Link to="/HomeAdmin"><img className="logo" src={require("../images/logo.png")} alt="Logo San Rafael" /></Link>}
                <span className="box Persona"><FaRegUserCircle /></span>
             </div>
       );
    }
+
+
 }
