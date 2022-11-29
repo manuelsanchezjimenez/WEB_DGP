@@ -35,7 +35,7 @@ export default class LogInCheck extends Component
                 headers: { "authorization": localStorage.token },
             }).then(res => {
                 //handle success
-                localStorage.user = res.data.user
+                localStorage.usuario = res.data.user
                 localStorage.accessLevel = res.data.accessLevel
                 localStorage.token = res.data.token
 

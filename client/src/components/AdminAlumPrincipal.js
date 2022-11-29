@@ -142,7 +142,7 @@ export default class ListaAlumnos extends Component {
                         </th>
                      </tr>
                      {this.state.muestraAlumnos.map(item => (
-                        localStorage.accessLevel === ACCESS_LEVEL_ADMIN ?
+                        parseInt(localStorage.accessLevel) === ACCESS_LEVEL_ADMIN ?
                            <AlumnRow
                               nombre={item.nombre}
                               Usuario={item.Usuario}
@@ -183,7 +183,7 @@ export default class ListaAlumnos extends Component {
                <div>
                </div>
                <div className="Body">
-                  {localStorage.accessLevel === ACCESS_LEVEL_ADMIN ? 
+                  {parseInt(localStorage.accessLevel) === ACCESS_LEVEL_ADMIN ? 
                   <div className="botonesContainer">
                      <Link to="/Register"><input id="aniadirAlumno" type="button" className="boton2" value="AÑADIR ALUMNO" /></Link>
                   </div> :null}
