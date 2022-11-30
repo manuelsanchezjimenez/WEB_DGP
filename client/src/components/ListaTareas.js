@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import Header from "./Header"
 import { SERVER_HOST } from "../config/global_constants"
 import "../css/AdminAlumPrincipal.css"
-import "../css/ListaTareas.css"
 
 const TarRow = ({ nombre, fechaInicio, fechaFinal, completado, alumno, type }) => {
    var tipo;
@@ -142,19 +141,17 @@ export default class ListaTareas extends Component {
       let i = 0;
       unaTarea.push(
          <div key={i++}>
-            <div className="buscarTarea">
-               <input label="Search" onChange={this.onChange} placeholder="Buscar Tarea..." />
-            </div>
+            <input label="Search" onChange={this.onChange} placeholder="Buscar Tarea..." />
             <div>
                <table className="table table-bordered" >
-                  <tbody className="tablitaRellenita">
+                  <tbody>
                      <tr>
                         <th
                            style={{ cursor: "pointer" }}
                            // onClick={() => { this.sortResults() }}
                            id="name"
                            onClick={() => { this.sorting("alumno") }}>
-                           Alumno           {!this.state.order.alumno ? null : this.state.order.alumno === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
+                           Alumno {!this.state.order.alumno ? null : this.state.order.alumno === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
                         <th
                            style={{ cursor: "pointer" }}
@@ -175,7 +172,7 @@ export default class ListaTareas extends Component {
                            // onClick={() => { this.sortResults() }}
                            id="name"
                            onClick={() => this.sorting("fechaFinal")}>
-                           Fecha de finalización {!this.state.order.fechaFinal ? null : this.state.order.fechaFinal === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
+                           Fecha final {!this.state.order.fechaFinal ? null : this.state.order.fechaFinal === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
                         <th
                            style={{ cursor: "pointer" }}
@@ -213,7 +210,6 @@ export default class ListaTareas extends Component {
       );
       return unaTarea;
    }
-   
 
 
    render() {
@@ -223,21 +219,18 @@ export default class ListaTareas extends Component {
             <h1>Lista de tareas</h1>
             {this.state.error ? <div>Error: {this.state.error.message}</div> : null}
             {this.state.mounted ? null : <div> Cargando tareas... </div>}
-            <div className="left">
-               {this.showTable()}
-            </div>
-            <div className="right">
-               <div className="Body">
-                  <div className="botonesContainer">
-                     <Link to="/AddTareaAct"><input id="addTareaAct" type="button" value="ASIGNAR ACTIVIDAD" /></Link>
-                     <Link to="/ListaActividades"><input id="toggleTareas" type="button" value="VER POOL DE ACTIVIDADES" /></Link>
-                  </div>
+            {this.showTable()}
+            <div className="Body">
+               <div className="botonesContainer">
+                  <Link to="/AddTareaAct"><input id="addTareaAct" type="button" value="ASIGNAR ACTIVIDAD" /></Link>
+                  <Link to="/ListaActividades"><input id="toggleTareas" type="button" value="VER POOL DE ACTIVIDADES" /></Link>
                </div>
             </div>
          </div>
       )
    }
 }
+
 
 
 
