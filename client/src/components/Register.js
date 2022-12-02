@@ -165,7 +165,6 @@ export default class Register extends Component {
             : formInputsState = this.validationTrue()
         }
 
-        console.log(this.props)
         return (
             <div id="registerWeb" className="Body">
                 <Header />

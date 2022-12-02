@@ -10,7 +10,9 @@ let tareaSchema = new mongoose.Schema(
         alumno: {type: String, required: true},
         alumnoID: {type: String, required: true},
         type: {type: Number, required: true},
-        actividad: {type: String, required: false}
+        actividad: {type: String, required: false},
+        feedbackAlum: {type: String, required: false},
+        feedbackProf: {type: String, required: false}
    },
    {
         collection: `tarea`
