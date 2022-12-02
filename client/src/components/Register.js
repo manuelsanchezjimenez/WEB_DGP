@@ -16,7 +16,7 @@ export default class Register extends Component {
             usuario: '',
             contra: '',
             confirmPassword: '',
-            userType: 'student',
+            userType: this.props.match.params.user,
             nombre: '',
             tipo: 0,
             tipoLetra: 0,
@@ -165,6 +165,7 @@ export default class Register extends Component {
             : formInputsState = this.validationTrue()
         }
 
+        console.log(this.props)
         return (
             <div id="registerWeb" className="Body">
                 <Header />
@@ -207,18 +208,18 @@ export default class Register extends Component {
                                 name="nombre" placeholder="Nombre Completo"
                                 onChange={this.handleChange} />
                         </div>
-                        <div className="item-container">
+                        {/* <div className="item-container">
                             <label className="user-type--labeled">
                                 <p>Tipo Usuario:</p>
                                 <div className="customSelect">
-                                    <select className="form-control" name="userType" defaultValue="student" onChange={this.handleChange}>
+                                    <select className="form-control" name="userType" defaultValue={`${this.props.match.params.user}`} onChange={this.handleChange}>
                                         <option value="teacher">Profesor</option>
                                         <option value="admin">Administrador</option>
                                         <option value="student">Estudiante</option>
                                     </select>
                                 </div>
                             </label>
-                        </div>
+                        </div> */}
                         {/* Esto solo se muestran si es un estudiante */}
                         {this.state.userType === 'student' ?
                             <div className="studentItems">

@@ -185,7 +185,7 @@ export default class ListaAlumnos extends Component {
                <div className="Body">
                   {parseInt(localStorage.accessLevel) === ACCESS_LEVEL_ADMIN ? 
                   <div className="botonesContainer">
-                     <Link to="/Register"><input id="aniadirAlumno" type="button" className="boton2" value="AÑADIR ALUMNO" /></Link>
+                     <Link to={{pathname: `Register/student`}}><input id="aniadirAlumno" type="button" className="boton2" value="AÑADIR ALUMNO" /></Link>
                   </div> :null}
 
                </div></div>

@@ -173,7 +173,7 @@ export default class ListaAlumnos extends Component {
                      {/* <Link to="/AdminAlumPrincipal"><input id="modificarAlumno" type="button" className="boton3" value="MODIFICAR ALUMNO" /></Link>
                   <Link to="/AdminAlumPrincipal"><input id="eliminarAlumno" type="button" className="boton3" value="ELIMINAR ALUMNO" /></Link> */}
 
-                     <Link to="/Register"><input id="aniadiProfesor" type="button" className="boton2" value="AÑADIR PROFESOR" /></Link>
+                     <Link to={{pathname: `Register/teacher`}}><input id="aniadiProfesor" type="button" className="boton2" value="AÑADIR PROFESOR" /></Link>
 
                   </div>
                </div></div>
