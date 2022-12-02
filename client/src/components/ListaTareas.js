@@ -200,7 +200,7 @@ export default class ListaTareas extends Component {
                            completado={item.completado}
                            alumno={item.alumno}
                            type={item.type}
-                           acceso={<Link className="boton2" /*to={{pathname: `ConModAdmin/${item.key}`}}*/> Acceder </Link>}
+                           acceso={<Link className="boton2" to={{pathname: `Feedback/${item.key}`}}> Acceder </Link>}
                            id={item.key}
                            key={item.key}
                         />

@@ -38,6 +38,7 @@ export default class App extends Component {
                     <LoggedInRouteAdmin exact path="/ConModTeacher/:id" component={ConModTeacher} />
                     <LoggedInRouteAdmin exact path="/ConModAdmin/:id" component={ConModAdmin} />
                     <LoggedInRouteTeacher exact path="/ConModStudent/:id" component={ConModStudent} />
+                    <LoggedInRouteTeacher exact path="/Feedback/:id" component={ConModStudent} />
                     <Route exact path="/AdminAlumPrincipal" component={AdminAlumPrincipal} />
                     <Route exact path="/AdminProfPrincipal" component={AdminProfPrincipal} />
                     <Route exact path="/AdminAdminPrincipal" component = {AdminAdminPrincipal} />
