@@ -5,7 +5,7 @@ import Header from "./Header"
 import { SERVER_HOST } from "../config/global_constants"
 import "../css/AdminAlumPrincipal.css"
 
-const TarRow = ({ nombre, fechaInicio, fechaFinal, completado, alumno, type }) => {
+const TarRow = ({ nombre, fechaInicio, fechaFinal, completado, alumno, type, acceso }) => {
    var tipo;
    if (type === 0)
       tipo = "comanda";
@@ -26,6 +26,7 @@ const TarRow = ({ nombre, fechaInicio, fechaFinal, completado, alumno, type }) =
          <td>{`${fechaFinal}`}</td>
          <td>{`${type}` === 1 ? "Actividad" : "Comanda"}</td>
          <td>{`${completado}` === true ? "Completada" : "Sin completar"}</td>
+         <td>{acceso}</td>
       </tr>
    );
 };
@@ -199,6 +200,7 @@ export default class ListaTareas extends Component {
                            completado={item.completado}
                            alumno={item.alumno}
                            type={item.type}
+                           acceso={<Link className="boton2" /*to={{pathname: `ConModAdmin/${item.key}`}}*/> Acceder </Link>}
                            id={item.key}
                            key={item.key}
                         />
