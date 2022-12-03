@@ -8,8 +8,8 @@ import "../css/AddTareaAct.css"
 
 const AlumnRow = ({ nombre, select }) => {
    return (
-      <tr>
-         <td>{`${nombre}`}</td>
+      <tr className="anchoTabla" >
+         <td className="" >{`${nombre}`}</td>
          <td>
             <input type="radio" value={`${nombre}` + "##SEP##" + `${select}`} name="selectAlum" />
          </td>
@@ -18,8 +18,8 @@ const AlumnRow = ({ nombre, select }) => {
 }
 const ActRow = ({ nombre, select }) => {
    return (
-      <tr>
-         <td>{`${nombre}`}</td>
+      <tr className="anchoTabla" >
+         <td className="" >{`${nombre}`}</td>
          <td>
             <input type="radio" value={`${select}`} name="selectAct" />
          </td>
@@ -144,8 +144,8 @@ export default class AddTareaAct extends Component {
             sortOrder: sortOrder === "desc" ? "asc" : "desc"
          };
       });
-            var newOrder = this.state.orderAlumn == "desc" ? "asc" : "desc"
-            this.setState({ orderAlumn: newOrder });
+      var newOrder = this.state.orderAlumn == "desc" ? "asc" : "desc"
+      this.setState({ orderAlumn: newOrder });
    };
    sortResultsAct = event => {
       this.setState(prevStateAct => {
@@ -201,11 +201,12 @@ export default class AddTareaAct extends Component {
          <div key={i++} className="objectLine anchoTabla">
             <input className="anchoTabla" label="Search" onChange={this.onChangeAlumn} placeholder="Buscar Alumno..." />
             <div>
-               <table className="table table-bordered" >
+               <table className="table table-bordered anchoTabla" >
                   <thead>
                      <tr>
                         <th
                            style={{ cursor: "pointer" }}
+                           className="anchoTabla" 
                            onClick={this.sortResultsAlumn}
                            id="name">
                            Nombre {this.state.orderAlumn == "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
@@ -234,18 +235,19 @@ export default class AddTareaAct extends Component {
          <div key={i++} className="objectLine anchoTabla">
             <input className="anchoTabla" label="Search" onChange={this.onChangeAct} placeholder="Buscar Actividad..." />
             <div>
-               <table className=" table table-bordered" >
+               <table className="table table-bordered tablaActs anchoTabla" >
                   <thead>
                      <tr>
                         <th
                            style={{ cursor: "pointer" }}
+                           className="anchoTabla" 
                            onClick={this.sortResultsAct}
                            id="name">
                            Actividades {this.state.orderAct == "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
                      </tr>
                   </thead>
-                  <tbody className="altoParte" onChange={this.handleChange}>
+                  <tbody className="altoParte " onChange={this.handleChange}>
                      {this.state.muestraActividades.map(item => (
                         <ActRow
                            nombre={item.nombre}
@@ -320,31 +322,37 @@ export default class AddTareaAct extends Component {
             {this.state.mountedAlumn ? null : <div> Cargando alumnos... </div>}
             {this.state.errorAct ? <div>Error en alumnos: {this.state.errorAct.message}</div> : null}
             {this.state.mountedAct ? null : <div> Cargando actividades... </div>}
+            <div className="both">
+               <div className="parte">
+                  {this.showTableAlumn()}
+               </div>
+               <div className="parte">
+                  {this.showTableAct()}
+               </div>
+               {/* <form className="anchoFecha objectLine"> */}
+               <div className="anchoFecha objectLine  parte">
 
-            {this.showTableAlumn()}
-            {this.showTableAct()}
-            {/* <form className="anchoFecha objectLine"> */}
-            <div className="anchoFecha objectLine">
-               <form>
-                  <div>
-                     <label>Fecha de inicio</label><br />
-                     <input type="datetime-local" id="fechaInicio" name="fechaInicio" onChange={this.handleChange}></input>
-                  </div>
-                  <div>
-                     <label>Fecha final</label><br />
-                     <input type="datetime-local" id="fechaFinal" name="fechaFinal" onChange={this.handleChange}></input>
-                  </div>
-                  <div>
-                     <label>Descripción:</label><br />
-                     <textarea id="adicional" name="adicional" placeholder="Notas adicionales" onChange={this.handleChange} />
-                  </div>
-                  <button className="button" onClick={this.handleSubmitData}>
-                     ASIGNAR
-                  </button>
-                  <Link to="/ListaTareas"><input id="toggleATareas" type="button" value="CANCELAR" /></Link>
-               </form>
-            </div>
-            <div className="Body">
+                  <form>
+                     <div>
+                        <label>Fecha de inicio</label><br />
+                        <input type="datetime-local" id="fechaInicio" name="fechaInicio" onChange={this.handleChange}></input>
+                     </div>
+                     <div>
+                        <label>Fecha final</label><br />
+                        <input type="datetime-local" id="fechaFinal" name="fechaFinal" onChange={this.handleChange}></input>
+                     </div>
+                     <div>
+                        <label>Descripción:</label><br />
+                        <textarea id="adicional" name="adicional" placeholder="Notas adicionales" onChange={this.handleChange} />
+                     </div>
+                     <div className=" objectLine botonesLista parteBotonesVertical ">
+                        <button className="botonAcciones verde" onClick={this.handleSubmitData} >
+                           Asignar
+                        </button>
+                        <Link to="/ListaTareas"><input id="listaTareas" type="button" value="Cancelar" className="botonAcciones rojo" /></Link>
+                     </div>
+                  </form>
+               </div>
             </div>
          </div>
       )

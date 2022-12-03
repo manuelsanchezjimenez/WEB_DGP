@@ -1,21 +1,36 @@
-.botonPrincipal{
-   border: 1px solid #2e518b; /*anchura, estilo y color borde*/
-   margin-top: 0.5cm;
-   background-color: #4198D2; /*color botón*/
-   width: 30cm;
+.botonPrincipal {
+   /*anchura, estilo y color borde*/
+   border: 1px solid #2e518b;
+   /* margin-top: 0.5cm; */
+   background-color: #4198D2;
+   /*botones*/
+   /* width: 30cm; */
+   width: 90%;
+   min-width: 1050px;
    height: 1.5cm;
-   color: #ffffff; /*color texto*/
+   /*texto*/
+   color: #ffffff;
    font-size: 0.6cm;
-   text-decoration:dashed; /*decoración texto*/
-   text-transform: uppercase; /*capitalización texto*/
-   font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+   text-decoration: dashed;
+   text-transform: uppercase;
+   font-family: 'Helvetica', sans-serif;
    text-align: center;
+   /* items */
    align-items: center;
    align-self: center;
    align-content: center;
-   margin-left: 8%;
+   margin-left: 2%;
+   margin-top: 10px;
+   vertical-align: text-top;
+   /* top:0%; */
+   /* position: inherit; */
 }
-.Body{
-   display: block;
-   align-content:center;
+
+.Body {
+   /* display: block; */
+   display: inline-block;
+   text-align: center;
+   vertical-align: top;
+   /* align-content:center; */
+
 }

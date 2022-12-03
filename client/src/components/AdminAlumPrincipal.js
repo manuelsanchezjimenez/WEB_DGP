@@ -87,7 +87,7 @@ export default class ListaAlumnos extends Component {
             sortOrder: sortOrder === "desc" ? "asc" : "desc"
          };
       });
-      var newOrder = this.state.order == "desc" ? "asc" : "desc"
+      var newOrder = this.state.order === "desc" ? "asc" : "desc"
       this.setState({ order: newOrder });
    };
    onChange = e => {
@@ -129,7 +129,7 @@ export default class ListaAlumnos extends Component {
                            // onClick={() => { this.sortResults() }}
                            id="name"
                         >
-                           Nombre {this.state.order == "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
+                           Nombre {this.state.order === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
                         <th>
                            Usuario
