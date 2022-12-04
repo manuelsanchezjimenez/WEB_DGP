@@ -1,0 +1,46 @@
+.item-container2{
+   
+   width: 49%;
+   height: auto;
+   align-items: center;
+
+}
+.botonesContainer2{
+   display: flex;
+   
+}
+.item-container3{
+   
+   width: 49%;
+   height: auto;
+
+}
+.item-container4{
+   background-color: rgb(255, 255, 255);
+   height: 1cm;
+   align-items: center;
+   border-color: black;
+  border-width: 2px;
+  border-style:solid;
+
+}
+.item-container5{
+   background-color: rgb(255, 255, 255);
+   height: fit-content;
+   width: 90%;
+   align-items: center;
+   border-color: black;
+  border-width: 2px;
+  border-style:solid;
+
+}
+.form-control2{
+   width: 90%;
+   height: fit-content;
+   
+
+}
+.textoFeedback{
+   width: 90%;
+   height: 3.5cm;
+}

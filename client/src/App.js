@@ -45,7 +45,7 @@ export default class App extends Component {
                     <Route exact path="/AdminAdminPrincipal" component = {AdminAdminPrincipal} />
                     <LoggedInRouteAdmin exact path="/Register/:user" component={Register} />
                     <Route exact path="/ListaActividades" component={ListaActividades} />
-                    {/* <Route exact path="/AddActividad" component={AddActividad} /> */}
+                    <Route exact path="/AddActividad" component={AddActividad} />
                     <Route exact path="/ModActividad" component={ModActividad} />
                     <Route exact path="/ListaTareas" component={ListaTareas} />
                     <Route exact path="/AddTareaAct" component={AddTareaAct} />
