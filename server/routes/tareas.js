@@ -115,12 +115,12 @@ const getTareas = (req, res, next) => {
 }
 
 const findIDTarea = (req, res, next) => {
-    tareaModel.findOne({ _id: req.body.id }, (err, data) => {
+    tareaModel.findOne({ _id: req.params.id }, (err, data) => {
         if (err) {
             console.log(err)
         } else {
             if (data) {
-                req.user = data
+                res.json(data)
                 return next()
             } else
                 return next(createError(400, "Activity not found."))

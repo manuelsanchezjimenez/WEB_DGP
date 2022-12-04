@@ -32,7 +32,7 @@ export default class Feedback extends Component {
 
     }
     componentDidMount = () => {
-        axios.get(`${SERVER_HOST}/tareas/findByID/6387d238b255273570ccea6a`, { headers: { "authorization": localStorage.token } })
+        axios.get(`${SERVER_HOST}/tareas/findByID/${this.props.match.params.id}`, { headers: { "authorization": localStorage.token } })
             .then(res => {
                 if (res.data)
                     if (res.data.errorMessage)

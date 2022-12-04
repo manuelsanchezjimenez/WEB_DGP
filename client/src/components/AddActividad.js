@@ -222,13 +222,8 @@ export default class AddActividad extends Component {
                         {this.listaImages()}
                      </div>
                   </div>
-<<<<<<< HEAD
-                  Seleccionar pictogramas: (opcional) 
-                  {/* <br></br> *//*}
-=======
                   Seleccionar pictogramas: (opcional)
-                  {/* <br></br> */}
->>>>>>> main
+                  {/* <br></br> 
                   <input type="file" title="Seleccionar imagen " onChange={this.handleFileChange} />
                </div>
             </div>
