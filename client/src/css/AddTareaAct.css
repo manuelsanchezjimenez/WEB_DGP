@@ -1,11 +1,15 @@
 .anchoTabla {
-   width: 35%;
+   width: 100%;
    min-width: 400px;
 }
-
+.anchoCeldaSelectList {
+   /* width: 30%; */
+   width: 100px;
+   min-width: 400px;
+}
 .anchoFecha {
-   width: 30%;
-   min-width: 350px;
+   width: 20%;
+   min-width: 300px;
 }
 
 .altoParte {

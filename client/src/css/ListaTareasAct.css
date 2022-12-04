@@ -1,0 +1,139 @@
+.buscarActividad {
+  text-align: center;
+  width: 100%;
+}
+
+thead,
+tbody {width: 100%;
+  display: block;
+}
+
+tbody {
+  height: 800px;
+  display: block;
+  width: 100%;
+  overflow: auto;
+  overflow-y: auto;
+  /* Trigger vertical scroll    */
+  overflow-x: hidden;
+  /* Hide the horizontal scroll */
+}
+
+/* Tabla */
+table {
+  width: 100%;
+  table-layout: fixed;
+  /* overflow-wrap: break-word; */
+}
+
+.listaActividadesTabla {
+  margin-left: 25px;
+}
+.listaTareasTabla {
+  min-width: 953px;
+  margin-left: 25px;
+}
+.tablaActs {
+  width: 100%;
+}
+.tablaActividades{
+  min-width: 765px;
+
+}
+.tablaTareas {
+  width: 100%;
+  min-width: 900px;
+}
+
+.allWidth {
+  width: 100%;
+}
+
+.nombreActividad {
+  width: 9000px;
+  min-width: 500px;
+}
+
+.celdaTarea {
+  /* width: 200vw; */
+  min-width: 150px;
+  width: 100%;
+}
+
+.celdaCorta {
+  /* width: 84px; */
+  width: 100%;
+  min-width: 130px;
+  /* 83.246 */
+}
+
+/* Botones */
+#addActividad,
+#addComanda {
+  background-color: #4198d2;
+  color: white;
+}
+
+#toggleATareas,
+#toggleAActs {
+  background-color: #0070bb;
+  color: white;
+}
+
+.botonTabla {
+  background-color: rgb(213, 213, 213);
+  width: 100%;
+  padding: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.botonTablaTareas {
+  background-color: rgb(213, 213, 213);
+  width: 100%;
+  padding: 10px;
+}
+
+.botonesLista {
+  max-width: 250px;
+  text-align: center;
+}
+
+.parteBotonesVertical {
+  overflow: visible;
+  /* background-color: yellow; */
+  width: 300px;
+  margin: 15px;
+  vertical-align: middle;
+  /* text-align: right; */
+  /* float: right; */
+}
+
+.botonAcciones {
+  font-size: 20px;
+  width: 200px;
+  height: 50px;
+  margin: 5px;
+  text-align: center;
+}
+
+.botonToggle {
+  bottom: 0%;
+}
+
+.verde {
+  background-color: rgb(148, 240, 148);
+}
+
+.rojo {
+  background-color: rgb(223, 124, 124);
+}
+
+/* Para que los objetos se alinéen en bloque en la misma línea */
+.objectline {
+  display: inline-block;
+  justify-content: space-between;
+  /* vertical-align: middle; */
+  /* vertical-align: top; */
+  vertical-align: text-bottom;
+}

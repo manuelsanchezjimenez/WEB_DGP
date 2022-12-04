@@ -70,11 +70,13 @@ export default class AddActividad extends Component {
 
    // noImplementado
    handleSubmitImage(event) {
-      let correcto = true;
+      // let correcto = true;
       for (let i = 0; i < this.state.totalImages; i++) {
          // alert('Guardando imagen: "' + this.state.image[i].value + '"\nDescripción: "' + this.state.newDesrAct + '"');
          var bodyFormData = new FormData();
-         bodyFormData.append('nombreAct', i + "::" + this.state.newNameAct)
+         // bodyFormData.append('nombreAct', i + "::" + this.state.newNameAct)
+         bodyFormData.append('actividad', this.state.newNameAct)
+         bodyFormData.append('orden', i + "")
          bodyFormData.append('imagen', this.state.imagePath[i])
          axios({
             method: "post",
@@ -83,15 +85,16 @@ export default class AddActividad extends Component {
             headers: { "Content-Type": "multipart/form-data" },
          }).catch(err => {
             //handle error
-            alert('No se ha podido guardar las imágenes');
-            correcto = false;
+            alert('Error, no se ha podido guardar la imagen ' + i + ": " + this.state.newNameAc);
+            // correcto = false;
             this.setState({ logInError: true, errorMessage: 'Error, no se ha podido guardar la actividad: ' + err })
          });
       }
-      if (correcto) {
-         alert("Imágenes guardadas correctamente")
-         this.setState({ redirectList: true })
-      }
+      // if (correcto) {
+      //    alert(" Imágenes guardadas ")
+      //    this.setState({ redirectList: true })
+      // }
+      this.setState({ redirectList: true })
    }
 
    handleFileChange = (event) => {
@@ -210,18 +213,26 @@ export default class AddActividad extends Component {
                   </form>
                </div>
                <div className="objectline secuenciaPicto parte">
-                  <h2>Secuencia de pictogramas</h2>
-                  <div className="scroll">
-                     {this.state.totalImages ? null : <div>Esta actividad no tiene ningún pictograma</div>}
+                  <div className="cuadroPictos">
 
-                     {this.listaImages()}
+                     <h2>Secuencia de pictogramas</h2>
+                     <div className="scroll">
+                        {this.state.totalImages ? null : <div>Esta actividad no tiene ningún pictograma</div>}
+
+                        {this.listaImages()}
+                     </div>
                   </div>
+<<<<<<< HEAD
                   Seleccionar pictogramas: (opcional) 
                   {/* <br></br> *//*}
+=======
+                  Seleccionar pictogramas: (opcional)
+                  {/* <br></br> */}
+>>>>>>> main
                   <input type="file" title="Seleccionar imagen " onChange={this.handleFileChange} />
                </div>
             </div>
-            <div className="parteBotones">
+            <div className="parteBotonesh">
                <button className="botonAcciones verde" onClick={this.handleSubmitData}>
                   Añadir Actividad
                </button>

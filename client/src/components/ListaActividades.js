@@ -3,7 +3,7 @@ import React, { Component } from "react"
 import { Link } from 'react-router-dom'
 import Header from "./Header"
 import { SERVER_HOST } from "../config/global_constants"
-import "../css/AdminAlumPrincipal.css"
+import "../css/ListaTareasAct.css"
 
 // // Datos de prueba
 // function createData(nombre, key) {
@@ -18,15 +18,11 @@ import "../css/AdminAlumPrincipal.css"
 //    createData('Actividad4', '4'),
 // ];
 
-const ActRow = ({ nombre, modificar }) => {
+const ActRow = ({ nombre, acceder }) => {
    return (
       <tr>
-         <td>{`${nombre}`}</td>
-         <td>{modificar}</td>
-         {/* <td>
-            {`${id}`}
-         <Link to="/ModActividad/${id}"><input id="modActividad" type="button" value="Modificar" /></Link>
-         </td> */}
+         <td className="nombreActividad">{`${nombre}`}</td>
+         <td>{acceder}</td>
       </tr>
    );
 };
@@ -125,27 +121,31 @@ export default class ListaActividades extends Component {
       let i = 0;
       unaActividad.push(
          <div key={i++}>
-            <input label="Search" onChange={this.onChange} placeholder="Buscar Actividad..." />
+            <input label="Search" onChange={this.onChange} placeholder="Buscar Actividad..." className="buscarActividad" />
             <div>
-               <table className="table table-bordered" >
-                  <tbody>
+               <table className="table table-bordered tablaActs" >
+                  <thead>
+                     {/* <tr> */}
+                     <th
+                        style={{ cursor: "pointer" }}
+                        onClick={this.sortResults}
+                        id="name"
+                     >
+                        Actividades {!this.state.order ? null : this.state.order === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
+                     </th>
+                     {/* <th>Acceder</th> */}
+                     {/* </tr> */}
+                  </thead>
+                  <tbody className="allWidth tablaActividades">
                      <tr>
-                        <th
-                           style={{ cursor: "pointer" }}
-                           onClick={this.sortResults}
-                           // onClick={() => { this.sortResults() }}
-                           id="name"
-                        >
-                           Actividades {this.state.order == "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
-                        </th>
+                        {this.state.muestraActividades.map(item => (
+                           <ActRow
+                              nombre={item.nombre}
+                              acceder={<Link className="botonAcciones botonTabla" to={{ pathname: `ModActividad/${item.key}` }}> Ver </Link>}
+                              key={item.key}
+                           />
+                        ))}
                      </tr>
-                     {this.state.muestraActividades.map(item => (
-                        <ActRow
-                           nombre={item.nombre}
-                           modificar={<Link className="boton2" to={{ pathname: `ModActividad/${item.key}` }}> Modificar </Link>}
-                           key={item.key}
-                        />
-                     ))}
                   </tbody>
                </table>
             </div>
@@ -159,14 +159,16 @@ export default class ListaActividades extends Component {
          <div className="web-container">
             <Header />
             <h1>Listado de actividades</h1>
-            {this.state.error ? <div>Error: {this.state.error.message}</div> : null}
-            {this.state.mounted ? null : <div> Cargando actividades... </div>}
-            {this.showTable()}
-            <div className="Body">
-               <div className="botonesContainer">
-                  <Link to="/AddActividad"><input id="addActividad" type="button" value="AÑADIR ACTIVIDAD" /></Link>
-                  <Link to="/AddTareaAct"><input id="addTareaAct" type="button" value="ASIGNAR ACTIVIDAD" /></Link>
-                  <Link to="/ListaTareas"><input id="toggleATareas" type="button" value="VER TAREAS ASIGNADAS" /></Link>
+            <div className="both">
+               <div className="objectline parte listaActividadesTabla">
+                  {this.state.error ? <div>Error: {this.state.error.message}</div> : null}
+                  {this.state.mounted ? null : <div> Cargando actividades... </div>}
+                  {this.showTable()}
+               </div>
+               <div className="botonesLista parteBotonesVertical objectline parte">
+                  <Link to="/AddActividad"><input id="addActividad" type="button" value="Añadir Actividad" className="botonAcciones" /></Link>
+                  <Link to="/AddTareaAct"><input id="addTareaAct" type="button" value="Asignar Actividad" className="botonAcciones" /></Link>
+                  <Link to="/ListaTareas"><input id="toggleATareas" type="button" value="Ver Tareas Asignadas" className="botonAcciones botonToggle" /></Link>
                </div>
             </div>
          </div>

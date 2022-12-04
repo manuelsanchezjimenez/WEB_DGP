@@ -55,7 +55,7 @@ const addTareaActividad = (req, res, next) => {
         } else {
             if (getData) {
                 tarea.nombre = getData.nombre;
-                tarea.descripcion = getData.descripcion + " " + req.body.adicional;
+                tarea.descripcion = getData.descripcion + "\n " + req.body.adicional;
                 console.log("++Ess: " + getData.nombre + "\n Y es: " + getData.descripcion + "\n Añadiendo eso de: " + req.body.adicional)
                 // tarea.nombre = getData.nombre;
                 // tarea.descripcion = getData.descripcion + " " + req.body.adicional;
