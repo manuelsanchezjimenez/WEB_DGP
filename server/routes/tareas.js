@@ -180,7 +180,7 @@ router.get(`/tareas/getAll`, getTareas)
 router.get(`/tareas/findByID/:id`, findIDTarea)
 router.get(`/tareas/findByName/:id`, findNameTarea)
 router.delete(`/tareas/delete/:id`, deleteAct)
-router.put(`/tareas/update`, updateTarea)
+router.put(`/tareas/update/:id`, updateTarea)
 // router.post(`/tareas/imgAdd`, upload.none(), ImgUpp)
 
 module.exports = router

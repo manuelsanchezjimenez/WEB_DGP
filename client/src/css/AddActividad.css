@@ -1,4 +1,4 @@
-import axios from "axios"
+/*import axios from "axios"
 import React, { Component } from "react"
 // import ReactDOM from 'react-dom';
 import { Redirect, Link } from 'react-router-dom'
@@ -217,7 +217,7 @@ export default class AddActividad extends Component {
                      {this.listaImages()}
                   </div>
                   Seleccionar pictogramas: (opcional) 
-                  {/* <br></br> */}
+                  {/* <br></br> *//*}
                   <input type="file" title="Seleccionar imagen " onChange={this.handleFileChange} />
                </div>
             </div>
@@ -231,3 +231,4 @@ export default class AddActividad extends Component {
       );
    }
 }
+*/

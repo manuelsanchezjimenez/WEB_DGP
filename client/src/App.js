@@ -23,6 +23,7 @@ import ConModAdmin from "./components/ConModAdmin"
 import AdminProfPrincipal from "./components/AdminProfPrincipal"
 import AdminAdminPrincipal from "./components/AdminAdminPrincipal"
 import AddTareaAct from "./components/AddTareaAct"
+import Feedback from "./components/Feedback"
 
 
 export default class App extends Component {
@@ -38,13 +39,13 @@ export default class App extends Component {
                     <LoggedInRouteAdmin exact path="/ConModTeacher/:id" component={ConModTeacher} />
                     <LoggedInRouteAdmin exact path="/ConModAdmin/:id" component={ConModAdmin} />
                     <LoggedInRouteTeacher exact path="/ConModStudent/:id" component={ConModStudent} />
-                    <LoggedInRouteTeacher exact path="/Feedback/:id" component={ConModStudent} />
+                    <LoggedInRouteTeacher exact path="/Feedback/:id" component={Feedback} />
                     <Route exact path="/AdminAlumPrincipal" component={AdminAlumPrincipal} />
                     <Route exact path="/AdminProfPrincipal" component={AdminProfPrincipal} />
                     <Route exact path="/AdminAdminPrincipal" component = {AdminAdminPrincipal} />
                     <LoggedInRouteAdmin exact path="/Register/:user" component={Register} />
                     <Route exact path="/ListaActividades" component={ListaActividades} />
-                    <Route exact path="/AddActividad" component={AddActividad} />
+                    {/* <Route exact path="/AddActividad" component={AddActividad} /> */}
                     <Route exact path="/ModActividad" component={ModActividad} />
                     <Route exact path="/ListaTareas" component={ListaTareas} />
                     <Route exact path="/AddTareaAct" component={AddTareaAct} />
