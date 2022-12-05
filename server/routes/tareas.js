@@ -55,8 +55,8 @@ const addTareaActividad = (req, res, next) => {
         } else {
             if (getData) {
                 tarea.nombre = getData.nombre;
-                tarea.descripcion = getData.descripcion + "\n " + req.body.adicional;
-                console.log("++Ess: " + getData.nombre + "\n Y es: " + getData.descripcion + "\n Añadiendo eso de: " + req.body.adicional)
+                tarea.descripcion = getData.descripcion;// + "\n " + req.body.adicional;
+                // console.log("++Ess: " + getData.nombre + "\n Y es: " + getData.descripcion + "\n Añadiendo eso de: " + req.body.adicional)
                 // tarea.nombre = getData.nombre;
                 // tarea.descripcion = getData.descripcion + " " + req.body.adicional;
                 tarea.alumno = req.body.alumno
@@ -66,8 +66,9 @@ const addTareaActividad = (req, res, next) => {
                 tarea.completado = false
                 tarea.type = 1
                 tarea.actividad = req.body.actividad
-                tarea.feedbackAlum=''
-                tarea.feedbackProf=''
+                tarea.feedbackAlum = ''
+                tarea.feedbackProf = ''
+                console.log("Nueva tarea para: " + tarea.alumno + " con la actividad " + tarea.nombre + ":\n " + tarea.descripcion)
                 tareaModel.create(tarea, (err, data) => {
                     if (err) {
                         // return next(createError(400, `Error on tarea creation.`))
@@ -155,7 +156,7 @@ const deleteAct = (req, res, next) => {
 
 const updateTarea = (req, res, next) => {
     var tarea
-    tareaModel.findOneAndUpdate({ _id: req.params.id }, { nombre: req.body.nombre, descripcion: req.body.descripcion, enlaceAudio: req.body.enlaceAudio, enlaceVideo: req.body.enlaceVideo,feedbackProf: req.body.feedbackProf,feedbackAlum: req.body.feedbackAlum   }, { returnNewDocument: true }, (err, data) => {
+    tareaModel.findOneAndUpdate({ _id: req.params.id }, { nombre: req.body.nombre, descripcion: req.body.descripcion, enlaceAudio: req.body.enlaceAudio, enlaceVideo: req.body.enlaceVideo, feedbackProf: req.body.feedbackProf, feedbackAlum: req.body.feedbackAlum }, { returnNewDocument: true }, (err, data) => {
         if (err)
             return next(createError(400, err))
         if (data)
