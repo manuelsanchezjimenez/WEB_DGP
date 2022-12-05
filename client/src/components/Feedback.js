@@ -162,7 +162,7 @@ export default class Feedback extends Component {
                   </div> : null}
                <div id="buttons">
                   <input type="button" className="green-button" value="Poner feedback" disabled={this.allFilled()} onClick={this.updateTarea} />
-                  <Link to="/ListaTareas"><input type="button" className="red-button" value="Cancelar" /></Link>
+                  <Link to="/ListaTareas"><input type="button" className="red-button" value="Volver a la Lista de Tareas" /></Link>
                </div>
             </div>
          </div>
