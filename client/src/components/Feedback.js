@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import Header from "./Header"
 
-import { Redirect, Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 import axios from "axios"
 import { SERVER_HOST } from "../config/global_constants"
@@ -44,8 +44,8 @@ export default class Feedback extends Component {
                   this.setState({ completado: res.data.completado })
                   this.setState({ alumnoID: res.data.alumnoID })
                   this.setState({ id_t: res.data.id_t })
-                  this.setState({ feedbackAlumno: res.data.feedbackAlum})
-                  this.setState({ feedbackProfesor: res.data.feedbackProf})
+                  this.setState({ feedbackAlumno: res.data.feedbackAlum })
+                  this.setState({ feedbackProfesor: res.data.feedbackProf })
                   this.setState({ alumno: res.data.alumno })
                   this.setState({ type: res.data.type })
                   this.setState({ id_t: res.data._id })
@@ -145,15 +145,15 @@ export default class Feedback extends Component {
                         <div className="item-container">
                            <div className="item-container5">
                               <h4>Retroalimentacion por parte del profesor</h4>
-                              
-                              Nivel de satisfaccion: 
+
+                              Nivel de satisfaccion:
                               <select id="seleccion" name="feedbackProfesor" defaultValue="bien" onChange={this.handleChange}>
                                  <option value="bien">Bien</option>
                                  <option value="muybien">Muy Bien</option>
                                  <option value="mejora">A mejorar</option>
                               </select>
                               <br />
-                              <br/>
+                              <br />
                               <textarea className="textoFeedback" name="feedbackProfesor" onChange={this.handleChange}></textarea>
                            </div>
                         </div>

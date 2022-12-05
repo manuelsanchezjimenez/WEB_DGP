@@ -21,7 +21,7 @@ export default class LogInCheck extends Component
     }
 
     componentDidMount() {
-        if (typeof localStorage.accessLevel === "undefined" || !localStorage.token || localStorage.accessLevel == ACCESS_LEVEL_GUEST)
+        if (typeof localStorage.accessLevel === "undefined" || !localStorage.token || localStorage.accessLevel === ACCESS_LEVEL_GUEST)
         {
             localStorage.clear()
             localStorage.email = "GUEST"

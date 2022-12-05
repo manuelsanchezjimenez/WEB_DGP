@@ -4,8 +4,9 @@ import { Redirect, Link } from 'react-router-dom'
 import Header from "./Header"
 import "../css/aniadirAlumno.css"
 import axios from "axios"
+import { ACCESS_LEVEL_TEACHER, ACCESS_LEVEL_ADMIN } from "../config/global_constants"
 
-import { ACCESS_LEVEL_GUEST, SERVER_HOST } from "../config/global_constants"
+import { SERVER_HOST } from "../config/global_constants"
 
 export default class Register extends Component {
 
@@ -27,7 +28,6 @@ export default class Register extends Component {
             userExitsError: false,
             errorMessage: ''
         }
-
     }
 
     componentDidMount() {
@@ -49,9 +49,9 @@ export default class Register extends Component {
             return true
         }
     }
-    
+
     validateContra() {
-        if(this.state.contra === '')
+        if (this.state.contra === '')
             return false
         else
             return true
@@ -96,25 +96,24 @@ export default class Register extends Component {
 
         this.setState({ [e.target.name]: e.target.value })
     }
-    handleFileChange = (e) => 
-    {
-        this.setState({foto: e.target.files})
+    handleFileChange = (e) => {
+        this.setState({ foto: e.target.files })
     }
 
     addUser = e => {
 
         //clientSide validation
         const formInputsState = this.validation()
-        const inputsAreAllValid = Object.keys(formInputsState).every(index => formInputsState[index])      
+        const inputsAreAllValid = Object.keys(formInputsState).every(index => formInputsState[index])
 
 
-        if(!inputsAreAllValid){
-            this.setState({tried: true})
+        if (!inputsAreAllValid) {
+            this.setState({ tried: true })
         } else {
             //we encode the pass for cases with especial character
             let encodedPass = encodeURIComponent(this.state.contra)
             let fotos = null
-            
+
 
             //we create the formData that will be passed to the server
             var bodyFormData = new FormData();
@@ -124,7 +123,7 @@ export default class Register extends Component {
             bodyFormData.append('clase', this.state.clase)
             bodyFormData.append('tipo', this.state.tipo)
             bodyFormData.append('tipoLetra', this.state.tipoLetra)
-            if(this.state.foto != null){
+            if (this.state.foto != null) {
                 fotos = [...this.state.foto]
                 bodyFormData.append('foto', fotos[0])
             }
@@ -160,10 +159,13 @@ export default class Register extends Component {
         let empty = <div className="error">Rellene el campo</div>
         let emptyFile = <div className="error">Suba un archivo</div>
 
-        {this.state.tried? 
-            formInputsState = this.validation()
-            : formInputsState = this.validationTrue()
+        {
+            this.state.tried ?
+                formInputsState = this.validation()
+                : formInputsState = this.validationTrue()
         }
+        let link = ''
+        { parseInt(localStorage.accessLevel) === ACCESS_LEVEL_ADMIN ? link = '/HomeAdmin' : link = '/HomeTeacher' }
 
         return (
             <div id="registerWeb" className="Body">
@@ -253,20 +255,17 @@ export default class Register extends Component {
                                 </div>
                                 {formInputsState.dni ? "" : empty}
                                 <div className="sub-item-container">
-                                    <input type="file" id="uploadedImage" name="foto" onChange = {this.handleFileChange} accept="image/png"/>
-                                </div> <br/>
+                                    <input type="file" id="uploadedImage" name="foto" onChange={this.handleFileChange} accept="image/png" />
+                                </div> <br />
                                 {formInputsState.foto ? "" : emptyFile}
                             </div> : null}
-
                         <div className="register-buttons">
-                        
                             <div>
-                                <input type="button" className="green-button" value="Añadir usuario"  onClick={this.addUser} />
+                                <input type="button" className="green-button" value="Añadir usuario" onClick={this.addUser} />
+                                <Link to={`${link}`}><input type="button" className="red-button" value="Cancelar" /></Link>
                             </div>
                         </div>
-
                     </div>
-            
                 </form >
             </div>
         )

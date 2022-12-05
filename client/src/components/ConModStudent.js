@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import Header from "./Header"
 
-import { Redirect, Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 import axios from "axios"
 import { SERVER_HOST } from "../config/global_constants"

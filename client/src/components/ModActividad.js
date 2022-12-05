@@ -24,7 +24,6 @@ export default class ModActividad extends Component
             redirect: false,
             mounted: false
         }
-
     }
     componentDidMount = () =>{
         axios.get(`${SERVER_HOST}/Users/teacher/635fb436e007e28b40b1c677`,{headers:{"authorization":localStorage.token}})

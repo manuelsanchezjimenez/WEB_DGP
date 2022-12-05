@@ -43,7 +43,7 @@ export default class ListaAlumnos extends Component {
                   let getData = JSON.parse(JSON.stringify(res.data).toString());
                   let saveData = [];
                   for (let i = 0; i < getData.length; i++) {
-                     if (getData[i].usuario != localStorage.usuario)
+                     if (getData[i].usuario !== localStorage.usuario)
                         saveData.push({ nombre: getData[i].nombre, Usuario: getData[i].usuario, key: getData[i]._id });
                   }
                   // this.setState({ actividades: tableData, muestraProfesores: tableData, mounted: true });

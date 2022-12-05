@@ -43,7 +43,7 @@ export default class AddActividad extends Component {
       // clearText = this.clearEmptyLines(clearText)
       let total = this.clearEmptyLines(clearText)
       this.setState({ newDesrAct: clearText })
-      if (this.state.totalImages > 0 && total != this.state.totalImages) {
+      if (this.state.totalImages > 0 && total !== this.state.totalImages) {
          alert('El número de pasos descritos no coinciden con el total de imágenes introducidas\nPasos descritos: "' + total + '"\nNúmero de imáges: ' + this.state.totalImages);
          return false;
       }
@@ -54,7 +54,7 @@ export default class AddActividad extends Component {
       let dirtyLinesText = string.split('\n');
       let clearText = [""];
       for (let i = 0, x = 0; i < dirtyLinesText.length; i++) {
-         if (dirtyLinesText[i].trim() != "") {
+         if (dirtyLinesText[i].trim() !== "") {
             clearText[x] = dirtyLinesText[i];
             x++;
          }
