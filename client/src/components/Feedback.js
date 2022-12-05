@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import Header from "./Header"
 
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 
 import axios from "axios"
 import { SERVER_HOST } from "../config/global_constants"
@@ -162,6 +162,7 @@ export default class Feedback extends Component {
                   </div> : null}
                <div id="buttons">
                   <input type="button" className="green-button" value="Poner feedback" disabled={this.allFilled()} onClick={this.updateTarea} />
+                  <Link to="/ListaTareas"><input type="button" className="red-button" value="Cancelar" /></Link>
                </div>
             </div>
          </div>
