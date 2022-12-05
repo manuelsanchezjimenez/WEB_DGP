@@ -5,12 +5,12 @@ import Header from "./Header"
 import { SERVER_HOST } from "../config/global_constants"
 import "../css/AdminAlumPrincipal.css"
 
-const ProfeRow = ({ nombre, Usuario, modificacion}) => {
+const ProfeRow = ({ nombre, Usuario, modificacion }) => {
    return (
-      <tr>
-         <td>{`${nombre}`}</td>
-         <td>{`${Usuario}`}</td>
-         <td>{modificacion}</td>
+      <tr className="allWidth">
+         <td className="celdaInfo">{`${nombre}`}</td>
+         <td className="celdaInfo">{`${Usuario}`}</td>
+         <td className="celdaCorta">{modificacion}</td>
       </tr>
    )
 }
@@ -22,11 +22,12 @@ export default class ListaAlumnos extends Component {
          error: null,
          mounted: false,
          search: "",
+         order: [],
          profesores: [],
          muestraProfesores: []
       };
       this.showTable = this.showTable.bind(this);
-      this.sortResults = this.sortResults.bind(this);
+      this.sorting = this.sorting.bind(this);
    }
    componentDidMount() {
       axios.get(
@@ -42,11 +43,11 @@ export default class ListaAlumnos extends Component {
                   let getData = JSON.parse(JSON.stringify(res.data).toString());
                   let saveData = [];
                   for (let i = 0; i < getData.length; i++) {
-                     if(getData[i].usuario != localStorage.usuario)
+                     if (getData[i].usuario != localStorage.usuario)
                         saveData.push({ nombre: getData[i].nombre, Usuario: getData[i].usuario, key: getData[i]._id });
                   }
                   // this.setState({ actividades: tableData, muestraProfesores: tableData, mounted: true });
-                  
+
                   this.setState({ profesores: saveData, muestraProfesores: saveData, mounted: true });
                   console.log(this.state.profesores[0]);
                }
@@ -63,22 +64,23 @@ export default class ListaAlumnos extends Component {
          return name.includes(query);
       });
    };
-   sortResults = event => {
+
+   sorting = (col) => {
       this.setState(prevState => {
          const { muestraProfesores, sortOrder } = prevState;
          if (sortOrder === "desc") {
             muestraProfesores.sort((a, b) => {
-               if (a.nombre > b.nombre) {
+               if (a[col] > b[col]) {
                   return -1;
                }
-               return a.nombre > b.nombre ? 1 : 0;
+               return a[col] > b[col] ? 1 : 0;
             });
          } else {
             muestraProfesores.sort((a, b) => {
-               if (a.nombre < b.nombre) {
+               if (a[col] < b[col]) {
                   return -1;
                }
-               return a.nombre < b.nombre ? 1 : 0;
+               return a[col] < b[col] ? 1 : 0;
             });
          }
          return {
@@ -86,7 +88,10 @@ export default class ListaAlumnos extends Component {
             sortOrder: sortOrder === "desc" ? "asc" : "desc"
          };
       });
-   };
+      var newOrder = this.state.order[col] === "desc" ? "asc" : "desc"
+      let copyOrder = { [col]: newOrder };
+      this.setState({ order: copyOrder });
+   }
    onChange = e => {
       const query = e.target.value;
       this.setState(prevState => ({
@@ -96,20 +101,19 @@ export default class ListaAlumnos extends Component {
                : prevState.profesores
       }));
    };
-   deleteProfile = (id) =>{
-      axios.delete(`${SERVER_HOST}/Users/delete/admin/${id}`, {headers:{"authorization":localStorage.token}})
-      .then(res => 
-      {     
-          if(res.data)
-              if (res.data.errorMessage)
-                  console.log(res.data.errorMessage) 
-              else
-                  this.setState({redirect: true})   
+   deleteProfile = (id) => {
+      axios.delete(`${SERVER_HOST}/Users/delete/admin/${id}`, { headers: { "authorization": localStorage.token } })
+         .then(res => {
+            if (res.data)
+               if (res.data.errorMessage)
+                  console.log(res.data.errorMessage)
+               else
+                  this.setState({ redirect: true })
 
-      }).catch(error =>{
-          console.log("err:" + error.response.data)
-      })  
-  }
+         }).catch(error => {
+            console.log("err:" + error.response.data)
+         })
+   }
 
    showTable() {
       const pictos = [];
@@ -120,21 +124,26 @@ export default class ListaAlumnos extends Component {
          <div key={i++}>
             <input label="Search" onChange={this.onChange} placeholder="Buscar administradores..." />
             <div>
-               <table className="table table-bordered" >
-                  <tbody>
+               <table className="table table-bordered TablaLista" >
+               <tbody>
                      <tr>
                         <th
                            style={{ cursor: "pointer" }}
-                           onClick={this.sortResults}
-                           // onClick={() => { this.sortResults() }}
+                           className="celdaInfo"
                            id="name"
+                           onClick={() => { this.sorting("nombre") }}
                         >
-                           Nombre
+                           Nombre {!this.state.order.nombre ? null : this.state.order.nombre === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
-                        <th>
-                           Usuario
+                        <th
+                           style={{ cursor: "pointer" }}
+                           className="celdaInfo"
+                           id="name"
+                           onClick={() => { this.sorting("Usuario") }}
+                        >
+                           Usuario {!this.state.order.Usuario ? null : this.state.order.Usuario === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
-                        <th>
+                        <th className="celdaCorta">
                            Moficacion
                         </th>
                      </tr>
@@ -144,9 +153,8 @@ export default class ListaAlumnos extends Component {
                            Usuario={item.Usuario}
                            curso={item.curso}
                            key={item.key}
-                           modificacion={<Link className="boton2" to={{pathname: `ConModAdmin/${item.key}`}}> Modificar </Link>} 
+                           modificacion={<Link className="boton2" to={{ pathname: `ConModAdmin/${item.key}` }}> Ver </Link>}
                         />
-                        
                      ))}
                   </tbody>
                </table>
@@ -171,11 +179,10 @@ export default class ListaAlumnos extends Component {
                </div>
                <div className="Body">
                   <div className="botonesContainer">
-                     
-                     <Link to={{pathname: `Register/admin`}}><input id="aniadiProfesor" type="button" className="boton2" value="AÑADIR ADMIN" /></Link>
-
+                     <Link to={{ pathname: `Register/admin` }}><input id="aniadiProfesor" type="button" className="boton2" value="AÑADIR ADMIN" /></Link>
                   </div>
-               </div></div>
+               </div>
+            </div>
          </div>
 
       )

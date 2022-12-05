@@ -8,8 +8,8 @@ import "../css/ListaTareasAct.css"
 const TarRow = ({ nombre, fechaInicio, fechaFinal, completado, alumno, type, acceso }) => {
    return (
       <tr className="allWidth">
-         <td className="celdaTarea">{`${alumno}`}</td>
-         <td className="celdaTarea">{`${nombre}`}</td>
+         <td className="celdaInfo">{`${alumno}`}</td>
+         <td className="celdaInfo">{`${nombre}`}</td>
          <td className="celdaCorta">{`${fechaInicio}`}</td>
          <td className="celdaCorta">{`${fechaFinal}`}</td>
          <td className="celdaCorta">{`${type}` === "1" ? "Actividad" : "Comanda"}</td>
@@ -119,85 +119,97 @@ export default class ListaTareas extends Component {
    fechaformat(dateTime) {
       var date = new Date(dateTime);
       var fechaFormateada =
-         ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + 
+         ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) +
          '/' + ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) +
          '/' + date.getFullYear() +
          ", " + ((date.getHours() > 9) ? date.getHours() : ('0' + date.getHours())) +
          ":" + ((date.getMinutes() > 9) ? date.getMinutes() : ('0' + date.getMinutes()));
       return (fechaFormateada);
    }
-   
+
    showTable() {
       const unaTarea = [];
       let i = 0;
       unaTarea.push(
          <div key={i++}>
-            <input label="Search" onChange={this.onChange} placeholder="Buscar Tarea por alumno, nombre, fecha..." className="buscarActividad" />
+            <input label="Search" onChange={this.onChange} placeholder="Buscar Tarea por alumno, nombre, fecha..." className="buscarFiltro" />
             <div>
-               <table className="table table-bordered tablaActs" >
+               <table className="table table-bordered TablaLista" >
                   <thead>
-                     <th
+                     <tr>
+                        <th className="celdaInfo"
                         style={{ cursor: "pointer" }}
                         id="alu"
-                        className="celdaTarea"
+                        // className="celdaInfo"
                         onClick={() => { this.sorting("alumno") }}>
-                        Alumno {!this.state.order.alumno ? null : this.state.order.alumno === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
-                     </th>
-                     <th
+                           Alumno {!this.state.order.alumno ? null : this.state.order.alumno === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
+                        </th>
+                     {/* </tr>
+                     <tr */}
+                        <th className="celdaInfo"
                         style={{ cursor: "pointer" }}
                         id="tar"
-                        className="celdaTarea"
+                        // className="celdaInfo"
                         onClick={() => this.sorting("nombre")}>
-                        Tarea {!this.state.order.nombre ? null : this.state.order.nombre === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
-                     </th>
-                     <th
+                           Tarea {!this.state.order.nombre ? null : this.state.order.nombre === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
+                        </th>
+                     {/* </tr>
+                     <tr */}
+                        <th className="celdaCorta"
                         style={{ cursor: "pointer" }}
                         id="ini"
-                        className="celdaCorta"
+                        // className="celdaCorta"
                         onClick={() => this.sorting("fechaInicio")}>
-                        Fecha de inicio {!this.state.order.fechaInicio ? null : this.state.order.fechaInicio === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
-                     </th>
-                     <th
+                           Fecha de inicio {!this.state.order.fechaInicio ? null : this.state.order.fechaInicio === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
+                        </th>
+                     {/* </tr>
+                     <tr */}
+                        <th className="celdaCorta"
                         style={{ cursor: "pointer" }}
                         id="fin"
-                        className="celdaCorta"
+                        // className="celdaCorta"
                         onClick={() => this.sorting("fechaFinal")}>
-                        Fecha final {!this.state.order.fechaFinal ? null : this.state.order.fechaFinal === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
-                     </th>
-                     <th
+                           Fecha final {!this.state.order.fechaFinal ? null : this.state.order.fechaFinal === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
+                        </th>
+                     {/* </tr>
+                     <tr */}
+                        <th className="celdaCorta"
                         style={{ cursor: "pointer" }}
                         id="tip"
-                        className="celdaCorta"
+                        // className="celdaCorta"
                         onClick={() => this.sorting("type")}>
-                        Tipo {!this.state.order.type ? null : this.state.order.type === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
-                     </th>
-                     <th
+                           Tipo {!this.state.order.type ? null : this.state.order.type === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
+                        </th>
+                     {/* </tr>
+                     <tr */}
+                        <th className="celdaCorta"
                         style={{ cursor: "pointer" }}
                         id="com"
-                        className="celdaCorta"
+                        // className="celdaCorta"
                         onClick={() => this.sorting("completado")}>
-                        Completado {!this.state.order.completado ? null : this.state.order.completado === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
-                     </th>
+                           Completado {!this.state.order.completado ? null : this.state.order.completado === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
+                        </th>
                      <th className="celdaCorta">
                      </th>
+                     </tr>
                   </thead>
                   <tbody className="allWidth tablaTareas">
                      {/* <tr> */}
-                        {this.state.muestraTareas.map(item => (
-                           <TarRow
-                              nombre={item.nombre}
-                              // fechaInicio={item.fechaInicio}
-                              // fechaFinal={item.fechaFinal}
-                              fechaInicio={this.fechaformat(item.fechaInicio)}
-                              fechaFinal={this.fechaformat(item.fechaFinal)}
-                              completado={item.completado}
-                              alumno={item.alumno}
-                              type={item.type}
-                              acceso={<Link className="botonAcciones botonTablaTareas" to={{ pathname: `Feedback/${item.key}` }}> Acceder </Link>}
-                              id={item.key}
-                              key={item.key}
-                           />
-                        ))}
+                     {this.state.muestraTareas.map(item => (
+                        <TarRow
+                           nombre={item.nombre}
+                           // fechaInicio={item.fechaInicio}
+                           // fechaFinal={item.fechaFinal}
+                           fechaInicio={this.fechaformat(item.fechaInicio)}
+                           fechaFinal={this.fechaformat(item.fechaFinal)}
+                           completado={item.completado}
+                           alumno={item.alumno}
+                           type={item.type}
+                           acceso={<Link className="botonAcciones botonTablaTareas" to={{ pathname: `Feedback/${item.key}` }}> Acceder </Link>}
+                           id={item.key}
+                           key={item.key}
+                        />
+                     ))}
                      {/* </tr> */}
                   </tbody>
                </table>

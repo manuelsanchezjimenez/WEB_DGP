@@ -8,11 +8,11 @@ import "../css/AdminAlumPrincipal.css"
 
 const AlumnRow = ({ nombre, Usuario, curso, modificacion }) => {
    return (
-      <tr>
-         <td>{`${nombre}`}</td>
-         <td>{`${Usuario}`}</td>
-         <td>{`${curso}`}</td>
-         <td>{modificacion}</td>
+      <tr className="allWidth">
+         <td className="celdaInfo">{`${nombre}`}</td>
+         <td className="celdaInfo">{`${Usuario}`}</td>
+         <td className="celdaCorta">{`${curso}`}</td>
+         <td className="celdaCorta">{modificacion}</td>
       </tr>
    )
 }
@@ -23,12 +23,12 @@ export default class ListaAlumnos extends Component {
       this.state = {
          error: null,
          mounted: false,
-         order: "",
+         order: [],
          alumnos: [],
          muestraAlumnos: []
       };
       this.showTable = this.showTable.bind(this);
-      this.sortResults = this.sortResults.bind(this);
+      this.sorting = this.sorting.bind(this);
    }
    componentDidMount() {
       axios.get(
@@ -60,26 +60,32 @@ export default class ListaAlumnos extends Component {
    filterResults = (query, results) => {
       return results.filter(alumno => {
          const name = alumno.nombre.toLowerCase();
-
-         return name.includes(query.toLowerCase());
+         const user = alumno.Usuario.toLowerCase();
+         // const curso = String.valueOf(alumno.curso);
+         // const curso = alumno.curso.toLowerCase();
+         return name.includes(query.toLowerCase())
+            || user.includes(query.toLowerCase())
+            // || curso.includes(query.toLowerCase())
+            ;
       });
    };
-   sortResults = event => {
+
+   sorting = (col) => {
       this.setState(prevState => {
          const { muestraAlumnos, sortOrder } = prevState;
          if (sortOrder === "desc") {
             muestraAlumnos.sort((a, b) => {
-               if (a.nombre > b.nombre) {
+               if (a[col] > b[col]) {
                   return -1;
                }
-               return a.nombre > b.nombre ? 1 : 0;
+               return a[col] > b[col] ? 1 : 0;
             });
          } else {
             muestraAlumnos.sort((a, b) => {
-               if (a.nombre < b.nombre) {
+               if (a[col] < b[col]) {
                   return -1;
                }
-               return a.nombre < b.nombre ? 1 : 0;
+               return a[col] < b[col] ? 1 : 0;
             });
          }
          return {
@@ -87,9 +93,11 @@ export default class ListaAlumnos extends Component {
             sortOrder: sortOrder === "desc" ? "asc" : "desc"
          };
       });
-      var newOrder = this.state.order === "desc" ? "asc" : "desc"
-      this.setState({ order: newOrder });
-   };
+      var newOrder = this.state.order[col] === "desc" ? "asc" : "desc"
+      let copyOrder = { [col]: newOrder };
+      this.setState({ order: copyOrder });
+   }
+
    onChange = e => {
       const query = e.target.value;
       this.setState(prevState => ({
@@ -125,19 +133,29 @@ export default class ListaAlumnos extends Component {
                      <tr>
                         <th
                            style={{ cursor: "pointer" }}
-                           onClick={this.sortResults}
-                           // onClick={() => { this.sortResults() }}
+                           className="celdaInfo"
                            id="name"
+                           onClick={() => { this.sorting("nombre") }}
                         >
-                           Nombre {this.state.order === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
+                           Nombre {!this.state.order.nombre ? null : this.state.order.nombre === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
-                        <th>
-                           Usuario
+                        <th
+                           style={{ cursor: "pointer" }}
+                           className="celdaInfo"
+                           id="name"
+                           onClick={() => { this.sorting("Usuario") }}
+                        >
+                           Usuario {!this.state.order.Usuario ? null : this.state.order.Usuario === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
-                        <th>
-                           Curso
+                        <th
+                           style={{ cursor: "pointer" }}
+                           className="celdaCorta"
+                           id="name"
+                           onClick={() => { this.sorting("curso") }}
+                        >
+                           Curso {!this.state.order.curso ? null : this.state.order.curso === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
-                        <th>
+                        <th className="celdaCorta">
                            Moficacion
                         </th>
                      </tr>
@@ -148,7 +166,7 @@ export default class ListaAlumnos extends Component {
                               Usuario={item.Usuario}
                               curso={item.curso}
                               key={item.key}
-                              modificacion={<Link className="boton2" to={{ pathname: `ConModStudent/${item.key}` }}> Modificar </Link>}
+                              modificacion={<Link className="boton2" to={{ pathname: `ConModStudent/${item.key}` }}> Ver </Link>}
                            /> :
 
                            <AlumnRow
@@ -183,10 +201,10 @@ export default class ListaAlumnos extends Component {
                <div>
                </div>
                <div className="Body">
-                  {parseInt(localStorage.accessLevel) === ACCESS_LEVEL_ADMIN ? 
-                  <div className="botonesContainer">
-                     <Link to={{pathname: `Register/student`}}><input id="aniadirAlumno" type="button" className="boton2" value="AÑADIR ALUMNO" /></Link>
-                  </div> :null}
+                  {parseInt(localStorage.accessLevel) === ACCESS_LEVEL_ADMIN ?
+                     <div className="botonesContainer">
+                        <Link to={{ pathname: `Register/student` }}><input id="aniadirAlumno" type="button" className="boton2" value="AÑADIR ALUMNO" /></Link>
+                     </div> : null}
 
                </div></div>
          </div>

@@ -20,8 +20,8 @@ import "../css/ListaTareasAct.css"
 
 const ActRow = ({ nombre, acceder }) => {
    return (
-      <tr>
-         <td className="nombreActividad">{`${nombre}`}</td>
+      <tr className="allWidth">
+         <td className="celdaLargaPpal">{`${nombre}`}</td>
          <td>{acceder}</td>
       </tr>
    );
@@ -121,32 +121,34 @@ export default class ListaActividades extends Component {
       let i = 0;
       unaActividad.push(
          <div key={i++}>
-            <input label="Search" onChange={this.onChange} placeholder="Buscar Actividad..." className="buscarActividad" />
+            <input label="Search" onChange={this.onChange} placeholder="Buscar Actividad..." className="buscarFiltro" />
             <div>
                <table className="table table-bordered tablaActs" >
                   <thead>
                      {/* <tr> */}
-                     <th
+                     <tr
                         style={{ cursor: "pointer" }}
-                        className="nombreActividad"
+                        // className="celdaLargaPpal"
                         onClick={this.sortResults}
                         id="name"
                      >
-                        Actividades {!this.state.order ? null : this.state.order === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
-                     </th>
+                        <th className="celdaLargaPpal">
+                           Actividades {!this.state.order ? null : this.state.order === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
+                        </th>
+                     </tr>
                      {/* <th>Acceder</th> */}
                      {/* </tr> */}
                   </thead>
-                  <tbody className="allWidth tablaActividades">
-                     <tr>
-                        {this.state.muestraActividades.map(item => (
-                           <ActRow
-                              nombre={item.nombre}
-                              acceder={<Link className="botonAcciones botonTabla" to={{ pathname: `ModActividad/${item.key}` }}> Ver </Link>}
-                              key={item.key}
-                           />
-                        ))}
-                     </tr>
+                  <tbody className="allWidth">
+                     {/* <tr> */}
+                     {this.state.muestraActividades.map(item => (
+                        <ActRow
+                           nombre={item.nombre}
+                           acceder={<Link className="botonAcciones botonTabla" to={{ pathname: `ModActividad/${item.key}` }}> Ver </Link>}
+                           key={item.key}
+                        />
+                     ))}
+                     {/* </tr> */}
                   </tbody>
                </table>
             </div>

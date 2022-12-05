@@ -235,7 +235,7 @@ export default class AddTareaAct extends Component {
          <div key={i++} className="objectLine anchoTabla">
             <input className="anchoTabla" label="Search" onChange={this.onChangeAct} placeholder="Buscar Actividad..." />
             <div>
-               <table className="table table-bordered tablaActs anchoTabla" >
+               <table className="table table-bordered TablaLista anchoTabla" >
                   <thead>
                      <tr>
                         <th
