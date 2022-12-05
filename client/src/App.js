@@ -11,7 +11,6 @@ import LogInCheck from "./components/LogInCheck"
 import HomeTeacher from "./components/HomeTeacher"
 import HomeAdmin from "./components/HomeAdmin"
 import AdminAlumPrincipal from "./components/AdminAlumPrincipal"
-import aniadirAlumno from "./components/aniadirAlumno"
 import AddActividad from "./components/AddActividad"
 import ListaActividades from "./components/ListaActividades"
 import ModActividad from "./components/ModActividad"
@@ -23,8 +22,8 @@ import ConModAdmin from "./components/ConModAdmin"
 import AdminProfPrincipal from "./components/AdminProfPrincipal"
 import AdminAdminPrincipal from "./components/AdminAdminPrincipal"
 import AddTareaAct from "./components/AddTareaAct"
+import AddComanda from "./components/AddComanda"
 import Feedback from "./components/Feedback"
-
 
 export default class App extends Component {
     render() {
@@ -49,6 +48,7 @@ export default class App extends Component {
                     <Route exact path="/ModActividad" component={ModActividad} />
                     <Route exact path="/ListaTareas" component={ListaTareas} />
                     <Route exact path="/AddTareaAct" component={AddTareaAct} />
+                    <Route exact path="/AddComanda" component={AddComanda} />
                     <Route path="*" component={() => <h3>URL invalida. Esta página web no existe</h3>} />
                 </Switch>
             </BrowserRouter>
