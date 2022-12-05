@@ -38,33 +38,55 @@ export default class AddActividad extends Component {
          alert(' Los campos de nombre y descripción no pueden estar vacíos');
          return false;
       }
+      let clearText = this.state.newDesrAct
+      // clearText = clearText.replace(/(?:(?:\r\n|\r|\n)\s*){2}/gm, "");
+      // clearText = this.clearEmptyLines(clearText)
+      let total = this.clearEmptyLines(clearText)
+      this.setState({ newDesrAct: clearText })
+      if (this.state.totalImages > 0 && total != this.state.totalImages) {
+         alert('El número de pasos descritos no coinciden con el total de imágenes introducidas\nPasos descritos: "' + total + '"\nNúmero de imáges: ' + this.state.totalImages);
+         return false;
+      }
       return true;
    }
 
+   clearEmptyLines(string) {
+      let dirtyLinesText = string.split('\n');
+      let clearText = [""];
+      for (let i = 0, x = 0; i < dirtyLinesText.length; i++) {
+         if (dirtyLinesText[i].trim() != "") {
+            clearText[x] = dirtyLinesText[i];
+            x++;
+         }
+      }
+      // clearText = clearText.join('\n');
+      string = clearText.join('\n');
+      return clearText.length;
+   }
    handleSubmitData(event) {
       if (this.validate()) {
-         alert('Nombre: "' + this.state.newNameAct + '"\nDescripción: "' + this.state.newDesrAct + '"');
-         var bodyFormData = new FormData();
-         bodyFormData.append('nombre', this.state.newNameAct)
-         bodyFormData.append('descripcion', this.state.newDesrAct)
-         bodyFormData.append('enlaceVideo', this.state.enlaceVideo)
-         bodyFormData.append('enlaceAudio', this.state.enlaceAudio)
-         axios({
-            method: "post",
-            url: `${SERVER_HOST}/actividades/add`,
-            data: bodyFormData,
-            headers: { "Content-Type": "multipart/form-data" },
-         }).then(res => {
-            //handle success
-            alert('Actividad añadida, se van a guardar las imágenes...');
-            this.handleSubmitImage(event);
-         }).catch(err => {
-            //handle error
-            alert('No se ha podido guardar la actividad');
-            this.setState({ logInError: true, errorMessage: 'Error, no se ha podido guardar la actividad.' })
-         });
-         event.preventDefault();
+         alert('Nombre: "' + this.state.newNameAct + '"\nPasos: "' + this.state.newDesrAct + '"\n Pictogramas: ' + this.state.totalImages);
+         // var bodyFormData = new FormData();
+         // bodyFormData.append('nombre', this.state.newNameAct)
+         // bodyFormData.append('descripcion', this.state.newDesrAct)
+         // bodyFormData.append('enlaceVideo', this.state.enlaceVideo)
+         // bodyFormData.append('enlaceAudio', this.state.enlaceAudio)
+         // axios({
+         //    method: "post",
+         //    url: `${SERVER_HOST}/actividades/add`,
+         //    data: bodyFormData,
+         //    headers: { "Content-Type": "multipart/form-data" },
+         // }).then(res => {
+         //    //handle success
+         //    alert('Actividad añadida, se van a guardar las imágenes...');
+         //    this.handleSubmitImage(event);
+         // }).catch(err => {
+         //    //handle error
+         //    alert('No se ha podido guardar la actividad');
+         //    this.setState({ logInError: true, errorMessage: 'Error, no se ha podido guardar la actividad.' })
+         // });
       }
+      // event.preventDefault();
       // this.handleSubmitImage(event);
    }
 
@@ -125,10 +147,10 @@ export default class AddActividad extends Component {
       const pictos = [];
       for (let i = 0; i < this.state.totalImages; i++) {
          pictos.push(
-            <div className="contenedorPicto objectline" key="{i}" >
+            <div className="contenedorPicto objectline" key="{i}_{this.state.imagePath[i]}" >
                {i + 1}
                <div className="contImage ">
-                  <img className="imagen" id="target" src={this.state.image[i]} />
+                  <img className="imagen" id="target" src={this.state.image[i]} alt="Pictograma" />
                </div>
                <span>
                   <button className="boton b1" onClick={() => { this.moveImage(i, (i - 1 + this.state.totalImages) % this.state.totalImages) }}>
@@ -207,8 +229,14 @@ export default class AddActividad extends Component {
                         <input type="text" id="enlaceAudio" name="enlaceAudio" placeholder="http://..." onChange={this.handleChange} className="inputLine" />
                      </div>
                      <div>
-                        <label>Descripción:</label><br />
-                        <textarea id="newDesrAct" name="newDesrAct" placeholder="La actividad trata sobre..." onChange={this.handleChange} className="inputLine" />
+                        <label>Pasos a seguir:</label>
+                        <strong>
+
+                           <a className="vote-up-off" title="Describa los pasos a seguir de cada pictograma&#10;separados por un 'enter' o salto de línea cada uno"> (?)</a>
+                        </strong>
+                        <br />
+                        <textarea id="newDesrAct" name="newDesrAct" onChange={this.handleChange} className="inputLine"
+                           placeholder="Descripción de pictograma nº 1...&#10;Descripción de pictograma nº 2...&#10;Descripción de pictograma nº 3..." />
                      </div>
                   </form>
                </div>
