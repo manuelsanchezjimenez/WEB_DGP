@@ -55,7 +55,7 @@ export default class AddActividad extends Component {
       let clearText = [""];
       for (let i = 0, x = 0; i < dirtyLinesText.length; i++) {
          if (dirtyLinesText[i].trim() !== "") {
-            clearText[x] = dirtyLinesText[i];
+            clearText[x] = dirtyLinesText[i].trim() ;
             x++;
          }
       }
@@ -65,28 +65,28 @@ export default class AddActividad extends Component {
    }
    handleSubmitData(event) {
       if (this.validate()) {
-         alert('Nombre: "' + this.state.newNameAct + '"\nPasos: "' + this.state.newDesrAct + '"\n Pictogramas: ' + this.state.totalImages);
-         // var bodyFormData = new FormData();
-         // bodyFormData.append('nombre', this.state.newNameAct)
-         // bodyFormData.append('descripcion', this.state.newDesrAct)
-         // bodyFormData.append('enlaceVideo', this.state.enlaceVideo)
-         // bodyFormData.append('enlaceAudio', this.state.enlaceAudio)
-         // axios({
-         //    method: "post",
-         //    url: `${SERVER_HOST}/actividades/add`,
-         //    data: bodyFormData,
-         //    headers: { "Content-Type": "multipart/form-data" },
-         // }).then(res => {
-         //    //handle success
-         //    alert('Actividad añadida, se van a guardar las imágenes...');
-         //    this.handleSubmitImage(event);
-         // }).catch(err => {
-         //    //handle error
-         //    alert('No se ha podido guardar la actividad');
-         //    this.setState({ logInError: true, errorMessage: 'Error, no se ha podido guardar la actividad.' })
-         // });
+         // alert('Nombre: "' + this.state.newNameAct + '"\nPasos: "' + this.state.newDesrAct + '"\n Pictogramas: ' + this.state.totalImages);
+         var bodyFormData = new FormData();
+         bodyFormData.append('nombre', this.state.newNameAct)
+         bodyFormData.append('descripcion', this.state.newDesrAct)
+         bodyFormData.append('enlaceVideo', this.state.enlaceVideo)
+         bodyFormData.append('enlaceAudio', this.state.enlaceAudio)
+         axios({
+            method: "post",
+            url: `${SERVER_HOST}/actividades/add`,
+            data: bodyFormData,
+            headers: { "Content-Type": "multipart/form-data" },
+         }).then(res => {
+            //handle success
+            alert('Actividad añadida, se van a guardar las imágenes...');
+            this.handleSubmitImage(event);
+         }).catch(err => {
+            //handle error
+            alert('No se ha podido guardar la actividad');
+            this.setState({ logInError: true, errorMessage: 'Error, no se ha podido guardar la actividad.' })
+         });
       }
-      // event.preventDefault();
+      event.preventDefault();
       // this.handleSubmitImage(event);
    }
 
