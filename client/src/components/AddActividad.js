@@ -41,9 +41,9 @@ export default class AddActividad extends Component {
       }
       let clearText = this.state.newDesrAct
       // clearText = clearText.replace(/(?:(?:\r\n|\r|\n)\s*){2}/gm, "");
-      // clearText = this.clearEmptyLines(clearText)
-      let total = this.clearEmptyLines(clearText)
-      this.setState({ newDesrAct: clearText })
+      // clearText = this.clearDescripcion(clearText)
+      let total = this.clearDescripcion()
+      // this.setState({ newDesrAct: clearText })
       if (this.state.totalImages > 0 && total !== this.state.totalImages) {
          alert('El número de pasos descritos no coinciden con el total de imágenes introducidas\nPasos descritos: "' + total + '"\nNúmero de imáges: ' + this.state.totalImages);
          return false;
@@ -51,8 +51,8 @@ export default class AddActividad extends Component {
       return true;
    }
 
-   clearEmptyLines(string) {
-      let dirtyLinesText = string.split('\n');
+   clearDescripcion() {
+      let dirtyLinesText = this.state.newDesrAct.split('\n');
       let clearText = [""];
       for (let i = 0, x = 0; i < dirtyLinesText.length; i++) {
          if (dirtyLinesText[i].trim() !== "") {
@@ -61,7 +61,8 @@ export default class AddActividad extends Component {
          }
       }
       // clearText = clearText.join('\n');
-      string = clearText.join('\n');
+      let string = clearText.join('\n');
+      this.setState({ newDesrAct: string })
       return clearText.length;
    }
    handleSubmitData(event) {
