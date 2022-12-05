@@ -26,6 +26,7 @@ const addActividad = (req, res, next) => {
     actividad.descripcion = req.body.descripcion
     actividad.enlaceVideo = req.body.enlaceVideo
     actividad.enlaceAudio = req.body.enlaceAudio
+    actividad.type = req.body.type
     actividadModel.create(actividad, (err, data) => {
         if (err) {
             // return next(createError(400, `Error on actividad creation.`))

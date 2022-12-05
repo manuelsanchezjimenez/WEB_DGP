@@ -55,6 +55,7 @@ const addTareaActividad = (req, res, next) => {
         } else {
             if (getData) {
                 tarea.nombre = getData.nombre;
+                tarea.type = getData.type;
                 tarea.descripcion = getData.descripcion;// + "\n " + req.body.adicional;
                 // console.log("++Ess: " + getData.nombre + "\n Y es: " + getData.descripcion + "\n Añadiendo eso de: " + req.body.adicional)
                 // tarea.nombre = getData.nombre;
@@ -64,7 +65,6 @@ const addTareaActividad = (req, res, next) => {
                 tarea.fechaInicio = req.body.fechaInicio
                 tarea.fechaFinal = req.body.fechaFinal
                 tarea.completado = false
-                tarea.type = 1
                 tarea.actividad = req.body.actividad
                 tarea.feedbackAlum = ''
                 tarea.feedbackProf = ''
