@@ -247,13 +247,14 @@ export default class Register extends Component {
                                     </label>
                                 </div>
                                 <div className="item-container">
-                                    <input className={"form-control" ? "" : "error"}
-                                        id="class"
-                                        type="text"
-                                        name="clase" placeholder="Curso"
-                                        onChange={this.handleChange} />
+
                                 </div>
                                 {formInputsState.dni ? "" : empty}
+                                <input className={"form-control" ? "" : "error"}
+                                    id="class"
+                                    type="text"
+                                    name="clase" placeholder="Curso"
+                                    onChange={this.handleChange} />
                                 <div className="sub-item-container">
                                     <input type="file" id="uploadedImage" name="foto" onChange={this.handleFileChange} accept="image/png" />
                                 </div> <br />

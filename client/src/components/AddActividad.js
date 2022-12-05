@@ -17,6 +17,7 @@ export default class AddActividad extends Component {
          newDesrAct: '',
          enlaceVideo: '',
          enlaceAudio: '',
+         type: '1',
          image: [],
          imagePath: [],
          totalImages: 0,
@@ -55,7 +56,7 @@ export default class AddActividad extends Component {
       let clearText = [""];
       for (let i = 0, x = 0; i < dirtyLinesText.length; i++) {
          if (dirtyLinesText[i].trim() !== "") {
-            clearText[x] = dirtyLinesText[i].trim() ;
+            clearText[x] = dirtyLinesText[i].trim();
             x++;
          }
       }
@@ -65,12 +66,13 @@ export default class AddActividad extends Component {
    }
    handleSubmitData(event) {
       if (this.validate()) {
-         // alert('Nombre: "' + this.state.newNameAct + '"\nPasos: "' + this.state.newDesrAct + '"\n Pictogramas: ' + this.state.totalImages);
+         alert('Nombre: "' + this.state.newNameAct + '", tipo: ' + this.state.type + '\nPasos: "' + this.state.newDesrAct + '"\n Pictogramas: ' + this.state.totalImages);
          var bodyFormData = new FormData();
          bodyFormData.append('nombre', this.state.newNameAct)
          bodyFormData.append('descripcion', this.state.newDesrAct)
          bodyFormData.append('enlaceVideo', this.state.enlaceVideo)
          bodyFormData.append('enlaceAudio', this.state.enlaceAudio)
+         bodyFormData.append('type', this.state.type)
          axios({
             method: "post",
             url: `${SERVER_HOST}/actividades/add`,
@@ -229,15 +231,48 @@ export default class AddActividad extends Component {
                         <input type="text" id="enlaceAudio" name="enlaceAudio" placeholder="http://..." onChange={this.handleChange} className="inputLine" />
                      </div>
                      <div>
-                        <label>Pasos a seguir:</label>
+                        <label>Tipo de actividad:</label>
                         <strong>
-
-                           <a className="vote-up-off" title="Describa los pasos a seguir de cada pictograma&#10;separados por un 'enter' o salto de línea cada uno"> (?)</a>
+                           <a className="vote-up-off"
+                              title="Según el tipo, al alumno se le dispondrá lo siguiente:&#10;- Descripción: Un texto con la descripción indicada&#10;- Pasos a segir: Las indicaciones de cada paso a realizar uno a uno&#10;- Contadores: Un contador con cada elemento&#10;- Tareas: Un checkbox donde podrá marcar o no cada tarea"> (?)</a>
                         </strong>
+                        <select className="form-control" name="type" defaultValue="1" onChange={this.handleChange}>
+                           <option value="0">Descripción</option>
+                           <option value="1">Pasos a realizar</option>
+                           <option value="2">Contador</option>
+                           <option value="3">Tareas a realizar</option>
+                        </select>
+                     </div>
+
+                     <div>
+                        {
+                           {
+                              '0':
+                              <label>Descripción:
+                              </label>
+                              , '1':
+                              <label>Pasos a seguir:
+                                 <strong><a className="vote-up-off" title="Describa los pasos a seguir de cada pictograma&#10;separados por un 'enter' o salto de línea cada uno"> (?)</a></strong>
+                              </label>
+                              , '2':
+                              <label>Elementos con contador:
+                                 <strong><a className="vote-up-off" title="Describa los distintos elementos con contador&#10;separados por un 'enter' o salto de línea cada uno"> (?)</a></strong>
+                              </label>
+                              , '3':
+                              <label>Tareas:
+                                 <strong><a className="vote-up-off" title="Describa las distintas tareas que tiene cada checkbox&#10;separados por un 'enter' o salto de línea cada uno"> (?)</a></strong>
+                              </label>
+                           }[this.state.type]
+                        }
+                        {/* <strong><a className="vote-up-off" title="Describa los pasos a seguir de cada pictograma&#10;separados por un 'enter' o salto de línea cada uno"> (?)</a></strong> */}
                         <br />
                         <textarea id="newDesrAct" name="newDesrAct" onChange={this.handleChange} className="inputLine"
-                           placeholder="Descripción de pictograma nº 1...&#10;Descripción de pictograma nº 2...&#10;Descripción de pictograma nº 3..." />
+                           // {this.state.type ===1?  ('placeholder="Descripción de pictograma nº 1...&#10;Descripción de pictograma nº 2...&#10;Descripción de pictograma nº 3..."'); ('placeholder="Doesrefsef.'")}
+                           placeholder="Descripción de pictograma nº 1...&#10;Descripción de pictograma nº 2...&#10;Descripción de pictograma nº 3..."
+                        />
+
                      </div>
+
                   </form>
                </div>
                <div className="objectline secuenciaPicto parte">
