@@ -23,7 +23,6 @@ const ActRow = ({ nombre, select }) => {
          <td className="anchoCeldaSelectList" >
             <input type="radio" value={`${select}`} name="selectAct" />
          </td>
-
       </tr>
    );
 };
@@ -44,7 +43,7 @@ export default class AddTareaAct extends Component {
          muestraAlumnos: [],
          actividades: [],
          muestraActividades: [],
-         adicional: "",
+         // adicional: "",
          redirectList: false,
       };
       this.showTableAlumn = this.showTableAlumn.bind(this);
@@ -273,7 +272,7 @@ export default class AddTareaAct extends Component {
          bodyFormData.append('actividad', this.state.selectAct)
          bodyFormData.append('fechaInicio', this.state.fechaInicio)
          bodyFormData.append('fechaFinal', this.state.fechaFinal)
-         bodyFormData.append('adicional', this.state.adicional)
+         // bodyFormData.append('adicional', this.state.adicional)
          axios({
             method: "post",
             url: `${SERVER_HOST}/tareas/addTareaActividad`,
@@ -334,16 +333,16 @@ export default class AddTareaAct extends Component {
                   <form className="formularioAddTareaAct">
                      <div>
                         <label>Fecha de inicio</label><br />
-                        <input type="datetime-local" id="fechaInicio" name="fechaInicio" onChange={this.handleChange}></input>
+                        <input className="anchoFecha" type="datetime-local" id="fechaInicio" name="fechaInicio" onChange={this.handleChange}></input>
                      </div>
                      <div>
                         <label>Fecha final</label><br />
-                        <input type="datetime-local" id="fechaFinal" name="fechaFinal" onChange={this.handleChange}></input>
+                        <input className="anchoFecha" type="datetime-local" id="fechaFinal" name="fechaFinal" onChange={this.handleChange}></input>
                      </div>
-                     <div>
+                     {/* <div>
                         <label>Descripción:</label><br />
                         <textarea id="adicional" name="adicional" placeholder="Notas adicionales" onChange={this.handleChange} />
-                     </div>
+                     </div> */}
                      <div className=" objectLine botonesLista parteBotonesVertical ">
                         <button className="botonAcciones verde" onClick={this.handleSubmitData} >
                            Asignar
