@@ -268,7 +268,7 @@ export default class AddActividad extends Component {
                         <br />
                         <textarea id="newDesrAct" name="newDesrAct" onChange={this.handleChange} className="inputLine"
                            // {this.state.type ===1?  ('placeholder="Descripción de pictograma nº 1...&#10;Descripción de pictograma nº 2...&#10;Descripción de pictograma nº 3..."'); ('placeholder="Doesrefsef.'")}
-                           placeholder="Descripción de pictograma nº 1...&#10;Descripción de pictograma nº 2...&#10;Descripción de pictograma nº 3..."
+                           placeholder="Descripción nº 1...&#10;Descripción nº 2...&#10;Descripción nº 3..."
                         />
 
                      </div>
