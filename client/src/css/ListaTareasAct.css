@@ -61,7 +61,7 @@ table {
 .celdaInfo {
   /* width: 200vw; */
   min-width: 150px;
-  width: 100%;
+  width: 50%;
 }
 
 .celdaCorta {
