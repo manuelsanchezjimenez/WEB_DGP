@@ -5,11 +5,8 @@ import { Redirect, Link } from 'react-router-dom'
 
 import axios from "axios"
 import { SERVER_HOST } from "../config/global_constants"
-import "../css/ConModTeacher.css"
 
 //<Link className="blue-button" to={{pathname: `ConModTeacher/${this.state.id}`}}> Modify </Link>
-
-
 export default class ConModTeacher extends Component {
     constructor(props) {
         super(props)

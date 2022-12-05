@@ -3,29 +3,17 @@ import React, { Component } from "react"
 import { Link } from 'react-router-dom'
 import Header from "./Header"
 import { SERVER_HOST } from "../config/global_constants"
-import "../css/AdminAlumPrincipal.css"
+import "../css/ListaTareasAct.css"
 
 const TarRow = ({ nombre, fechaInicio, fechaFinal, completado, alumno, type, acceso }) => {
-   var tipo;
-   if (type === 0)
-      tipo = "comanda";
-
    return (
-      <tr>
-         <td>{`${alumno}`}</td>
-         <td>{`${nombre}`}</td>
-         {/* <td>{fechaformat( fechaInicio)}</td> */}
-         {/* <td>
-
-         <fechaformat
-                           dateTime={fechaInicio}
-            
-                        />
-         </td> */}
-         <td>{`${fechaInicio}`}</td>
-         <td>{`${fechaFinal}`}</td>
-         <td>{`${type}` === 1 ? "Actividad" : "Comanda"}</td>
-         <td>{`${completado}` === true ? "Completada" : "Sin completar"}</td>
+      <tr className="allWidth">
+         <td className="celdaTarea">{`${alumno}`}</td>
+         <td className="celdaTarea">{`${nombre}`}</td>
+         <td className="celdaCorta">{`${fechaInicio}`}</td>
+         <td className="celdaCorta">{`${fechaFinal}`}</td>
+         <td className="celdaCorta">{`${type}` === "1" ? "Actividad" : "Comanda"}</td>
+         <td className="celdaCorta">{`${completado}` === true ? "Finalizada" : "No Completada"}</td>
          <td>{acceso}</td>
       </tr>
    );
@@ -138,74 +126,79 @@ export default class ListaTareas extends Component {
          ":" + ((date.getMinutes() > 9) ? date.getMinutes() : ('0' + date.getMinutes()));
       return (fechaFormateada);
    }
+   
    showTable() {
       const unaTarea = [];
       let i = 0;
       unaTarea.push(
          <div key={i++}>
-            <input label="Search" onChange={this.onChange} placeholder="Buscar Tarea..." />
+            <input label="Search" onChange={this.onChange} placeholder="Buscar Tarea por alumno, nombre, fecha..." className="buscarActividad" />
             <div>
-               <table className="table table-bordered" >
-                  <tbody>
-                     <tr>
-                        <th
-                           style={{ cursor: "pointer" }}
-                           // onClick={() => { this.sortResults() }}
-                           id="name"
-                           onClick={() => { this.sorting("alumno") }}>
-                           Alumno {!this.state.order.alumno ? null : this.state.order.alumno === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
-                        </th>
-                        <th
-                           style={{ cursor: "pointer" }}
-                           // onClick={() => { this.sortResults() }}
-                           id="name"
-                           onClick={() => this.sorting("nombre")}>
-                           Tarea {!this.state.order.nombre ? null : this.state.order.nombre === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
-                        </th>
-                        <th
-                           style={{ cursor: "pointer" }}
-                           // onClick={() => { this.sortResults() }}
-                           id="name"
-                           onClick={() => this.sorting("fechaInicio")}>
-                           Fecha de inicio {!this.state.order.fechaInicio ? null : this.state.order.fechaInicio === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
-                        </th>
-                        <th
-                           style={{ cursor: "pointer" }}
-                           // onClick={() => { this.sortResults() }}
-                           id="name"
-                           onClick={() => this.sorting("fechaFinal")}>
-                           Fecha final {!this.state.order.fechaFinal ? null : this.state.order.fechaFinal === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
-                        </th>
-                        <th
-                           style={{ cursor: "pointer" }}
-                           // onClick={() => { this.sortResults() }}
-                           id="name"
-                           onClick={() => this.sorting("type")}>
-                           Tipo {!this.state.order.type ? null : this.state.order.type === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
-                        </th>
-                        <th
-                           style={{ cursor: "pointer" }}
-                           // onClick={() => { this.sortResults() }}
-                           id="name"
-                           onClick={() => this.sorting("completado")}>
-                           Completado {!this.state.order.completado ? null : this.state.order.completado === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
-                        </th>
-                     </tr>
-                     {this.state.muestraTareas.map(item => (
-                        <TarRow
-                           nombre={item.nombre}
-                           // fechaInicio={item.fechaInicio}
-                           // fechaFinal={item.fechaFinal}
-                           fechaInicio={this.fechaformat(item.fechaInicio)}
-                           fechaFinal={this.fechaformat(item.fechaFinal)}
-                           completado={item.completado}
-                           alumno={item.alumno}
-                           type={item.type}
-                           acceso={<Link className="boton2" to={{pathname: `Feedback/${item.key}`}}> Acceder </Link>}
-                           id={item.key}
-                           key={item.key}
-                        />
-                     ))}
+               <table className="table table-bordered tablaActs" >
+                  <thead>
+                     <th
+                        style={{ cursor: "pointer" }}
+                        id="alu"
+                        className="celdaTarea"
+                        onClick={() => { this.sorting("alumno") }}>
+                        Alumno {!this.state.order.alumno ? null : this.state.order.alumno === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
+                     </th>
+                     <th
+                        style={{ cursor: "pointer" }}
+                        id="tar"
+                        className="celdaTarea"
+                        onClick={() => this.sorting("nombre")}>
+                        Tarea {!this.state.order.nombre ? null : this.state.order.nombre === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
+                     </th>
+                     <th
+                        style={{ cursor: "pointer" }}
+                        id="ini"
+                        className="celdaCorta"
+                        onClick={() => this.sorting("fechaInicio")}>
+                        Fecha de inicio {!this.state.order.fechaInicio ? null : this.state.order.fechaInicio === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
+                     </th>
+                     <th
+                        style={{ cursor: "pointer" }}
+                        id="fin"
+                        className="celdaCorta"
+                        onClick={() => this.sorting("fechaFinal")}>
+                        Fecha final {!this.state.order.fechaFinal ? null : this.state.order.fechaFinal === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
+                     </th>
+                     <th
+                        style={{ cursor: "pointer" }}
+                        id="tip"
+                        className="celdaCorta"
+                        onClick={() => this.sorting("type")}>
+                        Tipo {!this.state.order.type ? null : this.state.order.type === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
+                     </th>
+                     <th
+                        style={{ cursor: "pointer" }}
+                        id="com"
+                        className="celdaCorta"
+                        onClick={() => this.sorting("completado")}>
+                        Completado {!this.state.order.completado ? null : this.state.order.completado === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
+                     </th>
+                     <th className="celdaCorta">
+                     </th>
+                  </thead>
+                  <tbody className="allWidth tablaTareas">
+                     {/* <tr> */}
+                        {this.state.muestraTareas.map(item => (
+                           <TarRow
+                              nombre={item.nombre}
+                              // fechaInicio={item.fechaInicio}
+                              // fechaFinal={item.fechaFinal}
+                              fechaInicio={this.fechaformat(item.fechaInicio)}
+                              fechaFinal={this.fechaformat(item.fechaFinal)}
+                              completado={item.completado}
+                              alumno={item.alumno}
+                              type={item.type}
+                              acceso={<Link className="botonAcciones botonTablaTareas" to={{ pathname: `Feedback/${item.key}` }}> Acceder </Link>}
+                              id={item.key}
+                              key={item.key}
+                           />
+                        ))}
+                     {/* </tr> */}
                   </tbody>
                </table>
             </div>
@@ -214,26 +207,24 @@ export default class ListaTareas extends Component {
       return unaTarea;
    }
 
-
    render() {
       return (
          <div className="web-container">
             <Header />
             <h1>Lista de tareas</h1>
-            {this.state.error ? <div>Error: {this.state.error.message}</div> : null}
-            {this.state.mounted ? null : <div> Cargando tareas... </div>}
-            {this.showTable()}
-            <div className="Body">
-               <div className="botonesContainer">
-                  <Link to="/AddTareaAct"><input id="addTareaAct" type="button" value="ASIGNAR ACTIVIDAD" /></Link>
-                  <Link to="/ListaActividades"><input id="toggleTareas" type="button" value="VER POOL DE ACTIVIDADES" /></Link>
+            <div className="both">
+               <div className="objectline parte listaTareasTabla">
+                  {this.state.error ? <div>Error: {this.state.error.message}</div> : null}
+                  {this.state.mounted ? null : <div> Cargando tareas... </div>}
+                  {this.showTable()}
+               </div>
+               <div className="botonesLista parteBotonesVertical objectline parte">
+                  <Link to="/AddComanda"><input id="addComanda" type="button" value="Añadir Comanda" className="botonAcciones" /></Link>
+                  <Link to="/AddTareaAct"><input id="addTareaAct" type="button" value="Asignar Actividad" className="botonAcciones" /></Link>
+                  <Link to="/ListaActividades"><input id="toggleAActs" type="button" value="Ver Actividades" className="botonAcciones botonToggle" /></Link>
                </div>
             </div>
          </div>
       )
    }
 }
-
-
-
-

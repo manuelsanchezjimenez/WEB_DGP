@@ -130,6 +130,9 @@ h2 {
     vertical-align: text-top;
 }
 
+.parte {
+padding: 5px;}
+
 @media screen and (min-width: 1085px) {
 
     /* Formulario */

@@ -3,13 +3,17 @@
    min-width: 400px;
 }
 .anchoCeldaSelectList {
-   /* width: 30%; */
-   width: 100px;
-   min-width: 400px;
+   width: 50px;
+   text-align: center;
 }
+
+ .formularioAddTareaAct{
+   width: 100%;
+ }
 .anchoFecha {
    width: 20%;
    min-width: 300px;
+   max-width: 340px;
 }
 
 .altoParte {
@@ -21,20 +25,16 @@
 }
 
 input[type='radio'] {
-   transform: scale(2.5);
+   text-align: center;
+   width: 100%;
+   padding: 15px;
+   margin: 0px;
+   /* transform: scale(2.5); */
 }
 
-input,
 textarea {
-   width: 50%;
-}
-
-textarea {
-   width: 50%;
    height: 20vh;
 }
-
-
 
 table.tr {
    width: 100%;

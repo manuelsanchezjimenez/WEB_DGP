@@ -5,9 +5,6 @@ import { Redirect, Link } from 'react-router-dom'
 
 import axios from "axios"
 import { SERVER_HOST } from "../config/global_constants"
-import "../css/ConModStudent.css"
-
-
 
 export default class ConModStudent extends Component {
     constructor(props) {

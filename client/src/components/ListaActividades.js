@@ -128,6 +128,7 @@ export default class ListaActividades extends Component {
                      {/* <tr> */}
                      <th
                         style={{ cursor: "pointer" }}
+                        className="nombreActividad"
                         onClick={this.sortResults}
                         id="name"
                      >
