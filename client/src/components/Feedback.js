@@ -44,8 +44,8 @@ export default class Feedback extends Component {
                   this.setState({ completado: res.data.completado })
                   this.setState({ alumnoID: res.data.alumnoID })
                   this.setState({ id_t: res.data.id_t })
-                  this.setState({ feedbackAlumno: res.data.feedbackAlumno})
-                  this.setState({feedbackProfesor: res.data.feedbackProfesor})
+                  this.setState({ feedbackAlumno: res.data.feedbackAlum})
+                  this.setState({ feedbackProfesor: res.data.feedbackProf})
                   this.setState({ alumno: res.data.alumno })
                   this.setState({ type: res.data.type })
                   this.setState({ id_t: res.data._id })
@@ -91,6 +91,7 @@ export default class Feedback extends Component {
    render() {
       return (
          <div id="registerWeb" className="Body">
+            {this.state.redirect ? <Redirect to="/ListaTareas" /> : null}
             <Header />
             <div className="botonesContainer">
                {this.state.redirect ? <Redirect to="/ListaTareas" /> : null}
@@ -153,7 +154,7 @@ export default class Feedback extends Component {
                               </select>
                               <br />
                               <br/>
-                              <textarea className="textoFeedback" name="textoFeedback" onChange={this.handleChange}></textarea>
+                              <textarea className="textoFeedback" name="feedbackProfesor" onChange={this.handleChange}></textarea>
                            </div>
                         </div>
                      </div>

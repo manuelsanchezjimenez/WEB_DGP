@@ -155,13 +155,13 @@ const deleteAct = (req, res, next) => {
 
 const updateTarea = (req, res, next) => {
     var tarea
-    tareaModel.findOneAndUpdate({ _id: req.body.id }, { nombre: req.body.nombre, descripcion: req.body.descripcion, enlaceAudio: req.body.enlaceAudio, enlaceVideo: req.body.enlaceVideo,feedbackProf: req.body.feedbackProf,feedbackAlum: req.body.feedbackAlum   }, { returnNewDocument: true }, (err, data) => {
+    tareaModel.findOneAndUpdate({ _id: req.params.id }, { nombre: req.body.nombre, descripcion: req.body.descripcion, enlaceAudio: req.body.enlaceAudio, enlaceVideo: req.body.enlaceVideo,feedbackProf: req.body.feedbackProf,feedbackAlum: req.body.feedbackAlum   }, { returnNewDocument: true }, (err, data) => {
         if (err)
             return next(createError(400, err))
         if (data)
             tarea = data
     })
-    res.json({ usuario: usuario })
+    res.json({ tarea: tarea })
 }
 
 const checkUserLogged = (req, res, next) => {
