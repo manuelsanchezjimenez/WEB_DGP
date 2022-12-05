@@ -19,7 +19,6 @@ const TarRow = ({ nombre, fechaInicio, fechaFinal, completado, alumno, type, acc
    );
 };
 
-
 export default class ListaTareas extends Component {
    constructor(props) {
       super(props);

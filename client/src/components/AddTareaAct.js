@@ -8,9 +8,9 @@ import "../css/AddTareaAct.css"
 
 const AlumnRow = ({ nombre, select }) => {
    return (
-      <tr className="anchoTabla" >
+      <tr className="allWidth" >
          <td className="" >{`${nombre}`}</td>
-         <td>
+         <td className="anchoCeldaSelectList" >
             <input type="radio" value={`${nombre}` + "##SEP##" + `${select}`} name="selectAlum" />
          </td>
       </tr>
@@ -18,9 +18,9 @@ const AlumnRow = ({ nombre, select }) => {
 }
 const ActRow = ({ nombre, select }) => {
    return (
-      <tr className="anchoTabla" >
+      <tr className="allWidth" >
          <td className="" >{`${nombre}`}</td>
-         <td>
+         <td className="anchoCeldaSelectList" >
             <input type="radio" value={`${select}`} name="selectAct" />
          </td>
 
@@ -201,19 +201,19 @@ export default class AddTareaAct extends Component {
          <div key={i++} className="objectLine anchoTabla">
             <input className="anchoTabla" label="Search" onChange={this.onChangeAlumn} placeholder="Buscar Alumno..." />
             <div>
-               <table className="table table-bordered anchoTabla" >
+               <table className="table table-bordered anchoTabla allWidth" >
                   <thead>
                      <tr>
                         <th
                            style={{ cursor: "pointer" }}
-                           className="anchoTabla" 
+                           className="allWidth"
                            onClick={this.sortResultsAlumn}
                            id="name">
                            Nombre {this.state.orderAlumn == "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
                      </tr>
                   </thead>
-                  <tbody className="altoParte" onChange={this.handleChange}>
+                  <tbody className="altoParte allWidth" onChange={this.handleChange}>
                      {this.state.muestraAlumnos.map(item => (
                         <AlumnRow
                            nombre={item.nombre}
@@ -240,7 +240,7 @@ export default class AddTareaAct extends Component {
                      <tr>
                         <th
                            style={{ cursor: "pointer" }}
-                           className="anchoTabla" 
+                           className="allWidth"
                            onClick={this.sortResultsAct}
                            id="name">
                            Actividades {this.state.orderAct == "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
@@ -330,9 +330,8 @@ export default class AddTareaAct extends Component {
                   {this.showTableAct()}
                </div>
                {/* <form className="anchoFecha objectLine"> */}
-               <div className="anchoFecha objectLine  parte">
-
-                  <form>
+               <div className="anchoFecha objectLine parte">
+                  <form className="formularioAddTareaAct">
                      <div>
                         <label>Fecha de inicio</label><br />
                         <input type="datetime-local" id="fechaInicio" name="fechaInicio" onChange={this.handleChange}></input>
