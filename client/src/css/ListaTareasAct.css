@@ -4,8 +4,13 @@
 }
 
 thead,
-tbody {width: 100%;
+tbody {
+  width: 100%;
   display: block;
+}
+
+tr {
+  display: table;
 }
 
 tbody {
@@ -29,17 +34,21 @@ table {
 .listaActividadesTabla {
   margin-left: 25px;
 }
+
 .listaTareasTabla {
   min-width: 953px;
   margin-left: 25px;
 }
+
 .tablaActs {
   width: 100%;
 }
-.tablaActividades{
+
+.tablaActividades {
   min-width: 765px;
 
 }
+
 .tablaTareas {
   width: 100%;
   min-width: 900px;
