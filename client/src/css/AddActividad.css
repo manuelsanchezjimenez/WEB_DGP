@@ -128,6 +128,8 @@ h2 {
 .web-container {
     /* text-align: center; */
     vertical-align: text-top;
+   min-width: 1085px;
+
 }
 
 .parte {

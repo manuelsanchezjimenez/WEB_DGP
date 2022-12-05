@@ -1,4 +1,4 @@
-.buscarActividad {
+.buscarFiltro {
   text-align: center;
   width: 100%;
 }
@@ -40,13 +40,8 @@ table {
   margin-left: 25px;
 }
 
-.tablaActs {
+.TablaLista {
   width: 100%;
-}
-
-.tablaActividades {
-  min-width: 765px;
-
 }
 
 .tablaTareas {
@@ -58,12 +53,12 @@ table {
   width: 100%;
 }
 
-.nombreActividad {
+.celdaLargaPpal {
   width: 9000px;
   min-width: 500px;
 }
 
-.celdaTarea {
+.celdaInfo {
   /* width: 200vw; */
   min-width: 150px;
   width: 100%;
