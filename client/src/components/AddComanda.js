@@ -6,14 +6,13 @@ import { Redirect, Link } from 'react-router-dom'
 // import { useState } from 'react';
 import Header from "./Header"
 import { SERVER_HOST } from "../config/global_constants"
-import "../css/AddActividad.css"
 
-export default class AddActividad extends Component {
+export default class AddComanda extends Component {
    constructor(props) {
       super(props);
 
       this.state = {
-         newNameAct: '',
+         newNameTar: '',
          newDesrAct: '',
          enlaceVideo: '',
          enlaceAudio: '',
@@ -34,7 +33,7 @@ export default class AddActividad extends Component {
    }
 
    validate() {
-      if (this.state.newNameAct === '' || this.state.newDesrAct === '') {
+      if (this.state.newNameTar === '' || this.state.newDesrAct === '') {
          alert(' Los campos de nombre y descripción no pueden estar vacíos');
          return false;
       }
@@ -65,20 +64,20 @@ export default class AddActividad extends Component {
    }
    handleSubmitData(event) {
       if (this.validate()) {
-         alert('Nombre: "' + this.state.newNameAct + '"\nPasos: "' + this.state.newDesrAct + '"\n Pictogramas: ' + this.state.totalImages);
+         alert('Nombre: "' + this.state.newNameTar + '"\nPasos: "' + this.state.newDesrAct + '"\n Pictogramas: ' + this.state.totalImages);
          // var bodyFormData = new FormData();
-         // bodyFormData.append('nombre', this.state.newNameAct)
+         // bodyFormData.append('nombre', this.state.newNameTar)
          // bodyFormData.append('descripcion', this.state.newDesrAct)
          // bodyFormData.append('enlaceVideo', this.state.enlaceVideo)
          // bodyFormData.append('enlaceAudio', this.state.enlaceAudio)
          // axios({
          //    method: "post",
-         //    url: `${SERVER_HOST}/actividades/add`,
+         //    url: `${SERVER_HOST}/tareas/add`,
          //    data: bodyFormData,
          //    headers: { "Content-Type": "multipart/form-data" },
          // }).then(res => {
          //    //handle success
-         //    alert('Actividad añadida, se van a guardar las imágenes...');
+         //    alert('Tarea añadida, se van a guardar las imágenes...');
          //    this.handleSubmitImage(event);
          // }).catch(err => {
          //    //handle error
@@ -96,13 +95,13 @@ export default class AddActividad extends Component {
       for (let i = 0; i < this.state.totalImages; i++) {
          // alert('Guardando imagen: "' + this.state.image[i].value + '"\nDescripción: "' + this.state.newDesrAct + '"');
          var bodyFormData = new FormData();
-         // bodyFormData.append('nombreAct', i + "::" + this.state.newNameAct)
-         bodyFormData.append('actividad', this.state.newNameAct)
+         // bodyFormData.append('nombreAct', i + "::" + this.state.newNameTar)
+         bodyFormData.append('actividad', this.state.newNameTar)
          bodyFormData.append('orden', i + "")
          bodyFormData.append('imagen', this.state.imagePath[i])
          axios({
             method: "post",
-            url: `${SERVER_HOST}/actividades/imgAdd`,
+            url: `${SERVER_HOST}/tareas/imgAdd`,
             data: bodyFormData,
             headers: { "Content-Type": "multipart/form-data" },
          }).catch(err => {
@@ -211,16 +210,14 @@ export default class AddActividad extends Component {
       return (
          <div className="web-container">
             <Header />
-            {this.state.redirectList ? <Redirect to="/ListaActividades" /> : null}
+            {this.state.redirectList ? <Redirect to="/ListaTareas" /> : null}
             <h1>Añadir Comanda</h1>
-            <h1>En Proceso, por ahora tiene copiado lo de AddActividad
-            </h1>
             <div className="both">
                <div className="formulario objectline parte">
                   <form onSubmit={this.handleSubmitData} >
                      <div>
                         <label>Nombre de la actividad:</label><br />
-                        <input type="text" id="newNameAct" name="newNameAct" placeholder="Actividad a añadir" onChange={this.handleChange} className="inputLine" />
+                        <input type="text" id="newNameTar" name="newNameTar" placeholder="Tarea a añadir" onChange={this.handleChange} className="inputLine" />
                      </div>
                      <div >
                         <label>Enlace a un vídeo: (opcional)</label><br />
@@ -260,9 +257,9 @@ export default class AddActividad extends Component {
             </div>
             <div className="parteBotonesh">
                <button className="botonAcciones verde" onClick={this.handleSubmitData}>
-                  Añadir Actividad
+                  Añadir Tarea
                </button>
-               <Link to="/ListaActividades"><input id="volverActividades" type="button" className="botonAcciones rojo" value="Cancelar" /></Link>
+               <Link to="/ListaTareas"><input id="volverTareas" type="button" className="botonAcciones rojo" value="Cancelar" /></Link>
             </div>
          </div>
       );
