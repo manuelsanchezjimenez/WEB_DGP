@@ -69,7 +69,7 @@ export default class AddActividad extends Component {
       if (this.validate()) {
          alert('Nombre: "' + this.state.newNameAct + '", tipo: ' + this.state.type + '\nPasos: "' + this.state.newDesrAct + '"\n Pictogramas: ' + this.state.totalImages);
          var bodyFormData = new FormData();
-         bodyFormData.append('nombre', this.state.newNameAct)
+         bodyFormData.append('nombre', "_"+this.state.newNameAct)
          bodyFormData.append('descripcion', this.state.newDesrAct)
          bodyFormData.append('enlaceVideo', this.state.enlaceVideo)
          bodyFormData.append('enlaceAudio', this.state.enlaceAudio)
@@ -100,7 +100,7 @@ export default class AddActividad extends Component {
          // alert('Guardando imagen: "' + this.state.image[i].value + '"\nDescripción: "' + this.state.newDesrAct + '"');
          var bodyFormData = new FormData();
          // bodyFormData.append('nombreAct', i + "::" + this.state.newNameAct)
-         bodyFormData.append('actividad', this.state.newNameAct)
+         bodyFormData.append('nombre', "_"+this.state.newNameAct)
          bodyFormData.append('orden', i + "")
          bodyFormData.append('imagen', this.state.imagePath[i])
          axios({
