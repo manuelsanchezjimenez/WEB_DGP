@@ -49,7 +49,7 @@ const addTareaActividad = (req, res, next) => {
     // tarea.descripcion = "default";
 
     // actividadModel.findOne({ nombre: req.body.nombre }, { enlaceVideo: 0, enlaceAudio: 0 }, (err, getData) => {
-    actividadModel.findOne({ _id: req.body.actividad }, { enlaceVideo: 0, enlaceAudio: 0 }, (err, getData) => {
+    actividadModel.findOne({ _id: req.body.actividad }, { }, (err, getData) => {
         if (err) {
             console.log(err)
             return next(err)
@@ -66,7 +66,9 @@ const addTareaActividad = (req, res, next) => {
                 tarea.fechaInicio = req.body.fechaInicio
                 tarea.fechaFinal = req.body.fechaFinal
                 tarea.completado = false
-                tarea.actividad = req.body.actividad
+                // tarea.actividad = req.body.actividad
+                tarea.enlaceVideo = getData.enlaceVideo
+                tarea.enlaceAudio = getData.enlaceAudio
                 tarea.feedbackAlum = ''
                 tarea.feedbackProf = ''
                 console.log("Nueva tarea para: " + tarea.alumno + " con la actividad " + tarea.nombre + ":\n " + tarea.descripcion)
