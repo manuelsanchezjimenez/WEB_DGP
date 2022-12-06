@@ -101,18 +101,6 @@ const updateActividad = (req, res, next) => {
     res.json({ usuario: usuario })
 }
 
-const checkUserLogged = (req, res, next) => {
-    jwt.verify(req.headers.authorization, process.env.JWT_PRIVATE_KEY, { algorithm: "HS256" }, (err, decodedToken) => {
-        if (err) {
-            return next(createError(400, "User is not logged in."))
-        }
-        else {
-            req.decodedToken = decodedToken
-            return next()
-        }
-    })
-}
-
 const ImgUpp = (req, res, next) => {
 
     let actividad_imagen = new Object();
