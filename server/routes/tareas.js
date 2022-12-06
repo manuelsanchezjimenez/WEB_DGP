@@ -47,7 +47,6 @@ const addTareaActividad = (req, res, next) => {
     let tarea = new Object()
     // tarea.nombre = "default";
     // tarea.descripcion = "default";
-    var getData;
 
     // actividadModel.findOne({ nombre: req.body.nombre }, { enlaceVideo: 0, enlaceAudio: 0 }, (err, getData) => {
     actividadModel.findOne({ _id: req.body.actividad }, { enlaceVideo: 0, enlaceAudio: 0 }, (err, getData) => {
