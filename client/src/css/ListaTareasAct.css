@@ -73,7 +73,7 @@ table {
 
 /* Botones */
 #addActividad,
-#addComanda {
+#AddTarea {
   background-color: #4198d2;
   color: white;
 }
@@ -138,6 +138,6 @@ table {
   display: inline-block;
   justify-content: space-between;
   /* vertical-align: middle; */
-  /* vertical-align: top; */
-  vertical-align: text-bottom;
+  vertical-align: top;
+  /* vertical-align: text-bottom; */
 }
