@@ -21,8 +21,8 @@ import ConModTeacher from "./components/ConModTeacher"
 import ConModAdmin from "./components/ConModAdmin"
 import AdminProfPrincipal from "./components/AdminProfPrincipal"
 import AdminAdminPrincipal from "./components/AdminAdminPrincipal"
-import AddTareaAct from "./components/AddTareaAct"
-import AddComanda from "./components/AddComanda"
+import AddAsignarAct from "./components/AddAsignarAct"
+import AddTarea from "./components/AddTarea"
 import Feedback from "./components/Feedback"
 
 export default class App extends Component {
@@ -47,8 +47,8 @@ export default class App extends Component {
                     <Route exact path="/AddActividad" component={AddActividad} />
                     <Route exact path="/ModActividad" component={ModActividad} />
                     <Route exact path="/ListaTareas" component={ListaTareas} />
-                    <Route exact path="/AddTareaAct" component={AddTareaAct} />
-                    <Route exact path="/AddComanda" component={AddComanda} />
+                    <Route exact path="/AddAsignarAct" component={AddAsignarAct} />
+                    <Route exact path="/AddTarea" component={AddTarea} />
                     <Route path="*" component={() => <h3>URL invalida. Esta página web no existe</h3>} />
                 </Switch>
             </BrowserRouter>
