@@ -21,18 +21,21 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 
-
-
-
 const addTarea = (req, res, next) => {
     let tarea = new Object()
     tarea.nombre = req.body.nombre
     tarea.descripcion = req.body.descripcion
+    tarea.type = req.body.type;
+    tarea.alumno = req.body.alumno
+    tarea.alumnoID = req.body.alumnoID
     tarea.fechaInicio = req.body.fechaInicio
     tarea.fechaFinal = req.body.fechaFinal
     tarea.completado = false
-    tarea.alumno = req.body.alumno
-    tarea.type = req.body.type
+    tarea.enlaceVideo = req.body.enlaceVideo
+    tarea.enlaceAudio = req.body.enlaceAudio
+    tarea.feedbackAlum = ''
+    tarea.feedbackProf = ''
+
     tareaModel.create(tarea, (err, data) => {
         if (err) {
             // return next(createError(400, `Error on tarea creation.`))
@@ -43,7 +46,7 @@ const addTarea = (req, res, next) => {
     })
 }
 
-const addTareaActividad = (req, res, next) => {
+const AddAsignarActividad = (req, res, next) => {
     let tarea = new Object()
     // tarea.nombre = "default";
     // tarea.descripcion = "default";
@@ -56,11 +59,9 @@ const addTareaActividad = (req, res, next) => {
         } else {
             if (getData) {
                 tarea.nombre = getData.nombre;
-                tarea.type = getData.type;
                 tarea.descripcion = getData.descripcion;// + "\n " + req.body.adicional;
                 // console.log("++Ess: " + getData.nombre + "\n Y es: " + getData.descripcion + "\n Añadiendo eso de: " + req.body.adicional)
-                // tarea.nombre = getData.nombre;
-                // tarea.descripcion = getData.descripcion + " " + req.body.adicional;
+                tarea.type = getData.type;
                 tarea.alumno = req.body.alumno
                 tarea.alumnoID = req.body.alumnoID
                 tarea.fechaInicio = req.body.fechaInicio
@@ -179,14 +180,28 @@ const checkUserLogged = (req, res, next) => {
         }
     })
 }
+const ImgUpp = (req, res, next) => {
 
+    let actividad_imagen = new Object();
+    actividad_imagen.actividad = req.body.actividad;
+    actividad_imagen.orden = req.body.orden;
+    actividad_imagen.imagen = req.body.imagen;
 
-router.post(`/tareas/addTareaActividad`, upload.none(), addTareaActividad)
+    actividadImagenModel.create(actividad_imagen, (err, data) => {
+        if (err) {
+            return next(err)
+        }
+        res.json(data)
+    })
+}
+
+router.post(`/tareas/AddAsignarActividad`, upload.none(), AddAsignarActividad)
+router.post(`/tareas/add`, upload.none(), addTarea)
 router.get(`/tareas/getAll`, getTareas)
 router.get(`/tareas/findByID/:id`, findIDTarea)
 router.get(`/tareas/findByName/:id`, findNameTarea)
 router.delete(`/tareas/delete/:id`, deleteAct)
 router.put(`/tareas/update/:id`, updateTarea)
-// router.post(`/tareas/imgAdd`, upload.none(), ImgUpp)
+router.post(`/tareas/imgAdd`, upload.none(), ImgUpp)
 
 module.exports = router
