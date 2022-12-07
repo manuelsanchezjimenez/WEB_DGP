@@ -99,7 +99,7 @@ export default class ListaActividades extends Component {
          };
       });
       // this.setState({order: order === "desc" ? "asc" : "desc"});
-      var newOrder = this.state.order == "desc" ? "asc" : "desc"
+      var newOrder = this.state.order === "desc" ? "asc" : "desc"
       // this.setState({ order: "desc" ? "asc" : "desc"});
       this.setState({ order: newOrder });
 
@@ -170,7 +170,7 @@ export default class ListaActividades extends Component {
                </div>
                <div className="botonesLista parteBotonesVertical objectline parte">
                   <Link to="/AddActividad"><input id="addActividad" type="button" value="Añadir Actividad" className="botonAcciones" /></Link>
-                  <Link to="/AddTareaAct"><input id="addTareaAct" type="button" value="Asignar Actividad" className="botonAcciones" /></Link>
+                  <Link to="/AddAsignarAct"><input id="AddAsignarAct" type="button" value="Asignar Actividad" className="botonAcciones" /></Link>
                   <Link to="/ListaTareas"><input id="toggleATareas" type="button" value="Ver Tareas Asignadas" className="botonAcciones botonToggle" /></Link>
                </div>
             </div>

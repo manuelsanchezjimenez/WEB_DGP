@@ -5,7 +5,7 @@ import {Redirect, Link} from 'react-router-dom'
 
 import axios from "axios"
 import {SERVER_HOST} from "../config/global_constants"
-import "../css/AddActividad.css"
+import "../css/AddTareaAct.css"
 
 //<Link className="blue-button" to={{pathname: `ConModTeacher/${this.state.id}`}}> Modify </Link>
 
@@ -18,7 +18,7 @@ export default class ModActividad extends Component
         this.state = {
             idAct:'',
             nameAct: '',
-            desrAct: '',
+            DescrAct: '',
             enlaceVideo: '',
             enlaceAudio: '',
             redirect: false,

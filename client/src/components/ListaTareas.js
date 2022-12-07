@@ -12,7 +12,17 @@ const TarRow = ({ nombre, fechaInicio, fechaFinal, completado, alumno, type, acc
          <td className="celdaInfo">{`${nombre}`}</td>
          <td className="celdaCorta">{`${fechaInicio}`}</td>
          <td className="celdaCorta">{`${fechaFinal}`}</td>
-         <td className="celdaCorta">{`${type}` === "1" ? "Actividad" : "Comanda"}</td>
+         {/* <td className="celdaCorta">{`${type}` === "1" ? "Actividad" : "Comanda"}</td> */}
+         <td className="celdaCorta">
+            {
+               {
+                  '0': "Descripción",
+                  '1': "Pasos",
+                  '2': "Contador",
+                  '3': "CheckList"
+               }[type]
+            }
+         </td>
          <td className="celdaCorta">{`${completado}` === true ? "Finalizada" : "No Completada"}</td>
          <td>{acceso}</td>
       </tr>
@@ -138,59 +148,59 @@ export default class ListaTareas extends Component {
                   <thead>
                      <tr>
                         <th className="celdaInfo"
-                        style={{ cursor: "pointer" }}
-                        id="alu"
-                        // className="celdaInfo"
-                        onClick={() => { this.sorting("alumno") }}>
+                           style={{ cursor: "pointer" }}
+                           id="alu"
+                           // className="celdaInfo"
+                           onClick={() => { this.sorting("alumno") }}>
                            Alumno {!this.state.order.alumno ? null : this.state.order.alumno === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
-                     {/* </tr>
+                        {/* </tr>
                      <tr */}
                         <th className="celdaInfo"
-                        style={{ cursor: "pointer" }}
-                        id="tar"
-                        // className="celdaInfo"
-                        onClick={() => this.sorting("nombre")}>
+                           style={{ cursor: "pointer" }}
+                           id="tar"
+                           // className="celdaInfo"
+                           onClick={() => this.sorting("nombre")}>
                            Tarea {!this.state.order.nombre ? null : this.state.order.nombre === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
-                     {/* </tr>
+                        {/* </tr>
                      <tr */}
                         <th className="celdaCorta"
-                        style={{ cursor: "pointer" }}
-                        id="ini"
-                        // className="celdaCorta"
-                        onClick={() => this.sorting("fechaInicio")}>
+                           style={{ cursor: "pointer" }}
+                           id="ini"
+                           // className="celdaCorta"
+                           onClick={() => this.sorting("fechaInicio")}>
                            Fecha de inicio {!this.state.order.fechaInicio ? null : this.state.order.fechaInicio === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
-                     {/* </tr>
+                        {/* </tr>
                      <tr */}
                         <th className="celdaCorta"
-                        style={{ cursor: "pointer" }}
-                        id="fin"
-                        // className="celdaCorta"
-                        onClick={() => this.sorting("fechaFinal")}>
+                           style={{ cursor: "pointer" }}
+                           id="fin"
+                           // className="celdaCorta"
+                           onClick={() => this.sorting("fechaFinal")}>
                            Fecha final {!this.state.order.fechaFinal ? null : this.state.order.fechaFinal === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
-                     {/* </tr>
+                        {/* </tr>
                      <tr */}
                         <th className="celdaCorta"
-                        style={{ cursor: "pointer" }}
-                        id="tip"
-                        // className="celdaCorta"
-                        onClick={() => this.sorting("type")}>
+                           style={{ cursor: "pointer" }}
+                           id="tip"
+                           // className="celdaCorta"
+                           onClick={() => this.sorting("type")}>
                            Tipo {!this.state.order.type ? null : this.state.order.type === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
-                     {/* </tr>
+                        {/* </tr>
                      <tr */}
                         <th className="celdaCorta"
-                        style={{ cursor: "pointer" }}
-                        id="com"
-                        // className="celdaCorta"
-                        onClick={() => this.sorting("completado")}>
+                           style={{ cursor: "pointer" }}
+                           id="com"
+                           // className="celdaCorta"
+                           onClick={() => this.sorting("completado")}>
                            Completado {!this.state.order.completado ? null : this.state.order.completado === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
-                     <th className="celdaCorta">
-                     </th>
+                        <th className="celdaCorta">
+                        </th>
                      </tr>
                   </thead>
                   <tbody className="allWidth tablaTareas">
@@ -226,13 +236,13 @@ export default class ListaTareas extends Component {
             <h1>Lista de tareas</h1>
             <div className="both">
                <div className="objectline parte listaTareasTabla">
-                  {this.state.error ? <div>Error: {this.state.error.message}</div> : null}
+                  {this.state.error ? <div>Error: {this.state.error}</div> : null}
                   {this.state.mounted ? null : <div> Cargando tareas... </div>}
                   {this.showTable()}
                </div>
                <div className="botonesLista parteBotonesVertical objectline parte">
-                  <Link to="/AddComanda"><input id="addComanda" type="button" value="Añadir Comanda" className="botonAcciones" /></Link>
-                  <Link to="/AddTareaAct"><input id="addTareaAct" type="button" value="Asignar Actividad" className="botonAcciones" /></Link>
+                  <Link to="/AddTarea"><input id="AddTarea" type="button" value="Añadir Comanda" className="botonAcciones" /></Link>
+                  <Link to="/AddAsignarAct"><input id="AddAsignarAct" type="button" value="Asignar Actividad" className="botonAcciones" /></Link>
                   <Link to="/ListaActividades"><input id="toggleAActs" type="button" value="Ver Actividades" className="botonAcciones botonToggle" /></Link>
                </div>
             </div>

@@ -6,7 +6,7 @@ import { Redirect, Link } from 'react-router-dom'
 // import { useState } from 'react';
 import Header from "./Header"
 import { SERVER_HOST } from "../config/global_constants"
-import "../css/AddActividad.css"
+import "../css/AddTareaAct.css"
 
 export default class AddActividad extends Component {
    constructor(props) {
@@ -14,7 +14,7 @@ export default class AddActividad extends Component {
 
       this.state = {
          newNameAct: '',
-         newDesrAct: '',
+         newDescrAct: '',
          enlaceVideo: '',
          enlaceAudio: '',
          type: '1',
@@ -35,24 +35,23 @@ export default class AddActividad extends Component {
    }
 
    validate() {
-      if (this.state.newNameAct === '' || this.state.newDesrAct === '') {
+      if (this.state.newNameAct === '' || this.state.newDescrAct === '') {
          alert(' Los campos de nombre y descripción no pueden estar vacíos');
          return false;
       }
-      let clearText = this.state.newDesrAct
       // clearText = clearText.replace(/(?:(?:\r\n|\r|\n)\s*){2}/gm, "");
       // clearText = this.clearDescripcion(clearText)
       let total = this.clearDescripcion()
-      // this.setState({ newDesrAct: clearText })
-      if (this.state.totalImages > 0 && total !== this.state.totalImages) {
-         alert('El número de pasos descritos no coinciden con el total de imágenes introducidas\nPasos descritos: "' + total + '"\nNúmero de imáges: ' + this.state.totalImages);
+      // this.setState({ newDescrAct: clearText })
+      if (this.state.totalImages > 0 && total !== this.state.totalImages && this.state.type !== 0) {
+         alert('El número de elementos descritos no coinciden con el total de imágenes introducidas\nPasos descritos: "' + total + '"\nNúmero de imáges: ' + this.state.totalImages);
          return false;
       }
       return true;
    }
 
    clearDescripcion() {
-      let dirtyLinesText = this.state.newDesrAct.split('\n');
+      let dirtyLinesText = this.state.newDescrAct.split('\n');
       let clearText = [""];
       for (let i = 0, x = 0; i < dirtyLinesText.length; i++) {
          if (dirtyLinesText[i].trim() !== "") {
@@ -61,16 +60,15 @@ export default class AddActividad extends Component {
          }
       }
       // clearText = clearText.join('\n');
-      let string = clearText.join('\n');
-      this.setState({ newDesrAct: string })
+      this.setState({ newDescrAct: clearText.join('\n') })
       return clearText.length;
    }
    handleSubmitData(event) {
       if (this.validate()) {
-         alert('Nombre: "' + this.state.newNameAct + '", tipo: ' + this.state.type + '\nPasos: "' + this.state.newDesrAct + '"\n Pictogramas: ' + this.state.totalImages);
+         // alert('Nombre: "' + this.state.newNameAct + '", tipo: ' + this.state.type + '\nPasos: "' + this.state.newDescrAct + '"\n Pictogramas: ' + this.state.totalImages);
          var bodyFormData = new FormData();
-         bodyFormData.append('nombre', "_"+this.state.newNameAct)
-         bodyFormData.append('descripcion', this.state.newDesrAct)
+         bodyFormData.append('nombre', "_" + this.state.newNameAct)
+         bodyFormData.append('descripcion', this.state.newDescrAct)
          bodyFormData.append('enlaceVideo', this.state.enlaceVideo)
          bodyFormData.append('enlaceAudio', this.state.enlaceAudio)
          bodyFormData.append('type', this.state.type)
@@ -85,8 +83,8 @@ export default class AddActividad extends Component {
             this.handleSubmitImage(event);
          }).catch(err => {
             //handle error
-            alert('No se ha podido guardar la actividad');
-            this.setState({ logInError: true, errorMessage: 'Error, no se ha podido guardar la actividad.' })
+            alert('No se ha podido guardar la actividad\n' + err);
+            this.setState({ errorMessage: 'Error, no se ha podido guardar la actividad: ' + err })
          });
       }
       event.preventDefault();
@@ -97,10 +95,10 @@ export default class AddActividad extends Component {
    handleSubmitImage(event) {
       // let correcto = true;
       for (let i = 0; i < this.state.totalImages; i++) {
-         // alert('Guardando imagen: "' + this.state.image[i].value + '"\nDescripción: "' + this.state.newDesrAct + '"');
+         // alert('Guardando imagen: "' + this.state.image[i].value + '"\nDescripción: "' + this.state.newDescrAct + '"');
          var bodyFormData = new FormData();
          // bodyFormData.append('nombreAct', i + "::" + this.state.newNameAct)
-         bodyFormData.append('nombre', "_"+this.state.newNameAct)
+         bodyFormData.append('nombre', "_" + this.state.newNameAct)
          bodyFormData.append('orden', i + "")
          bodyFormData.append('imagen', this.state.imagePath[i])
          axios({
@@ -112,7 +110,7 @@ export default class AddActividad extends Component {
             //handle error
             alert('Error, no se ha podido guardar la imagen ' + i + ": " + this.state.newNameAc);
             // correcto = false;
-            this.setState({ logInError: true, errorMessage: 'Error, no se ha podido guardar la actividad: ' + err })
+            this.setState({ errorMessage: 'Error, no se ha podido guardar la imagen: ' + i + ": " + err })
          });
       }
       // if (correcto) {
@@ -244,41 +242,37 @@ export default class AddActividad extends Component {
                            <option value="3">Tareas a realizar</option>
                         </select>
                      </div>
-
                      <div>
                         {
                            {
                               '0':
-                              <label>Descripción:
-                              </label>
+                                 <label>Descripción:
+                                 </label>
                               , '1':
-                              <label>Pasos a seguir:
-                                 <strong><a className="vote-up-off" title="Describa los pasos a seguir de cada pictograma&#10;separados por un 'enter' o salto de línea cada uno"> (?)</a></strong>
-                              </label>
+                                 <label>Pasos a seguir:
+                                    <strong><a className="vote-up-off" title="Describa los pasos a seguir de cada pictograma&#10;separados por un 'enter' o salto de línea cada uno"> (?)</a></strong>
+                                 </label>
                               , '2':
-                              <label>Elementos con contador:
-                                 <strong><a className="vote-up-off" title="Describa los distintos elementos con contador&#10;separados por un 'enter' o salto de línea cada uno"> (?)</a></strong>
-                              </label>
+                                 <label>Elementos con contador:
+                                    <strong><a className="vote-up-off" title="Describa los distintos elementos con contador&#10;separados por un 'enter' o salto de línea cada uno"> (?)</a></strong>
+                                 </label>
                               , '3':
-                              <label>Tareas:
-                                 <strong><a className="vote-up-off" title="Describa las distintas tareas que tiene cada checkbox&#10;separados por un 'enter' o salto de línea cada uno"> (?)</a></strong>
-                              </label>
+                                 <label>Tareas:
+                                    <strong><a className="vote-up-off" title="Describa las distintas tareas que tiene cada checkbox&#10;separados por un 'enter' o salto de línea cada uno"> (?)</a></strong>
+                                 </label>
                            }[this.state.type]
                         }
                         {/* <strong><a className="vote-up-off" title="Describa los pasos a seguir de cada pictograma&#10;separados por un 'enter' o salto de línea cada uno"> (?)</a></strong> */}
                         <br />
-                        <textarea id="newDesrAct" name="newDesrAct" onChange={this.handleChange} className="inputLine"
+                        <textarea id="newDescrAct" name="newDescrAct" onChange={this.handleChange} className="inputLine"
                            // {this.state.type ===1?  ('placeholder="Descripción de pictograma nº 1...&#10;Descripción de pictograma nº 2...&#10;Descripción de pictograma nº 3..."'); ('placeholder="Doesrefsef.'")}
                            placeholder="Descripción nº 1...&#10;Descripción nº 2...&#10;Descripción nº 3..."
                         />
-
                      </div>
-
                   </form>
                </div>
                <div className="objectline secuenciaPicto parte">
                   <div className="cuadroPictos">
-
                      <h2>Secuencia de pictogramas</h2>
                      <div className="scroll">
                         {this.state.totalImages ? null : <div>Esta actividad no tiene ningún pictograma</div>}
@@ -287,12 +281,12 @@ export default class AddActividad extends Component {
                      </div>
                   </div>
                   Seleccionar pictogramas: (opcional)
-                  {/* <br></br> */}
-
                   <input type="file" title="Seleccionar imagen " onChange={this.handleFileChange} />
                </div>
             </div>
-            <div className="parteBotonesh">
+            <div className="parteBotones">
+               {this.state.errorMessage ? <span className="rojo">{this.state.errorMessage}</span> : null}
+               <br />
                <button className="botonAcciones verde" onClick={this.handleSubmitData}>
                   Añadir Actividad
                </button>
