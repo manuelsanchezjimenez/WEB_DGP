@@ -471,6 +471,27 @@ const deleteStudent = (req,res,next) =>{
     })
 }
 
+const findUser = (req, res, next) =>
+{ 
+    adminModel.findOne({usuario:req.params.user}, (err, data) => 
+    {
+        if(data){
+            if(err)
+                return next(err)
+            res.json({usuario: data})
+        }
+        teacherModel.findOne({usuario:req.params.user}, (err, data) =>  {
+            if(data){
+                if(err)
+                    return next(err)
+                res.json({usuario: data})
+            }
+        })
+    })  
+    
+}
+
+
 //Register
 router.post(`/Users/register/student`, upload.single('foto'), checkUserNotExists, createStudent) 
 router.post(`/Users/register/teacher`, upload.none(), checkUserNotExists, createTeacher) 
@@ -503,5 +524,6 @@ router.get(`/Users/teacher`, findAllTeachers)
 router.get(`/Users/student/:id`, findStudent)
 router.get(`/Users/admin`, findAllAdmin)
 router.get(`/Users/admin/:id`, findAdmin)
+router.get(`/Users/usuario/:user`, findUser)
 
 module.exports = router 

@@ -50,30 +50,42 @@ export default class Feedback extends Component {
                   this.setState({ type: res.data.type })
                   this.setState({ id_t: res.data._id })
                   this.setState({ mounted: true })
-                  console.log("tarea 6387d238b255273570ccea6a");
                }
-
-         }).catch(error => {
-            console.log("err:" + error.response.data + " -> tarea 6387d238b255273570ccea6a")
-         })
-   }
-
-   updateTarea = () => {
-      const data = {
-         nombre: this.state.nombre, alumno: this.state.alumno, fechaInicio: this.state.fechaInicio, fechaFinal: this.state.fechaFinal, id_t: this.state.id_t, completado: this.state.completado,
-         feedbackAlum: this.state.feedbackAlumno, feedbackProf: this.state.feedbackProfesor,
-      }
-      axios.put(`${SERVER_HOST}/tareas/update/${this.props.match.params.id}`, data, { headers: { "authorization": localStorage.token } })
-         .then(res => {
-            if (res.data)
-               if (res.data.errorMessage)
-                  console.log(res.data.errorMessage)
-               else
-                  this.setState({ redirect: true })
 
          }).catch(error => {
             console.log("err:" + error.response.data)
          })
+   }
+
+   updateTarea = () => {
+      axios.get(`${SERVER_HOST}/Users/usuario/${localStorage.usuario}`, { headers: { "authorization": localStorage.token } })
+         .then(res => {
+            if (res.data)
+               if (res.data.errorMessage)
+                  console.log(res.data.errorMessage)
+               else {
+                  let feedback = this.state.feedbackProfesor + "\n" + `${res.data.usuario.nombre}`
+                  console.log(feedback)
+                  const data = {
+                     nombre: this.state.nombre, alumno: this.state.alumno, fechaInicio: this.state.fechaInicio, fechaFinal: this.state.fechaFinal, id_t: this.state.id_t, completado: this.state.completado,
+                     feedbackAlum: this.state.feedbackAlumno, feedbackProf: feedback,
+                  }
+               axios.put(`${SERVER_HOST}/tareas/update/${this.props.match.params.id}`, data, { headers: { "authorization": localStorage.token } })
+               .then(res => {
+                  if (res.data)
+                     if (res.data.errorMessage)
+                        console.log(res.data.errorMessage)
+                     else
+                        this.setState({ redirect: true })
+
+               }).catch(error => {
+                  console.log("err:" + error.response.data)
+               })
+               }   
+         }).catch(error => {
+            console.log("err:" + error.response.data)
+         })
+         
    }
    handleChange = e => {
 
