@@ -171,7 +171,7 @@ export default class Register extends Component {
             <div id="registerWeb" className="Body">
                 <Header />
                 <form>
-                    {this.state.redirect ? <Redirect to="/Register" /> : null}
+                    {this.state.redirect ? <Redirect to="/AdminAlumPrincipal" /> : null}
                     <div className="botonesContainer">
                         {this.state.userExitsError ? <div className="error">{this.state.errorMessage}</div> : null}
 

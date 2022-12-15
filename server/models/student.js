@@ -12,7 +12,7 @@ let studentSchema = new mongoose.Schema(
         tipo: {type: Number, required: true},
         contra: {type: String, required: true},
         tipoLetra: {type: Number, required: true},
-        clase: {type: Number, required:true},
+        clase: {type: String, required:true},
         foto: studentImageSchema,
         profesor: {type: String, required: false},
         actividad: {type: String, required: false}
