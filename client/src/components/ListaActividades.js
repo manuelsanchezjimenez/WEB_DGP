@@ -22,7 +22,7 @@ const ActRow = ({ nombre, acceder }) => {
    return (
       <tr className="allWidth">
          <td className="celdaLargaPpal">{`${nombre}`}</td>
-         <td className="">{acceder}</td>
+         <td className="celdaCorta">{acceder}</td>
       </tr>
    );
 };
@@ -135,7 +135,7 @@ export default class ListaActividades extends Component {
                         <th className="celdaLargaPpal">
                            Actividades {!this.state.order ? null : this.state.order === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
-                        <th className="">
+                        <th className="celdaCorta">
                         </th>
                      </tr>
                      {/* <th>Acceder</th> */}
