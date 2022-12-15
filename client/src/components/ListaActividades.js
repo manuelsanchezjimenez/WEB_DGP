@@ -22,7 +22,7 @@ const ActRow = ({ nombre, acceder }) => {
    return (
       <tr className="allWidth">
          <td className="celdaLargaPpal">{`${nombre}`}</td>
-         <td>{acceder}</td>
+         <td className="celdaCorta">{acceder}</td>
       </tr>
    );
 };
@@ -124,7 +124,7 @@ export default class ListaActividades extends Component {
             <input label="Search" onChange={this.onChange} placeholder="Buscar Actividad..." className="buscarFiltro" />
             <div>
                <table className="table table-bordered tablaActs" >
-                  <thead>
+                  <tbody>
                      {/* <tr> */}
                      <tr
                         style={{ cursor: "pointer" }}
@@ -135,10 +135,12 @@ export default class ListaActividades extends Component {
                         <th className="celdaLargaPpal">
                            Actividades {!this.state.order ? null : this.state.order === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
+                        <th className="celdaCorta">
+                        </th>
                      </tr>
                      {/* <th>Acceder</th> */}
                      {/* </tr> */}
-                  </thead>
+                  {/*</thead>
                   <tbody className="allWidth">
                      {/* <tr> */}
                      {this.state.muestraActividades.map(item => (
