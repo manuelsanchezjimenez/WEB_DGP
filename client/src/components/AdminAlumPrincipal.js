@@ -168,16 +168,12 @@ export default class ListaAlumnos extends Component {
                               key={item.key}
                               modificacion={<Link className="boton2" to={{ pathname: `ConModStudent/${item.key}` }}> Ver </Link>}
                            /> :
-
                            <AlumnRow
                               nombre={item.nombre}
                               Usuario={item.Usuario}
                               curso={item.curso}
                               key={item.key}
-
                            />
-
-
                      ))}
                   </tbody>
                </table>

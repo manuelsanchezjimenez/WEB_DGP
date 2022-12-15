@@ -24,7 +24,7 @@ const TarRow = ({ nombre, fechaInicio, fechaFinal, completado, alumno, type, acc
             }
          </td>
          <td className="celdaCorta">{`${completado}` === true ? "Finalizada" : "No Completada"}</td>
-         <td>{acceso}</td>
+         <td className="celdaCorta">{acceso}</td>
       </tr>
    );
 };
@@ -145,7 +145,7 @@ export default class ListaTareas extends Component {
             <input label="Search" onChange={this.onChange} placeholder="Buscar Tarea por alumno, nombre, fecha..." className="buscarFiltro" />
             <div>
                <table className="table table-bordered TablaLista" >
-                  <thead>
+                  <tbody>
                      <tr>
                         <th className="celdaInfo"
                            style={{ cursor: "pointer" }}
@@ -202,7 +202,7 @@ export default class ListaTareas extends Component {
                         <th className="celdaCorta">
                         </th>
                      </tr>
-                  </thead>
+                  {/*</thead>
                   <tbody className="allWidth tablaTareas">
                      {/* <tr> */}
                      {this.state.muestraTareas.map(item => (
