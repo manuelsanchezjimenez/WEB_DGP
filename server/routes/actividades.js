@@ -54,12 +54,14 @@ const getActividades = (req, res, next) => {
 }
 
 const findIDActividad = (req, res, next) => {
-    actividadModel.findOne({ _id: req.body.id }, (err, data) => {
+    actividadModel.findOne({ _id: req.params.id }, (err, data) => {
         if (err) {
             console.log(err)
+            
         } else {
             if (data) {
-                req.user = data
+                
+                res.json(data)
                 return next()
             } else
                 return next(createError(400, "Activity not found."))

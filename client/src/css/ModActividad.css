@@ -1,0 +1,15 @@
+.item-containerActividad {
+   background-color: rgb(255, 255, 255);
+   align-items: center;
+   border-color: black;
+   border-width: 2px;
+   border-style: solid;
+   width: 2cm;
+}
+.item-containerActividad{
+   display: block;
+   width: 50%;
+   align-items: center;
+   align-self: center;
+
+}

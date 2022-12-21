@@ -59,7 +59,6 @@ export default class ListaTareas extends Component {
                   let saveData = [];
                   for (let i = 0; i < getData.length; i++) {
                      saveData.push({ key: getData[i]._id, nombre: getData[i].nombre, fechaInicio: getData[i].fechaInicio, fechaFinal: getData[i].fechaFinal, completado: getData[i].completado, alumno: getData[i].alumno, type: getData[i].type });
-                     console.log("Tarea " + i + " key: " + getData[i]._id);
                   }
                   this.setState({ tareas: saveData, muestraTareas: saveData, mounted: true });
                }

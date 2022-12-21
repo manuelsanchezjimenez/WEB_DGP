@@ -146,7 +146,7 @@ export default class ListaActividades extends Component {
                      {this.state.muestraActividades.map(item => (
                         <ActRow
                            nombre={item.nombre}
-                           acceder={<Link className="botonAcciones botonTabla" to={{ pathname: `ModActividad/${item.key}` }}> Ver </Link>}
+                           acceder={<Link className="botonAcciones botonTabla" to={{ pathname: `/ModActividad/${item.key}` }}> Ver </Link>}
                            key={item.key}
                         />
                      ))}
