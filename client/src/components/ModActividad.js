@@ -54,6 +54,20 @@ export default class ModActividad extends Component {
         this.setState({ [e.target.name]: e.target.value })
 
     }
+    deleteActividad = () => {
+        /*axios.delete(`${SERVER_HOST}/Users/delete/student/${this.state.id_t}`, { headers: { "authorization": localStorage.token } })
+            .then(res => {
+                if (res.data)
+                    if (res.data.errorMessage)
+                        console.log(res.data.errorMessage)
+                    else
+                        this.setState({ redirect: true })
+
+            }).catch(error => {
+                console.log("err:" + error.response.data)
+            })*/
+            //axios.delete(`${SERVER_HOST}/actividades/)
+    }
 
     render() {
         return (
@@ -63,9 +77,13 @@ export default class ModActividad extends Component {
                 <div className="botonesContainer">
                     {this.state.redirect ? <Redirect to="/ListaActividades" /> : null}
                     <h1>Consulta de actividad </h1>
-
+                    <br/>
                     {this.state.mounted ?
                         <div className="botonesContainer2">
+                            
+                            <div className="claseAuxiliar">
+
+                            </div>
                             <div className="item-containerActividadGeneral">
                                 <div className="item-containerActividad">
                                     Nombre de la actividad: {this.state.nameAct}
@@ -87,7 +105,7 @@ export default class ModActividad extends Component {
 
                                 <br />
                                 <div className="item-containerActividad">
-                                    Tipo de tarea: {this.state.type === 1 ? "Actividad" : "Comanda"}
+                                    Tipo de tarea: {this.state.type === 0 ?  "Descripcion" : this.state.type === 1 ? "Pasos a realizar" : this.state.type === 2 ? "Contador" :  "Tareas a realizar"}
                                 </div>
 
 
@@ -98,8 +116,8 @@ export default class ModActividad extends Component {
 
                         </div> : null}
                     <div id="buttons">
-                        {/*<input type="button" className="green-button" value="Poner feedback" disabled={this.allFilled()} onClick={this.updateTarea} />*/}
-                        <Link to="/ListaActividades"><input type="button" className="red-button" value="Volver a la Lista de Actividades" /></Link>
+                        {/*<input type="button" className="red-button" value="Eliminar actividad" onClick={this.deleteActividad} />*/}
+                        <Link to="/ListaActividades"><input type="button" className="green-button" value="Volver a la Lista de Actividades" /></Link>
                     </div>
                 </div>
             </div >
