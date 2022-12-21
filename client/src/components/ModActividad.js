@@ -35,7 +35,7 @@ export default class ModActividad extends Component {
                         console.log(res.data.errorMessage)
                     else {
                         this.setState({ nameAct: res.data.nombre })
-                        this.setState({ idAct: res.data.id_t })
+                        this.setState({ idAct: this.props.match.params.id })
                         this.setState({ DescrAct: res.data.descripcion })
                         this.setState({ enlaceAudio: res.data.enlaceVideo })
                         this.setState({ enlaceVideo: res.data.enlaceAudio })
@@ -55,7 +55,7 @@ export default class ModActividad extends Component {
 
     }
     deleteActividad = () => {
-        /*axios.delete(`${SERVER_HOST}/Users/delete/student/${this.state.id_t}`, { headers: { "authorization": localStorage.token } })
+        axios.delete(`${SERVER_HOST}/actividades/delete/${this.state.idAct}`, { headers: { "authorization": localStorage.token } })
             .then(res => {
                 if (res.data)
                     if (res.data.errorMessage)
@@ -65,8 +65,7 @@ export default class ModActividad extends Component {
 
             }).catch(error => {
                 console.log("err:" + error.response.data)
-            })*/
-            //axios.delete(`${SERVER_HOST}/actividades/)
+            })
     }
 
     render() {
@@ -116,7 +115,7 @@ export default class ModActividad extends Component {
 
                         </div> : null}
                     <div id="buttons">
-                        {/*<input type="button" className="red-button" value="Eliminar actividad" onClick={this.deleteActividad} />*/}
+                        <input type="button" className="red-button" value="Eliminar actividad" onClick={this.deleteActividad} />
                         <Link to="/ListaActividades"><input type="button" className="green-button" value="Volver a la Lista de Actividades" /></Link>
                     </div>
                 </div>
