@@ -166,7 +166,7 @@ export default class Feedback extends Component {
                               </select>
                               <br />
                               <br />
-                              <textarea className="textoFeedback" name="feedbackProfesor" onChange={this.handleChange}></textarea>
+                              <textarea className="textoFeedback" name="feedbackProfesor" onChange={this.handleChange}>{`${this.state.feedbackProfesor}`}</textarea>
                            </div>
                         </div>
                      </div>

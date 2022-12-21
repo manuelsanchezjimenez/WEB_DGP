@@ -23,7 +23,7 @@ const TarRow = ({ nombre, fechaInicio, fechaFinal, completado, alumno, type, acc
                }[type]
             }
          </td>
-         <td className="celdaCorta">{`${completado}` === true ? "Finalizada" : "No Completada"}</td>
+         <td className="celdaCorta">{completado === true ? "Finalizada" : "No Completada"}</td>
          <td className="celdaCorta">{acceso}</td>
       </tr>
    );
