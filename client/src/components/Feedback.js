@@ -64,7 +64,7 @@ export default class Feedback extends Component {
                if (res.data.errorMessage)
                   console.log(res.data.errorMessage)
                else {
-                  let feedback = this.state.feedbackProfesor + "\n" + `${res.data.usuario.nombre}`
+                  let feedback = this.state.feedbackProfesor + ",\n" + `${res.data.usuario.nombre}`
                   console.log(feedback)
                   const data = {
                      nombre: this.state.nombre, alumno: this.state.alumno, fechaInicio: this.state.fechaInicio, fechaFinal: this.state.fechaFinal, id_t: this.state.id_t, completado: this.state.completado,
@@ -166,7 +166,7 @@ export default class Feedback extends Component {
                               </select>
                               <br />
                               <br />
-                              <textarea className="textoFeedback" name="feedbackProfesor" onChange={this.handleChange}>{`${this.state.feedbackProfesor}`}</textarea>
+                              <textarea className="textoFeedback" name="feedbackProfesor" onChange={this.handleChange} value={`${this.state.feedbackProfesor}`}></textarea>
                            </div>
                         </div>
                      </div>
