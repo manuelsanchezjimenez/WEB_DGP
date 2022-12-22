@@ -20,11 +20,13 @@ export default class Feedback extends Component {
          fechaInicio: '',
          fechaFinal: '',
          completado: '',
+         descripcion: '',
          alumno: '',
          type: '',
          alumnoID: '',
          feedbackAlumno: '',
          feedbackProfesor: '',
+         feedbackSelector: '',
          id_t: '',
          redirect: false,
          mounted: false
@@ -44,6 +46,7 @@ export default class Feedback extends Component {
                   this.setState({ completado: res.data.completado })
                   this.setState({ alumnoID: res.data.alumnoID })
                   this.setState({ id_t: res.data.id_t })
+                  this.setState({ descripcion: res.data.descripcion })
                   this.setState({ feedbackAlumno: res.data.feedbackAlum })
                   this.setState({ feedbackProfesor: res.data.feedbackProf })
                   this.setState({ alumno: res.data.alumno })
@@ -64,11 +67,12 @@ export default class Feedback extends Component {
                if (res.data.errorMessage)
                   console.log(res.data.errorMessage)
                else {
-                  let feedback = this.state.feedbackProfesor + ",\n" + `${res.data.usuario.nombre}`
+                  console.log(this.state.feedbackProfesor)
+                  let feedback = this.state.feedbackSelector + ", " + this.state.feedbackProfesor + ", " + `${res.data.usuario.nombre}`
                   console.log(feedback)
                   const data = {
                      nombre: this.state.nombre, alumno: this.state.alumno, fechaInicio: this.state.fechaInicio, fechaFinal: this.state.fechaFinal, id_t: this.state.id_t, completado: this.state.completado,
-                     feedbackAlum: this.state.feedbackAlumno, feedbackProf: feedback,
+                     feedbackAlum: this.state.feedbackAlumno, feedbackProf: feedback, descripcion: this.state.descripcion
                   }
                axios.put(`${SERVER_HOST}/tareas/update/${this.props.match.params.id}`, data, { headers: { "authorization": localStorage.token } })
                .then(res => {
@@ -159,10 +163,10 @@ export default class Feedback extends Component {
                               <h4>Retroalimentacion por parte del profesor</h4>
 
                               Nivel de satisfaccion:
-                              <select id="seleccion" name="feedbackProfesor" defaultValue="bien" onChange={this.handleChange}>
-                                 <option value="bien">Bien</option>
-                                 <option value="muybien">Muy Bien</option>
-                                 <option value="mejora">A mejorar</option>
+                              <select id="seleccion" name="feedbackSelector" defaultValue="bien" onChange={this.handleChange}>
+                                 <option value="Bien">Bien</option>
+                                 <option value="Muy bien">Muy Bien</option>
+                                 <option value="A mejorar">A mejorar</option>
                               </select>
                               <br />
                               <br />
