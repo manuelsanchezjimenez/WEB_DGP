@@ -1,8 +1,8 @@
 .item-containerActividad {
    background-color: rgb(255, 255, 255);
    align-items: center;
-   border-color: black;
-   border-width: 2px;
+   border-color: rgb(88, 177, 232);
+   border-width: 1px;
    border-style: solid;
    width: 2cm;
 }
