@@ -89,7 +89,7 @@ export default class ModActividad extends Component {
                                 </div>
                                 <br />
                                 <div className="item-containerActividad">
-                                    Enlace de video (opcional): {this.state.enlaceVideo}
+                                    Enlace de video (opcional): 
                                     <a href={this.state.enlaceVideo}>{this.state.enlaceVideo}</a>
                                 </div>
 
