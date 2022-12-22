@@ -12,7 +12,8 @@ const AlumnRow = ({ nombre, select }) => {
       <tr className="allWidth" >
          <td className="" >{`${nombre}`}</td>
          <td className="anchoCeldaSelectList" >
-            <input type="radio" value={`${nombre}` + "##SEP##" + `${select}`} name="selectAlum" />
+            {/* <input type="radio" value={`${select}`} name="selectAct" /> */}
+            {select}
          </td>
       </tr>
    )
@@ -25,6 +26,7 @@ export default class AddTarea extends Component {
          errorAlumn: null,
          mountedAlumn: false,
          selectAlum: "",
+         checkAlum: false,
          orderAlumn: "none",
          alumnos: [],
          muestraAlumnos: [],
@@ -46,6 +48,8 @@ export default class AddTarea extends Component {
       this.handleSubmitData = this.handleSubmitData.bind(this);
       this.handleSubmitImage = this.handleSubmitImage.bind(this);
       this.deleteImage = this.deleteImage.bind(this);
+      this.toggleAlum = this.toggleAlum.bind(this);
+      this.quitAlumn = this.quitAlumn.bind(this);
    }
 
    componentDidMount() {
@@ -75,11 +79,34 @@ export default class AddTarea extends Component {
          })
    }
 
+   toggleAlum(alum) {
+      if (!this.state.checkAlum) {
+         this.setState(prevStateAlumn => ({
+            muestraAlumnos:
+               // destacAlum[0].length > 0
+               this.filterResultsAlumn(alum, prevStateAlumn.alumnos)
+            // : prevStateAlumn.alumnos
+         }));
+         this.setState({ checkAlum: true })
+      }
+      else
+         this.quitAlumn(alum)
+   };
+   quitAlumn(alum) {
+      if (this.state.checkAlum) {
+         this.setState({
+            checkAlum: false,
+            selectAlum: ""
+         })
+         this.setState(prevStateAlumn => ({
+            muestraAlumnos: this.state.alumnos
+         }));
+      }
+   }
    filterResultsAlumn = (query, results) => {
       return results.filter(alumno => {
          const name = alumno.nombre.toLowerCase();
-
-         return name.includes(query);
+         return name.includes(query.toLowerCase());
       });
    };
    sortResultsAlumn = event => {
@@ -137,6 +164,14 @@ export default class AddTarea extends Component {
                            id="name">
                            Nombre {this.state.orderAlumn === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
+                        <th className="celdaInfo">
+                           {this.state.checkAlum ?
+                              <button className=" " onClick={this.quitAlumn} >
+                                 Quitar selección
+                              </button>
+                              : null
+                           }
+                        </th>
                      </tr>
                   </thead>
                   <tbody className="altoParteShort allWidth" onChange={this.handleChange}>
@@ -144,7 +179,8 @@ export default class AddTarea extends Component {
                         <AlumnRow
                            nombre={item.nombre}
                            key={item.key}
-                           select={item.key}
+                           // select={ <input type="radio" value={item.nombre + "##SEP##" + item.key} name="selectAlum" onClick={this.toggleAlum(item.key)}/> }
+                           select={<input type="radio" value={item.nombre + "##SEP##" + item.key} name="selectAlum" checked={(this.state.selectAlum.split('##SEP##')[0]) === item.nombre} onChange={() => this.toggleAlum(item.nombre)} />}
                         />
                      ))}
                   </tbody>
@@ -317,7 +353,7 @@ export default class AddTarea extends Component {
          }).catch(err => {
             //handle error
             alert('No se ha podido guardar la actividad');
-            this.setState({ errorMessage: 'Error, no se ha podido guardar la tarea: '+err })
+            this.setState({ errorMessage: 'Error, no se ha podido guardar la tarea: ' + err })
          });
       }
       event.preventDefault();
@@ -450,12 +486,12 @@ export default class AddTarea extends Component {
 
 
             </div>
-               <div className="parteBotones ">
-                  <button className="botonAcciones verde" onClick={this.handleSubmitData}>
-                     Asignar Tarea
-                  </button>
-                  <Link to="/ListaTareas"><input id="volverTareas" type="button" className="botonAcciones rojo" value="Cancelar" /></Link>
-               </div>
+            <div className="parteBotones ">
+               <button className="botonAcciones verde" onClick={this.handleSubmitData}>
+                  Asignar Tarea
+               </button>
+               <Link to="/ListaTareas"><input id="volverTareas" type="button" className="botonAcciones rojo" value="Cancelar" /></Link>
+            </div>
 
          </div>
       );
