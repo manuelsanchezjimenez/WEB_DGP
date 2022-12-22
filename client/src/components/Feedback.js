@@ -128,7 +128,7 @@ export default class Feedback extends Component {
 
                         <br />
                         <div className="item-container4">
-                           Fecha Final: {this.state.fechaFinal.replace('T', '\t').replace('Z', '')}
+                           Fecha Final :{this.state.fechaFinal.replace('T', '\t').replace('Z', '')}
                         </div>
 
                         <br />
@@ -166,7 +166,7 @@ export default class Feedback extends Component {
                               </select>
                               <br />
                               <br />
-                              <textarea className="textoFeedback" name="feedbackProfesor" onChange={this.handleChange} value={`${this.state.feedbackProfesor}`}></textarea>
+                              <textarea className="textoFeedback" name="feedbackProfesor" onChange={this.handleChange}>{`${this.state.feedbackProfesor}`}</textarea>
                            </div>
                         </div>
                      </div>
