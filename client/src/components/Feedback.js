@@ -128,7 +128,7 @@ export default class Feedback extends Component {
 
                         <br />
                         <div className="item-container4">
-                           Fecha Final :{this.state.fechaFinal.replace('T', '\t').replace('Z', '')}
+                           Fecha Final: {this.state.fechaFinal.replace('T', '\t').replace('Z', '')}
                         </div>
 
                         <br />
