@@ -26,7 +26,7 @@ export default class Feedback extends Component {
          alumnoID: '',
          feedbackAlumno: '',
          feedbackProfesor: '',
-         feedbackSelector: '',
+         feedbackSelector: 'Bien',
          id_t: '',
          redirect: false,
          mounted: false
@@ -163,7 +163,7 @@ export default class Feedback extends Component {
                               <h4>Retroalimentacion por parte del profesor</h4>
 
                               Nivel de satisfaccion:
-                              <select id="seleccion" name="feedbackSelector" defaultValue="bien" onChange={this.handleChange}>
+                              <select id="seleccion" name="feedbackSelector" defaultValue="Bien" onChange={this.handleChange}>
                                  <option value="Bien">Bien</option>
                                  <option value="Muy bien">Muy Bien</option>
                                  <option value="A mejorar">A mejorar</option>
