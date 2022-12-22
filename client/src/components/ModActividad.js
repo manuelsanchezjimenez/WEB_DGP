@@ -89,12 +89,15 @@ export default class ModActividad extends Component {
                                 </div>
                                 <br />
                                 <div className="item-containerActividad">
-                                    Enlace de video (opcional): {this.state.enlaceVideo}
+                                    Enlace de video (opcional): 
+                                    <a href={this.state.enlaceVideo}>{this.state.enlaceVideo}</a>
                                 </div>
 
                                 <br />
                                 <div className="item-containerActividad">
-                                    Enlace de audio (opcional): {this.state.enlaceAudio}
+                                    Enlace de audio (opcional): 
+                                    <a href={this.state.enlaceAudio}>{this.state.enlaceAudio}</a>
+
                                 </div>
 
                                 <br />
@@ -107,9 +110,7 @@ export default class ModActividad extends Component {
                                     Tipo de tarea: {this.state.type === 0 ?  "Descripcion" : this.state.type === 1 ? "Pasos a realizar" : this.state.type === 2 ? "Contador" :  "Tareas a realizar"}
                                 </div>
 
-
                                 <br />
-
                             </div>
 
 

@@ -11,7 +11,8 @@ const AlumnRow = ({ nombre, select }) => {
       <tr className="allWidth" >
          <td className="" >{`${nombre}`}</td>
          <td className="anchoCeldaSelectList" >
-            <input type="radio" value={`${nombre}` + "##SEP##" + `${select}`} name="selectAlum" />
+            {/* <input type="radio" value={`${nombre}` + "##SEP##" + `${select}`} name="selectAlum"/> */}
+            {select}
          </td>
       </tr>
    )
@@ -21,7 +22,8 @@ const ActRow = ({ nombre, select }) => {
       <tr className="allWidth" >
          <td className="" >{`${nombre}`}</td>
          <td className="anchoCeldaSelectList" >
-            <input type="radio" value={`${select}`} name="selectAct" />
+            {/* <input type="radio" value={`${select}`} name="selectAct" /> */}
+            {select}
          </td>
       </tr>
    );
@@ -36,6 +38,8 @@ export default class AddAsignarAct extends Component {
          mountedAct: false,
          selectAlum: "",
          selectAct: "",
+         checkAlum: false,
+         checkAct: false,
          orderAlumn: "none",
          orderAct: "none",
          alumnos: [],
@@ -52,6 +56,11 @@ export default class AddAsignarAct extends Component {
       this.validate = this.validate.bind(this);
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmitData = this.handleSubmitData.bind(this);
+      this.toggleAlum = this.toggleAlum.bind(this);
+      this.toggleActs = this.toggleActs.bind(this);
+      this.quitAlumn = this.quitAlumn.bind(this);
+      this.quitActs = this.quitActs.bind(this);
+      this.filterResultsAlumn = this.filterResultsAlumn.bind(this);
    }
 
    componentDidMount() {
@@ -104,11 +113,59 @@ export default class AddAsignarAct extends Component {
          })
    }
 
+   toggleAlum(alum) {
+      if (!this.state.checkAlum) {
+         this.setState(prevStateAlumn => ({
+            muestraAlumnos:
+               // destacAlum[0].length > 0
+               this.filterResultsAlumn(alum, prevStateAlumn.alumnos)
+            // : prevStateAlumn.alumnos
+         }));
+         this.setState({ checkAlum: true })
+      }
+      else
+         this.quitAlumn(alum)
+   };
+   quitAlumn(alum) {
+      if (this.state.checkAlum) {
+         this.setState({
+            checkAlum: false,
+            selectAlum: ""
+         })
+         this.setState(prevStateAlumn => ({
+            muestraAlumnos: this.state.alumnos
+         }));
+      }
+   }
+
+   toggleActs(acts) {
+      if (!this.state.checkAct) {
+         this.setState(prevStateAct => ({
+            muestraActividades:
+               this.filterResultsAct(acts, prevStateAct.actividades)
+         }));
+         this.setState({ checkAct: true })
+      }
+      else
+         this.quitActs(acts)
+   };
+   quitActs(acts) {
+      if (this.state.checkAct) {
+
+         this.setState(prevStateAct => ({
+            muestraActividades: this.state.actividades
+         }));
+         this.setState({
+            checkAct: false,
+            selectAct: ""
+         })
+      }
+   }
+
    filterResultsAlumn = (query, results) => {
       return results.filter(alumno => {
          const name = alumno.nombre.toLowerCase();
-
-         return name.includes(query);
+         return name.includes(query.toLowerCase());
       });
    };
    filterResultsAct = (query, results) => {
@@ -174,21 +231,23 @@ export default class AddAsignarAct extends Component {
 
    onChangeAlumn = e => {
       const query = e.target.value;
-      this.setState(prevStateAlumn => ({
-         muestraAlumnos:
-            query.length > 0
-               ? this.filterResultsAlumn(query, prevStateAlumn.alumnos)
-               : prevStateAlumn.alumnos
-      }));
+      if (!this.state.checkAlum)
+         this.setState(prevStateAlumn => ({
+            muestraAlumnos:
+               query.length > 0
+                  ? this.filterResultsAlumn(query, prevStateAlumn.alumnos)
+                  : prevStateAlumn.alumnos
+         }));
    };
    onChangeAct = e => {
       const query = e.target.value;
-      this.setState(prevStateAct => ({
-         muestraActividades:
-            query.length > 0
-               ? this.filterResultsAct(query, prevStateAct.actividades)
-               : prevStateAct.actividades
-      }));
+      if (!this.state.checkAct)
+         this.setState(prevStateAct => ({
+            muestraActividades:
+               query.length > 0
+                  ? this.filterResultsAct(query, prevStateAct.actividades)
+                  : prevStateAct.actividades
+         }));
    };
 
    showTableAlumn() {
@@ -208,6 +267,14 @@ export default class AddAsignarAct extends Component {
                            id="name">
                            Nombre {this.state.orderAlumn === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
+                        <th className="celdaInfo">
+                           {this.state.checkAlum ?
+                              <button className=" " onClick={this.quitAlumn} >
+                                 Quitar selección
+                              </button>
+                              : null
+                           }
+                        </th>
                      </tr>
                   </thead>
                   <tbody className="altoParteAll allWidth" onChange={this.handleChange}>
@@ -215,7 +282,8 @@ export default class AddAsignarAct extends Component {
                         <AlumnRow
                            nombre={item.nombre}
                            key={item.key}
-                           select={item.key}
+                           // select={ <input type="radio" value={item.nombre + "##SEP##" + item.key} name="selectAlum" onClick={this.toggleAlum(item.key)}/> }
+                           select={<input type="radio" value={item.nombre + "##SEP##" + item.key} name="selectAlum" checked={(this.state.selectAlum.split('##SEP##')[0]) === item.nombre} onChange={() => this.toggleAlum(item.nombre)} />}
                         />
                      ))}
                   </tbody>
@@ -242,6 +310,14 @@ export default class AddAsignarAct extends Component {
                            id="name">
                            Actividades {this.state.orderAct === "asc" ? <span>&#9650;</span> : <span>&#9660;</span>}
                         </th>
+                        <th className="celdaInfo">
+                           {this.state.checkAct ?
+                              <button className=" " onClick={this.quitActs} >
+                                 Quitar selección
+                              </button>
+                              : null
+                           }
+                        </th>
                      </tr>
                   </thead>
                   <tbody className="altoParteAll " onChange={this.handleChange}>
@@ -249,7 +325,8 @@ export default class AddAsignarAct extends Component {
                         <ActRow
                            nombre={item.nombre}
                            key={item.key}
-                           select={item.key}
+                           // select={item.key}
+                           select={<input type="radio" value={item.key} name="selectAct" checked={this.state.selectAct === item.key} onChange={() => this.toggleActs(item.nombre)} />}
                         />
                      ))}
                   </tbody>
@@ -301,7 +378,7 @@ export default class AddAsignarAct extends Component {
          }).catch(err => {
             //handle error
             alert('No se ha podido guardar la actividad');
-            this.setState({ errorMessage: 'Error, no se ha podido guardar la actividad: '+err })
+            this.setState({ errorMessage: 'Error, no se ha podido guardar la actividad: ' + err })
          });
       }
       event.preventDefault();
@@ -343,7 +420,7 @@ export default class AddAsignarAct extends Component {
                         <textarea id="adicional" name="adicional" placeholder="Notas adicionales" onChange={this.handleChange} />
                      </div> */}
                      <div className=" objectLine botonesLista parteBotonesVertical ">
-                     {this.state.errorMessage ? <div>Error en alumnos: {this.state.errorMessage.message}</div> : null}
+                        {this.state.errorMessage ? <div>Error en alumnos: {this.state.errorMessage.message}</div> : null}
 
                         <button className="botonAcciones verde" onClick={this.handleSubmitData} >
                            Asignar
