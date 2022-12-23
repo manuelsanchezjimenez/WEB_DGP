@@ -124,7 +124,7 @@ export default class ListaAlumnos extends Component {
       let i = 0;
       pictos.push(
          <div key={i++}>
-            <input label="Search" onChange={this.onChange} placeholder="Buscar Alumno..." />
+            <input label="Search" onChange={this.onChange} placeholder="Buscar Profesor..." />
             <div>
                <table className="table table-bordered" >
                   <tbody>
