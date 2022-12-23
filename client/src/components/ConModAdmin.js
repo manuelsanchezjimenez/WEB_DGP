@@ -128,7 +128,7 @@ export default class ConModAdmin extends Component {
                         </div>: null }
                         <div id="buttons">
                             <input type="button" className="green-button" value="Modificar Datos" disabled={this.allFilled()} onClick={this.updateProfile} />
-                            <input type="button" className="red-button" value="Eliminar Profesor" onClick={this.deleteProfile} />
+                            <input type="button" className="red-button" value="Eliminar Administrador" onClick={this.deleteProfile} />
                         </div>
                     </div>
             </div>
