@@ -11,7 +11,7 @@
 
 .box {
    font-size: 50px;
-   color: rgb(253, 253, 253);
+   /* color: rgb(253, 253, 253); */
    font-size: 25px;
 }
 
@@ -21,9 +21,10 @@
    margin-left: 40%;
 }
 
-.Menu {
+.Return {
    font-size: 50px;
    text-align: left;
+   overflow: visible;
    margin-left: 2%;
 }
 
