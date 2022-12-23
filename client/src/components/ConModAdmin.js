@@ -89,7 +89,7 @@ export default class ConModAdmin extends Component {
                 <Header />
                 <div className="botonesContainer">
                     {this.state.redirect ? <Redirect to="/AdminAdminPrincipal" /> : null}
-                    <h1>Consulta y Modificación de profesor</h1>
+                    <h1>Consulta y Modificación de Administradores</h1>
 
                     {this.state.mounted ?
                         <div className="botonesContainer">
