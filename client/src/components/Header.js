@@ -50,9 +50,14 @@ export default class Header extends Component {
       return (
            
         <div className="Header">
-               <Link to="/LogOut"><span className="box Menu"><GrLogout /></span></Link>
+               {/* <span className="box Persona"><FaRegUserCircle /></span> */}
+  
+             
+             <Link to={`${link}`}><span className="box Return">&#8629;</span></Link> 
+
+
                <Link to={`${link}`}><img className="logo" src={require("../images/logo.png")} alt="Logo San Rafael" /></Link> 
-               <span className="box Persona"><FaRegUserCircle /></span>
+               <Link to="/LogOut"><span className="box Persona"><GrLogout /></span></Link>
             </div>
       );
    }
